@@ -1,0 +1,13 @@
+package logica;
+
+public class Pruebas {
+
+	public static void main(String[] args) {
+		
+		GestorCorreo g = new GestorCorreo();
+		
+		g.createEmail("mario.mola6@gmail.com");
+
+	}
+
+}

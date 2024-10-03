@@ -1,0 +1,6 @@
+INDEX VERSION 1.134+C:\Users\mario\OneDrive\Desktop\Programas\EasyDepot\.metadata\.plugins\org.eclipse.jdt.core
+637448950.index
+3942780396.index
+1865797976.index
+4224560996.index
+2387362574.index
