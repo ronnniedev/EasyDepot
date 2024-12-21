@@ -1,0 +1,13 @@
+Version 0.1
+
+-Se crea la estructura de ficheros del proyecto
+-Se añade y preparan lso archivos necesarios para la implementacion de JDBC
+-Se crean las clases de datos:
+	-Cliente
+	-Reserva
+	-Local
+	-Articulo
+	-Cabina
+-Se implementan funciones de visualizacion en en terminal
+-Se implementan elementos de insercion para todas las clases de datos con excepcion de Articulos
+-Se crean excepciones basicas en referente a busquedas de objetos de datos (Cliente.. reservas... etc...)

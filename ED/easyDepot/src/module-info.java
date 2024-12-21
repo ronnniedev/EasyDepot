@@ -1,9 +1,0 @@
-/**
- * 
- */
-/**
- * 
- */
-module easyDepot {
-	requires mail;
-}
