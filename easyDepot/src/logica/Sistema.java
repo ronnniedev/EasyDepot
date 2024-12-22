@@ -1,16 +1,19 @@
 package logica;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import excepciones.LogicaException;
+import excepciones.PersistenciaException;
 import modelo.Cabina;
 import modelo.Cliente;
 import modelo.Email;
 import modelo.Local;
 import modelo.Reserva;
+import persistencia.GestorJDBC;
 
 public class Sistema {
 	
@@ -18,17 +21,35 @@ public class Sistema {
 	private List <Local> locales;
 	private List <Reserva> reservas;
 	private int numeroReservas;
+	private GestorJDBC gestor;
 	
 	
-	public Sistema() {
+	public Sistema() throws PersistenciaException, SQLException {
+		this.gestor = new GestorJDBC();
+		this.clientes = gestor.leerClientes();
+		this.locales = gestor.leerLocales();
+		rellenarCabinas();
+		this.reservas = gestor.leerReservas();
 		
-		this.clientes = new HashMap<Email,Cliente>();
-		this.locales = new LinkedList<Local>();
-		this.reservas = new LinkedList<Reserva>();
 		// calculamos el numero de reservas que ha habido en el sistema
 		this.numeroReservas = calcularNumeroReservas();
 	}
 	
+	private void rellenarCabinas() throws PersistenciaException {
+		List <Cabina> cabinas = gestor.leerCabinas();
+		for(Local l: locales) {
+			for(Cabina c: cabinas) {
+				
+				String trozos[] = c.getIdCabina().split("-");
+				
+				if(trozos[0].compareTo(l.getLocalId() + "") == 0) {
+					l.getCabinas().add(c);
+				}
+				
+			}
+		}
+	}
+
 	/**
 	 * Calcula el numero de reservas que ha habido en el sistema, para poder
 	 * asignar de manera correcta las ids de las reservas
@@ -55,6 +76,7 @@ public class Sistema {
 		}
 		
 		clientes.put(new Email(c.getEmail()), c);
+		gestor.insertarCliente(c);
 		return true;
 	}	
 	
@@ -64,6 +86,8 @@ public class Sistema {
 			throw new LogicaException("ERROR este local ya existe");
 		}
 		
+		gestor.insertarLocal(l);
+		gestor.insertarCabinas(l.rellenarCabinas());
 		return locales.add(l);
 	}
 	
@@ -83,6 +107,7 @@ public class Sistema {
 		
 		Reserva r = new Reserva(c,l, numeroReservas + 1,cab);
 		
+		gestor.insertarReserva(r);
 		reservas.add(r);
 		
 		// Incrementamos en 1 el numero de reservas en el cliente y en el local
@@ -151,8 +176,6 @@ public class Sistema {
 		
 		return texto;
 	}
-	
-	
 	
 
 }

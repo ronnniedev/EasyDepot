@@ -1,14 +1,14 @@
 package modelo;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class Reserva {
 	
 	private int idReserva;
 	private String emailCliente;
 	private String idCabina;
-	private String fechaInicio;
-	private String fechaSalida;
+	private Date fechaInicio;
+	private Date fechaSalida;
 	private boolean incidencia;
 	private String descripcionIncidencia;
 	
@@ -17,8 +17,8 @@ public class Reserva {
 		this.idReserva = idReserva;
 		this.emailCliente = emailCliente;
 		this.idCabina = idCabina;
-		this.fechaInicio = fechaInicio.toString();
-		this.fechaSalida = fechaSalida.toString();
+		this.fechaInicio = fechaInicio;
+		this.fechaSalida = fechaSalida;
 		this.incidencia = incidencia;
 		this.descripcionIncidencia = descripcionIncidencia;
 	}
@@ -27,8 +27,8 @@ public class Reserva {
 		this.idReserva = idReserva;
 		this.emailCliente = c.getEmail();
 		this.idCabina = cab.getIdCabina();
-		this.fechaInicio = new Date().toString();
-		this.fechaSalida = "Aun consignado";
+		this.fechaInicio = new Date(System.currentTimeMillis());
+		this.fechaSalida = null;
 		this.incidencia = false;
 		this.descripcionIncidencia = "Sin Incidencias";
 		
@@ -80,28 +80,28 @@ public class Reserva {
 	/**
 	 * @return the fechaInicio
 	 */
-	public String getFechaInicio() {
+	public Date getFechaInicio() {
 		return fechaInicio;
 	}
 
 	/**
 	 * @param fechaInicio the fechaInicio to set
 	 */
-	public void setFechaInicio(String fechaInicio) {
+	public void setFechaInicio(Date fechaInicio) {
 		this.fechaInicio = fechaInicio;
 	}
 
 	/**
 	 * @return the fechaSalida
 	 */
-	public String getFechaSalida() {
+	public Date getFechaSalida() {
 		return fechaSalida;
 	}
 
 	/**
 	 * @param fechaSalida the fechaSalida to set
 	 */
-	public void setFechaSalida(String fechaSalida) {
+	public void setFechaSalida(Date fechaSalida) {
 		this.fechaSalida = fechaSalida;
 	}
 

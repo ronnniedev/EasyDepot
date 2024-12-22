@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import apykeys.Apykeys;
 import excepciones.PersistenciaException;
 
 public class StatemedSingelton {
@@ -14,8 +15,8 @@ public class StatemedSingelton {
 	private static Connection con;
 	private static Statement st;
 	private static PreparedStatement ps;
-	private static String password = "root";
-	private static String direccion = "jdbc:mysql://localhost/veronicaentrega";
+	private static String password = Apykeys.getPassword();
+	private static String direccion = "jdbc:mysql://localhost/easydepot";
 	
 	private StatemedSingelton() {
 		

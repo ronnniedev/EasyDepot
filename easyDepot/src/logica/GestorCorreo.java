@@ -13,12 +13,14 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import apykeys.Apykeys;
+
 
 
 public class GestorCorreo {
 	
-	private static String emailFrom = "veronicapersonal1995@gmail.com";
-	private static String passwordFrom = "awpqigwyecrwikgr";
+	private static String emailFrom = Apykeys.getEmailFrom();
+	private static String passwordFrom = Apykeys.getPasswordFrom();
 	private String emailTo;
 	private String subject;
 	private String content;

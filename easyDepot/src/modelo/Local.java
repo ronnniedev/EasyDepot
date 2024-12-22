@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Local {
 	
-	private int localId;
+	private int idLocal;
 	private String coordenadas;
 	private int numeroReservas;
 	private double ingresos;
@@ -15,26 +15,26 @@ public class Local {
 	
 	
 	public Local(int localId, String coordenadas, int numeroReservas, double ingresos, String direccion) {
-		this.localId = localId;
+		this.idLocal = localId;
 		this.coordenadas = coordenadas;
 		this.numeroReservas = numeroReservas;
 		this.ingresos = ingresos;
 		this.direccion = direccion;
 		this.articulos = new LinkedList<Articulo>();
-		this.cabinas = rellenarCabinas();
+		this.cabinas = new LinkedList<Cabina>();
 	}
 
 
-	private List<Cabina> rellenarCabinas() {
+	public List<Cabina> rellenarCabinas() {
 		this.cabinas = new LinkedList<Cabina>();
 		
 		while(cabinas.size() != 6) {
 			if(cabinas.size() < 2) {
-				cabinas.add(new Cabina(cabinas.size()+1,localId,"Pequeña"));
+				cabinas.add(new Cabina(cabinas.size()+1,idLocal,"Pequeña"));
 			}else if(cabinas.size() < 4) {
-				cabinas.add(new Cabina(cabinas.size()+1,localId,"Mediana"));
+				cabinas.add(new Cabina(cabinas.size()+1,idLocal,"Mediana"));
 			}else{
-				cabinas.add(new Cabina(cabinas.size()+1,localId,"Grande"));
+				cabinas.add(new Cabina(cabinas.size()+1,idLocal,"Grande"));
 			}
 		}
 		return cabinas;
@@ -45,7 +45,7 @@ public class Local {
 	 * @return the localId
 	 */
 	public int getLocalId() {
-		return localId;
+		return idLocal;
 	}
 
 
@@ -53,7 +53,7 @@ public class Local {
 	 * @param localId the localId to set
 	 */
 	public void setLocalId(int localId) {
-		this.localId = localId;
+		this.idLocal = localId;
 	}
 
 
@@ -155,13 +155,13 @@ public class Local {
 
 	@Override
 	public String toString() {
-		return "Local [localId=" + localId + ", coordenadas=" + coordenadas + ", numeroReservas=" + numeroReservas
+		return "Local [localId=" + idLocal + ", coordenadas=" + coordenadas + ", numeroReservas=" + numeroReservas
 				+ ", ingresos=" + ingresos + ", direccion=" + direccion + "]";
 	}
 
 
 	public String visualizarCabinas() {
-		String texto = "------------Cabinas de local " + this.localId + "----------------\n";
+		String texto = "------------Cabinas de local " + this.idLocal + "----------------\n";
 		
 		for(Cabina c: cabinas) {
 			texto += c.toString() + "\n";

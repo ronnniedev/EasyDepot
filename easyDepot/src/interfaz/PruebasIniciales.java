@@ -1,18 +1,40 @@
 package interfaz;
 
+import java.sql.SQLException;
+
 import excepciones.LogicaException;
+import excepciones.PersistenciaException;
 import logica.Sistema;
 import modelo.Cliente;
 import modelo.Local;
+import persistencia.GestorJDBC;
 
 public class PruebasIniciales {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws PersistenciaException {
 		
-		Sistema s = new Sistema();
+		Sistema s = null;
 		
-		Local l = new Local(1, null, 0, 0, null);
-		Local l2 = new Local(2, null, 0, 0, null);
+		try {
+			// GestorJDBC.reiniciarPersistencia(); // (borrar estas lineas reinicia la persistencia)
+			s = new Sistema();
+		} catch (PersistenciaException e) {
+			System.out.println(e.getMessage());
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		
+		
+		
+		System.out.println("----------------ERRORES SALEN AQUI---------------------------- \n");
+		cargaDatos(s);
+		System.out.println("-------------------------------------------- \n");
+		System.out.println(s.listarDatos());
+	}
+
+	private static void cargaDatos(Sistema s) {
+		Local l = new Local(1, "0001-304", 0, 0, "zombis magicos");
+		Local l2 = new Local(2, "978594-18283", 0, 0, "Unendo");
 		
 		
 		try {
@@ -23,7 +45,7 @@ public class PruebasIniciales {
 			System.out.println(e.getMessage());
 		}
 		
-		System.out.println(s.listarDatos());
+		// System.out.println(s.listarDatos());
 		
 		try {
 			s.addReserva("veronicapersonal1995@gmail.com", 1,"Pequeña");
@@ -33,9 +55,6 @@ public class PruebasIniciales {
 		} catch (LogicaException e) {
 			System.out.println(e.getMessage());
 		}
-		
-		System.out.println(s.listarDatos());
-
 		
 	}
 

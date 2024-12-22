@@ -1,13 +1,5 @@
-Version 0.1
+Version 0.11
 
--Se crea la estructura de ficheros del proyecto
--Se añade y preparan lso archivos necesarios para la implementacion de JDBC
--Se crean las clases de datos:
-	-Cliente
-	-Reserva
-	-Local
-	-Articulo
-	-Cabina
--Se implementan funciones de visualizacion en en terminal
--Se implementan elementos de insercion para todas las clases de datos con excepcion de Articulos
--Se crean excepciones basicas en referente a busquedas de objetos de datos (Cliente.. reservas... etc...)
+- Persistencia añadida, se leen y insertan dentro de la persistencia las 4 clases mencionadas en la anterior actualizacion.
+- Se añade archivo Apykeys para guardar las keys pertinenetes para el correcto funcionamiento de las apis linkeadas al proyecto.
+- Se restructura funcionamiento de las cabinas y se añade un boton de reinicio para la persistencia.
