@@ -6,16 +6,19 @@ public class Email {
 
 	private String email;
 
+	/**
+	 * Constructor de un parametro para la clase Email
+	 * @param email : String
+	 */
 	public Email(String email) {
 		this.email = email;
 	}
-	
-	
 
 	@Override
 	public int hashCode() {
 		return Objects.hash(email);
 	}
+
 
 	@Override
 	public boolean equals(Object obj) {
@@ -28,7 +31,6 @@ public class Email {
 		Email other = (Email) obj;
 		return Objects.equals(email, other.email);
 	}
-
 
 
 	/**

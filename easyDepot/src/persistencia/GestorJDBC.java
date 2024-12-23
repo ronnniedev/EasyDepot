@@ -1,6 +1,5 @@
 package persistencia;
 
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,6 +8,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.sql.Timestamp;
 
 import excepciones.PersistenciaException;
 import modelo.Cabina;
@@ -19,6 +19,12 @@ import modelo.Reserva;
 
 public class GestorJDBC {
 
+	/**
+	 * Constructor con  parametros que tiene toda la configuracion de las tablas alojadas en la base de datos
+	 * En caso de que no existan las tablas este constructor las crea desde 0
+	 * @throws PersistenciaException
+	 * @throws SQLException
+	 */
 	public GestorJDBC() throws PersistenciaException, SQLException {
 		Statement st = StatemedSingelton.getInstance();
 		String consultaClientes = "CREATE TABLE IF NOT EXISTS clientes ("
@@ -48,8 +54,8 @@ public class GestorJDBC {
 				+ "    idReserva INT PRIMARY KEY,"
 				+ "    emailCliente VARCHAR(100) NOT NULL,"
 				+ "    idCabina VARCHAR(10) NOT NULL,"
-				+ "    fechaInicio DATE NOT NULL,"
-				+ "    fechaSalida DATE,"
+				+ "    fechaInicio TIMESTAMP NOT NULL,"
+				+ "    fechaSalida TIMESTAMP,"
 				+ "	   incidencia BOOLEAN,"
 				+ "    descripcionIncidencia VARCHAR(1000),"
 				+ "    FOREIGN KEY (emailCliente) REFERENCES clientes(emailCliente),"
@@ -63,6 +69,11 @@ public class GestorJDBC {
 		StatemedSingelton.close();
 	}
 
+	/**
+	 * Lee todos los crientes y retorna una mapa de objetos Cliente al sistema
+	 * @return Map : clientes
+	 * @throws PersistenciaException
+	 */
 	public Map<Email, Cliente> leerClientes() throws PersistenciaException {
 		Statement st = null;
 		ResultSet rs = null;
@@ -92,7 +103,11 @@ public class GestorJDBC {
 		return clientes;
 	}
 
-	
+	/**
+	 * Lee todos los locales de la base de datos y los devuelve en forma de lista de objetos
+	 * @return List : locales
+	 * @throws PersistenciaException
+	 */
 	public List<Local> leerLocales() throws PersistenciaException {
 		Statement st = null;
 		ResultSet rs = null;
@@ -120,6 +135,12 @@ public class GestorJDBC {
 		}
 		return listaLocales;
 	}
+	
+	/**
+	 * Lee todas las reservas del sistema y las devuelve en forma de lista de objetos Reserva
+	 * @return Lis : reservas
+	 * @throws PersistenciaException
+	 */
 	public List<Reserva> leerReservas() throws PersistenciaException {
 		Statement st = null;
 		ResultSet rs = null;
@@ -149,6 +170,11 @@ public class GestorJDBC {
 		
 	}
 	
+	/**
+	 * Lee todas las cabinas del sistema y las devuelve en forma de lista de cabinas
+	 * @return List : cabinas
+	 * @throws PersistenciaException
+	 */
 	public List<Cabina> leerCabinas() throws PersistenciaException {
 		Statement st = null;
 		ResultSet rs = null;
@@ -178,6 +204,10 @@ public class GestorJDBC {
 		
 	}
 	
+	/**
+	 * Inserta un cliente dentro de la base de datos
+	 * @param c : Cliente
+	 */
 	public void insertarCliente(Cliente c) {
 		PreparedStatement ps = null;
 		try {
@@ -205,6 +235,10 @@ public class GestorJDBC {
 		}
 	}
 	
+	/**
+	 * Inserta un local dentro de la base de datos
+	 * @param l : Local
+	 */
 	public void insertarLocal(Local l) {
 		PreparedStatement ps = null;
 		try {
@@ -230,6 +264,10 @@ public class GestorJDBC {
 		}
 	}
 	
+	/**
+	 * Inserta las cabinas de un local dentro de la base de datos
+	 * @param List : cabinas
+	 */
 	public void insertarCabinas(List<Cabina> cabinas) {
 		PreparedStatement ps = null;
 		try {
@@ -258,6 +296,10 @@ public class GestorJDBC {
 		
 	}
 	
+	/**
+	 * Inserta una reserva dentro de la base de datos 
+	 * @param r : Reserva
+	 */
 	public void insertarReserva(Reserva r) {
 		PreparedStatement ps = null;
 		try {
@@ -268,8 +310,8 @@ public class GestorJDBC {
 			ps.setInt(1, r.getIdReserva());
 			ps.setString(2, r.getEmailCliente());
 			ps.setString(3,r.getIdCabina());
-			ps.setDate(4,r.getFechaInicio());
-			ps.setDate(5, r.getFechaSalida());
+			ps.setTimestamp(4,r.getFechaInicio());
+			ps.setTimestamp(5, r.getFechaSalida());
 			ps.setBoolean(6, r.isIncidencia());
 			ps.setString(7, r.getDescripcionIncidencia());
 			ps.executeUpdate();
@@ -288,6 +330,129 @@ public class GestorJDBC {
 		
 	}
 	
+	/**
+	 * Actualiza los valores modificables de un cliente
+	 * @param c : Cliente
+	 */
+	public void actualizarCliente(Cliente c) {
+		PreparedStatement ps = null;
+		try {
+			String updateCliente = "UPDATE clientes SET nombre = ?, apellidos = ?, password = ?, puntosTienda = ?, "
+									+ "numeroReservas = ? WHERE emailCliente ='"+c.getEmail()+"'";
+			ps = StatemedSingelton.getInstance(updateCliente);
+			ps.setString(1, c.getNombre());
+			ps.setString(2, c.getApellidos());
+			ps.setString(3, c.getPassword());
+			ps.setInt(4, c.getPuntosTienda());
+			ps.setInt(5, c.getNumeroReservas());
+			ps.executeUpdate();
+		} catch (PersistenciaException e1) {
+			System.out.println(e1.getMessage());
+		} catch (SQLException e1) {
+			System.out.println(e1.getMessage());
+		}finally {
+			try {
+				StatemedSingelton.close();
+			} catch (PersistenciaException e) {
+				System.out.println(e.getMessage());
+			}
+		}
+		
+	}
+	
+	/**
+	 * Actualiza los valores modificables de un local
+	 * @param l : Local
+	 */
+	public void actualizarLocal(Local l) {
+		PreparedStatement ps = null;
+		try {
+			String updateLocal = "UPDATE locales SET coordenadas = ?, numeroReservas = ?, ingresos = ?"
+									+ ", direccion = ? "
+									+ "WHERE idLocal = "+l.getLocalId()+"";
+			ps = StatemedSingelton.getInstance(updateLocal);
+			ps.setString(1, l.getCoordenadas());
+			ps.setInt(2, l.getNumeroReservas());
+			ps.setDouble(3, l.getIngresos());
+			ps.setString(4, l.getDireccion());
+			ps.executeUpdate();
+		} catch (PersistenciaException e1) {
+			System.out.println(e1.getMessage());
+		} catch (SQLException e1) {
+			System.out.println(e1.getMessage());
+		}finally {
+			try {
+				StatemedSingelton.close();
+			} catch (PersistenciaException e) {
+				System.out.println(e.getMessage());
+			}
+		}
+		
+	}
+	
+	/**
+	 * Actualiza los valores modificables de una cabina
+	 * @param c : Cabina
+	 */
+	public void actualizarCabina(Cabina c) {
+		PreparedStatement ps = null;
+		try {
+			String updateCabina = "UPDATE cabinas SET abierto = ?, reservada = ?"
+									+ " WHERE idCabina ='"+ c.getIdCabina() +"'";
+			ps = StatemedSingelton.getInstance(updateCabina);
+			ps.setBoolean(1, c.getAbierto());
+			ps.setBoolean(2, c.getReservada());
+			ps.executeUpdate();
+		} catch (PersistenciaException e1) {
+			System.out.println(e1.getMessage());
+		} catch (SQLException e1) {
+			System.out.println(e1.getMessage());
+		}finally {
+			try {
+				StatemedSingelton.close();
+			} catch (PersistenciaException e) {
+				System.out.println(e.getMessage());
+			}
+		}
+		
+	}
+	
+	/**
+	 * Actualiza los valores modificables de una reserva
+	 * @param r : Reserva
+	 */
+	public void actualizarReserva(Reserva r) {
+		PreparedStatement ps = null;
+		try {
+			String updateReserva = "UPDATE reservas SET emailCliente = ?, fechaSalida = ?, incidencia = ?,"
+									+ " descripcionIncidencia = ?"
+									+ " WHERE idReserva = "+ r.getIdReserva();
+			ps = StatemedSingelton.getInstance(updateReserva);
+			ps.setString(1, r.getEmailCliente());
+			ps.setTimestamp(2, r.getFechaSalida());
+			ps.setBoolean(3, r.isIncidencia());
+			ps.setString(4, r.getDescripcionIncidencia());
+			ps.executeUpdate();
+		} catch (PersistenciaException e1) {
+			System.out.println(e1.getMessage());
+		} catch (SQLException e1) {
+			System.out.println(e1.getMessage());
+		}finally {
+			try {
+				StatemedSingelton.close();
+			} catch (PersistenciaException e) {
+				System.out.println(e.getMessage());
+			}
+		}
+		
+	}
+	
+	/**
+	 * Prepara el resultset asociado a un Cliente
+	 * @param rs : ResultSet
+	 * @return new Cliente
+	 * @throws SQLException
+	 */
 	private Cliente prepararCliente(ResultSet rs) throws SQLException {
 		
 		String email = rs.getString(1);
@@ -299,6 +464,12 @@ public class GestorJDBC {
 		return new Cliente(email,nombre,apellidos,password,puntosTienda,numeroReservas);
 	}
 
+	/**
+	 * Prepara el resultset asociado a un Local
+	 * @param rs : ResultSet
+	 * @return new Local
+	 * @throws SQLException
+	 */
 	private Local prepararLocal(ResultSet rs) throws SQLException {
 		
 		int idLocal = rs.getInt(1);
@@ -309,19 +480,31 @@ public class GestorJDBC {
 		return new Local(idLocal,coordenadas,numeroReservas,ingresos,direccion);
 	}
 	
+	/**
+	 * Prepara el resultset asociado a una Reserva
+	 * @param rs : ResultSet
+	 * @return new Reserva
+	 * @throws SQLException
+	 */
 	private Reserva prepararReserva(ResultSet rs) throws SQLException {
 		
 		int idReserva = rs.getInt(1);
 		String emailCliente = rs.getString(2);
 		String idCabina = rs.getString(3);
-		Date fechaInicio = rs.getDate(4);
-		Date fechaSalida = rs.getDate(5);
+		Timestamp fechaInicio = rs.getTimestamp(4);
+		Timestamp fechaSalida = rs.getTimestamp(5);
 		boolean incidencia = rs.getBoolean(6);
 		String descripcionIncidencia = rs.getString(7);
 		
 		return new Reserva(idReserva,emailCliente,idCabina,fechaInicio,fechaSalida,incidencia,descripcionIncidencia);
 	}
 	
+	/**
+	 * Prepara el resultset asociado a un Cliente
+	 * @param rs : ResultSet
+	 * @return new Cliente
+	 * @throws SQLException
+	 */
 	private Cabina prepararCabina(ResultSet rs) throws SQLException {
 		
 		String idCabina = rs.getString(1);
@@ -333,6 +516,12 @@ public class GestorJDBC {
 		return new Cabina(idCabina,idLocal,abierto,reservada,tipo);
 	}
 
+	/**
+	 * Reinicia la base de datos del sistema, esta funcion es exclusiva de la version de desarrollo
+	 * se utiliza principalmente para la actualizacion de configuraciones en las tablas y pruebas en vacio
+	 * @throws PersistenciaException
+	 * @throws SQLException
+	 */
 	public static void reiniciarPersistencia() throws PersistenciaException, SQLException {
 		Statement st = StatemedSingelton.getInstance();
 		String consultaClientes = "DROP TABLE IF EXISTS clientes";

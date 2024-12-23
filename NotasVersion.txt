@@ -1,5 +1,4 @@
-Version 0.11
+Version 0.12
 
-- Persistencia añadida, se leen y insertan dentro de la persistencia las 4 clases mencionadas en la anterior actualizacion.
-- Se añade archivo Apykeys para guardar las keys pertinenetes para el correcto funcionamiento de las apis linkeadas al proyecto.
-- Se restructura funcionamiento de las cabinas y se añade un boton de reinicio para la persistencia.
+- Metodos de actualizar añadidos a la persistencia
+- Documentacion inicial de todos los elementos hasta ahora

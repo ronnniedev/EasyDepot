@@ -8,7 +8,15 @@ public class Articulo {
 	private double precio;
 	private String imagen;
 	
-	
+	/**
+	 * Constructor de cinco parametros para la clase Articulo, usado por defecto en la carga de la base de datos
+	 * y creacion base
+	 * @param idArticulo : int
+	 * @param idLocal : int
+	 * @param nombre : String
+	 * @param precio : double
+	 * @param imagen : String
+	 */
 	public Articulo(int idArticulo, int idLocal, String nombre, double precio, String imagen) {
 		this.idArticulo = idArticulo;
 		this.idLocal = idLocal;

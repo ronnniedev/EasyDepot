@@ -8,7 +8,14 @@ public class Cabina {
 	private Boolean reservada;
 	private String tipo;
 	
-	
+	/**
+	 * Constructor de cinco parametros para la cabina , usado para la carga desde la base de datos
+	 * @param idCabina : String
+	 * @param idLocal : int
+	 * @param abierto : Boolean
+	 * @param reservada : Boolean
+	 * @param tipo : String
+	 */
 	public Cabina(String idCabina, int idLocal, Boolean abierto, Boolean reservada, String tipo) {
 		this.idCabina = idCabina;
 		this.idLocal = idLocal;
@@ -17,6 +24,13 @@ public class Cabina {
 		this.tipo = tipo;
 	}
 	
+	/**
+	 * Constructor de tres parametros para la clase Cabina, tiene los valores por defecto que se usan en la primera vez
+	 * que se crea un objeto
+	 * @param idCabina : int
+	 * @param idLocal : int
+	 * @param tipo : String
+	 */
 	public Cabina(int idCabina, int idLocal, String tipo) {
 		super();
 		this.idCabina = idLocal + "-" + idCabina;

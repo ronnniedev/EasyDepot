@@ -13,7 +13,15 @@ public class Local {
 	private List <Articulo> articulos;
 	private List <Cabina> cabinas;
 	
-	
+	/**
+	 * Constructor de 5 parametros de la clase Local, llamado cuando se carga desde la base de datos o se crea
+	 * un nuevo local
+	 * @param localId : int
+	 * @param coordenadas : String
+	 * @param numeroReservas : int
+	 * @param ingresos : double
+	 * @param direccion : String
+	 */
 	public Local(int localId, String coordenadas, int numeroReservas, double ingresos, String direccion) {
 		this.idLocal = localId;
 		this.coordenadas = coordenadas;
@@ -24,7 +32,11 @@ public class Local {
 		this.cabinas = new LinkedList<Cabina>();
 	}
 
-
+	/**
+	 * Rellan la lista de cabinas de un local cuando este se crea inicialmente
+	 * Actualmente configurada para que alla solo 6 cabinas pero puede modifcarse cambiando el valor del mismo
+	 * @return
+	 */
 	public List<Cabina> rellenarCabinas() {
 		this.cabinas = new LinkedList<Cabina>();
 		
@@ -151,7 +163,6 @@ public class Local {
 	public void setCabinas(List<Cabina> cabinas) {
 		this.cabinas = cabinas;
 	}
-
 
 	@Override
 	public String toString() {

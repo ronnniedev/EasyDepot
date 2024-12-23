@@ -9,7 +9,14 @@ public class Cliente {
 	private int puntosTienda;
 	private int numeroReservas;
 	
-	
+	/**
+	 * Constructor de 4 parametros para la clase Cliente, este es el constructor con los valores por defecto que se
+	 * asignan al crear un objeto CLiente por primera vez
+	 * @param email : String
+	 * @param nombre : String
+	 * @param apellidos : String
+	 * @param password : String
+	 */
 	public Cliente(String email, String nombre, String apellidos, String password) {
 		this.email = email;
 		this.nombre = nombre;
@@ -20,6 +27,15 @@ public class Cliente {
 	}
 
 
+	/**
+	 * Constructor de seis parametros para la clase Cliente, usado para la carga de valores desde la base de datos
+	 * @param email : String
+	 * @param nombre : String
+	 * @param apellidos : String
+	 * @param password : String
+	 * @param puntosTienda : int
+	 * @param numeroReservas : int
+	 */
 	public Cliente(String email, String nombre, String apellidos, String password, int puntosTienda,
 			int numeroReservas) {
 		super();
