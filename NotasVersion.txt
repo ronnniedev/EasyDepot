@@ -1,4 +1,6 @@
-Version 0.12
+Version 0.2
 
-- Metodos de actualizar añadidos a la persistencia
-- Documentacion inicial de todos los elementos hasta ahora
+- Metodo eliminarCliente y comprobacion de cuenta preparada para eliminacion añadido
+- JUnit incorporado y preparado para las pruebas de persistencia y Logica
+- Gestor de registro y login preparado para versiones de movil y desktop
+- Creacion de gestorComprobaciones para las comprobaciones de valores introducidos por cliente añadidos

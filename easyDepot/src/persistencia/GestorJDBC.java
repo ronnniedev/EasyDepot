@@ -447,6 +447,31 @@ public class GestorJDBC {
 		
 	}
 	
+	public void eliminarCliente(Cliente c,List <Reserva> reservas) {
+		Statement st = null;
+		try {
+			for(Reserva r: reservas) {
+				r.setEmailCliente("Eliminado");
+				actualizarReserva(r);
+			}
+			String consulta = "DELETE FROM clientes where emailCliente = '"+c.getEmail()+"'";
+			st = StatemedSingelton.getInstance();
+			st.executeUpdate(consulta);
+		} catch (PersistenciaException e1) {
+			System.out.println(e1.getMessage());
+		} catch (SQLException e1) {
+			System.out.println(e1.getMessage());
+		}finally {
+			try {
+				StatemedSingelton.close();
+			} catch (PersistenciaException e) {
+				
+				System.out.println(e.getMessage());
+			}
+		}
+		
+	}
+	
 	/**
 	 * Prepara el resultset asociado a un Cliente
 	 * @param rs : ResultSet

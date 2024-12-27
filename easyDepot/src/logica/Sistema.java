@@ -2,6 +2,7 @@ package logica;
 
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -21,6 +22,8 @@ public class Sistema {
 	private List <Reserva> reservas;
 	private int numeroReservas;
 	private GestorJDBC gestor;
+	private GestorCorreo gestorCorreo;
+	private static Sistema s;
 	
 	/**
 	 * Constructor de 0 parametros de la clase Sistema
@@ -28,18 +31,98 @@ public class Sistema {
 	 * y las listas de datos que prepararn todos los objetos a utilizar
 	 * @throws PersistenciaException
 	 * @throws SQLException
+	 * @throws LogicaException 
 	 */
-	public Sistema() throws PersistenciaException, SQLException {
+	public Sistema() throws PersistenciaException, SQLException, LogicaException {
 		this.gestor = new GestorJDBC();
+		this.gestorCorreo = new GestorCorreo();
 		this.clientes = gestor.leerClientes();
 		this.locales = gestor.leerLocales();
 		rellenarCabinas();
 		this.reservas = gestor.leerReservas();
-		
 		// calculamos el numero de reservas que ha habido en el sistema
 		this.numeroReservas = calcularNumeroReservas();
+		comprobarCuentaEliminado();
+	}
+	/**
+	 * Comprueba si existe la cuenta "Eliminado" en el sistema, si no es asi , la crea
+	 * @throws  LogicaException
+	 */
+	private void comprobarCuentaEliminado() throws LogicaException {
+		if(clientes.get(new Email("Eliminado")) == null) {
+			addCliente(new Cliente("Eliminado","Cuenta eliminada","NO","BORRAR"));
+		}
 	}
 	
+	
+	/**
+	 * Devuelve el contexto del sistema, en caso de no existir el mismo se crea, usado para proporcionar contexto a las
+	 * diferentes interfaces de movil como las de desktop
+	 * @return Sistema : s
+	 * @throws PersistenciaException
+	 * @throws SQLException
+	 * @throws LogicaException
+	 */
+	public Sistema getInstance() throws PersistenciaException, SQLException, LogicaException {
+		if(s == null) {
+			s = new Sistema();
+		}
+		return s;
+	}
+	/**
+	 * Genera un token que el cliente debera introducir para confirmar el registro de la cuenta
+	 * @param c : Cliente
+	 * @return int token
+	 * @throws LogicaException
+	 */
+	public int generarToken(Cliente c) throws LogicaException {
+		if(clientes.containsKey(new Email(c.getEmail()))) {
+			throw new LogicaException("Este email ya esta registrado");
+		}
+		
+		return gestorCorreo.createEmail(c.getEmail());
+	}
+	
+	/**
+	 * Comprueba que el token introducido por el cliente es correcto
+	 * @param c : Cliente
+	 * @param token : Int
+	 * @param tokenIntroducido : Int
+	 * @throws LogicaException
+	 */
+	public void comprobarToken(Cliente c,int token,int tokenIntroducido) throws LogicaException {
+		if(token == tokenIntroducido) {
+			addCliente(c);
+			return;
+		}
+		throw new LogicaException("ERROR al introducir el token, intentelo de nuevo");
+	}
+	
+	/**
+	 * Sistema de login basico para la app de Desktop, contraseña y usuario basicos admin
+	 * @param user : String
+	 * @param password : String
+	 * @return boolean 
+	 * @throws LogicaException
+	 */
+	public Boolean loginDesktop(String user,String password) throws LogicaException {
+		if(user == "admin" && password == "admin") {
+			return true;
+		}
+		throw new LogicaException("ERROR usuario o contraseña incorrectos");
+	}
+	
+	public Boolean loginMovil(String userEmail,String password) throws LogicaException {
+		Cliente user = clientes.get(new Email(userEmail));
+		
+		if(user != null && user.getPassword().compareTo(password) == 0) {
+			return true;
+		}
+		throw new LogicaException("ERROR usuario o contraseña incorrectos");
+	}
+	
+	
+
 	/**
 	 * Lee todas las cabinas alojadas en la base de datos y las asigna a sus locales pertinentes
 	 * @throws PersistenciaException
@@ -156,6 +239,58 @@ public class Sistema {
 		numeroReservas++;
 		return true;
 	}
+	
+	/**
+	 * Elimina el cliente mediante el email proporcionado, al hacerlo asigna todas las reservas a la cuenta de 
+	 * eliminacion para que las reservas sigan funcionando, tambien actualiza los valores pertinentes antes del 
+	 * borrado del cliente. Devuelve true si todo se ha realizado correctamente.
+	 * @param email : String
+	 * @return boolean
+	 * @throws LogicaException
+	 */
+	public boolean eliminarCliente(String email) throws LogicaException {
+		Cliente c = clientes.get(new Email(email));
+		
+		if(c == null) {
+			throw new LogicaException("ERROR cliente no figura en base de datos");
+		}
+		
+		Cliente cuentaParaEliminados = clientes.get(new Email("Eliminado"));
+		
+		List <Reserva> reservasClientes = buscarReservasCliente(c.getEmail());
+		gestor.eliminarCliente(c, reservasClientes);
+		
+		// actualizamos los valores de la cuenta para Eliminados
+		cuentaParaEliminados.setNumeroReservas(cuentaParaEliminados.getNumeroReservas() + c.getNumeroReservas());
+		cuentaParaEliminados.setPuntosTienda(cuentaParaEliminados.getPuntosTienda() + c.getPuntosTienda());
+		gestor.actualizarCliente(cuentaParaEliminados);
+		
+		// Actualizamos todos los valores en sistema a Eliminado de este cliente
+		for(Reserva r: reservasClientes) {
+			r.setEmailCliente("Eliminado");
+			
+		}
+		
+		clientes.remove(new Email(email));
+		return true;
+	}
+	
+	/**
+	 * Devuelve una lista asociada al cliente proporcionado, se supone que el email del mismo esta verificado
+	 * previamente
+	 * @param email : String
+	 * @return
+	 */
+	private List<Reserva> buscarReservasCliente(String email) {
+		List <Reserva> reservasClientes = new LinkedList<Reserva>();
+		for(Reserva r: reservas) {
+			if(r.getEmailCliente().compareTo(email) == 0) {
+				reservasClientes.add(r);
+			}
+		}
+		return reservasClientes;
+	}
+
 	/**
 	 * Busca una cabina en el sistema y devuelve el objeto pertinente, si no devuelve valor nulo
 	 * @param idCabina : String
@@ -220,6 +355,8 @@ public class Sistema {
 		}
 		return null;
 	}
+	
+	
 
 
 	/**
