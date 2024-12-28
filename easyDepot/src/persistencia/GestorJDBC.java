@@ -25,8 +25,20 @@ public class GestorJDBC {
 	 * @throws PersistenciaException
 	 * @throws SQLException
 	 */
-	public GestorJDBC() throws PersistenciaException, SQLException {
-		Statement st = StatemedSingelton.getInstance();
+	public GestorJDBC() throws PersistenciaException, SQLException{
+		crearTablas();
+	}
+	/**
+	 * Crea las tablas para el funcionamiento correcto del sistema, tambien esta usado de manera auxiliar por 
+	 * el JUnit
+	 * @throws PersistenciaException
+	 * @throws SQLException
+	 */
+	public static void crearTablas() throws PersistenciaException, SQLException {
+		Statement st = null;
+		st = StatemedSingelton.getInstance();
+
+		
 		String consultaClientes = "CREATE TABLE IF NOT EXISTS clientes ("
 				+ "    emailCliente VARCHAR(100) PRIMARY KEY,"
 				+ "    nombre VARCHAR(100) NOT NULL,"
@@ -61,6 +73,7 @@ public class GestorJDBC {
 				+ "    FOREIGN KEY (emailCliente) REFERENCES clientes(emailCliente),"
 				+ "    FOREIGN KEY (idCabina) REFERENCES cabinas(idCabina)"
 				+ ");";
+		
 		
 		st.executeUpdate(consultaClientes);
 		st.executeUpdate(consultaLocales);
@@ -547,19 +560,18 @@ public class GestorJDBC {
 	 * @throws PersistenciaException
 	 * @throws SQLException
 	 */
-	public static void reiniciarPersistencia() throws PersistenciaException, SQLException {
+	public static Boolean reiniciarPersistencia() throws PersistenciaException, SQLException {
 		Statement st = StatemedSingelton.getInstance();
 		String consultaClientes = "DROP TABLE IF EXISTS clientes";
 		String consultaLocales = "DROP TABLE IF EXISTS locales";
 		String consultaCabinas = "DROP TABLE IF EXISTS cabinas";
 		String consultaReservas = "DROP TABLE IF EXISTS reservas";
-		
 		st.executeUpdate(consultaReservas);
 		st.executeUpdate(consultaCabinas);
 		st.executeUpdate(consultaClientes);
 		st.executeUpdate(consultaLocales);
 		StatemedSingelton.close();
-		
+		return true;
 	}
 
 	

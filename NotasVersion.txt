@@ -1,6 +1,5 @@
-Version 0.2
+Version 0.25
 
-- Metodo eliminarCliente y comprobacion de cuenta preparada para eliminacion añadido
-- JUnit incorporado y preparado para las pruebas de persistencia y Logica
-- Gestor de registro y login preparado para versiones de movil y desktop
-- Creacion de gestorComprobaciones para las comprobaciones de valores introducidos por cliente añadidos
+- Adaptacion de sistema para la introduccion de test JUnit
+- Introduccion de primer lote de tests al sistema , siendo el tamaño de este de 10 tests
+- Pendiente de refactorizacion

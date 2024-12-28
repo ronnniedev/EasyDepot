@@ -63,7 +63,7 @@ public class Sistema {
 	 * @throws SQLException
 	 * @throws LogicaException
 	 */
-	public Sistema getInstance() throws PersistenciaException, SQLException, LogicaException {
+	public static Sistema getInstance() throws PersistenciaException, SQLException, LogicaException {
 		if(s == null) {
 			s = new Sistema();
 		}
@@ -112,6 +112,14 @@ public class Sistema {
 		throw new LogicaException("ERROR usuario o contraseña incorrectos");
 	}
 	
+	/**
+	 * Sistema de login para aplicación movil, a traves de el el usuario podra acceder al sistema proporcionando un 
+	 * usuario en forma de email y una contraseña
+	 * @param userEmail : String
+	 * @param password : String
+	 * @return Boolean
+	 * @throws LogicaException
+	 */
 	public Boolean loginMovil(String userEmail,String password) throws LogicaException {
 		Cliente user = clientes.get(new Email(userEmail));
 		
@@ -281,7 +289,7 @@ public class Sistema {
 	 * @param email : String
 	 * @return
 	 */
-	private List<Reserva> buscarReservasCliente(String email) {
+	public List<Reserva> buscarReservasCliente(String email) {
 		List <Reserva> reservasClientes = new LinkedList<Reserva>();
 		for(Reserva r: reservas) {
 			if(r.getEmailCliente().compareTo(email) == 0) {
@@ -297,7 +305,7 @@ public class Sistema {
 	 * @param l : Local
 	 * @return c : cabina
 	 */
-	private Cabina buscarCabina(String idCabina, Local l) {
+	public Cabina buscarCabina(String idCabina, Local l) {
 		
 		List <Cabina> cabinas = l.getCabinas();
 		
@@ -316,7 +324,7 @@ public class Sistema {
 	 * @return c : Cabina
 	 * @throws LogicaException
 	 */
-	private Cabina buscarCabinaDisponible(Local l, String tipoCabina) throws LogicaException {
+	public Cabina buscarCabinaDisponible(Local l, String tipoCabina) throws LogicaException {
 		for(Cabina c: l.getCabinas()) {
 			if(c.getTipo().compareTo(tipoCabina) == 0 && !c.getReservada()) {
 				return c;
@@ -330,7 +338,7 @@ public class Sistema {
 	 * @param idReserva : int
 	 * @return
 	 */
-	private Reserva buscarReserva(int idReserva) {
+	public Reserva buscarReserva(int idReserva) {
 		
 		for(Reserva r: reservas) {
 			if(r.getIdReserva() == idReserva) {
@@ -346,7 +354,7 @@ public class Sistema {
 	 * @param localId : int
 	 * @return
 	 */
-	private Local buscarLocal(int localId) {
+	public Local buscarLocal(int localId) {
 		
 		for (Local l: locales) {
 			if(l.getLocalId() == localId) {

@@ -11,25 +11,14 @@ import persistencia.GestorJDBC;
 
 public class PruebasIniciales {
 
-	public static void main(String[] args) throws PersistenciaException{
+	public static void main(String[] args) throws PersistenciaException, SQLException, LogicaException{
 		
-		Sistema s = null;
-		
-		try {
-			// GestorJDBC.reiniciarPersistencia(); // (borrar estas lineas reinicia la persistencia)
-			s = new Sistema();
-		} catch (PersistenciaException e) {
-			System.out.println(e.getMessage());
-		} catch (SQLException e) {
-			System.out.println(e.getMessage());
-		} catch (LogicaException e) {
-			System.out.println(e.getMessage());
-		}
+		Sistema s = Sistema.getInstance();
 		
 		
 		
 		System.out.println("----------------ERRORES SALEN AQUI---------------------------- \n");
-		// cargaDatos(s);
+		cargaDatos(s);
 		// cerrarReserva(7,s);
 		/*
 		 * try {
@@ -50,7 +39,7 @@ public class PruebasIniciales {
 		comprobacionLoginsMovil("veronicapersonal1995@gmail.com","miau",s);
 		 */
 		
-		comprobarGestorEmail(new Cliente("veronicapersonal1995@gmail.com","Veronica","Gonzalez","miau"),s);
+		comprobarGestorEmail(new Cliente("diego-delosrios@hotmail.com","Diegito","Gonzalez","miau2"),s);
 		
 		
 		
