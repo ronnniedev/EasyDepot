@@ -1,5 +1,3 @@
-Version 0.25
+Version 0.27
 
-- Adaptacion de sistema para la introduccion de test JUnit
-- Introduccion de primer lote de tests al sistema , siendo el tamaño de este de 10 tests
-- Pendiente de refactorizacion
+- Se separa la base de datos para tener una de pruebas y una de uso estandar, se modifica el archivo Apykeys para reflejar esto como entrada numerica

@@ -8,6 +8,7 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import apykeys.Apykeys;
 import excepciones.LogicaException;
 import excepciones.PersistenciaException;
 import logica.Sistema;
@@ -22,7 +23,8 @@ class PruebasDesktop {
 
 	@Test
 	void testLoginDesktop() throws PersistenciaException, SQLException, LogicaException {
-	
+		
+		
 		// password mal metido
 		assertThrows(LogicaException.class,()->s.loginDesktop("admin", "adm1n"));
 		// usuario mal metido
@@ -142,6 +144,8 @@ class PruebasDesktop {
 	
 	@BeforeEach
 	private void cargaDatos() throws PersistenciaException, SQLException, LogicaException {
+		// IMPORTANTE NO TOCAR , ESTO DETERMINA QUE BASE DE DATOS SE VA A USAR
+		Apykeys.setBaseDatosFinal(2);
 		GestorJDBC.reiniciarPersistencia();
 		s = new Sistema();
 		GestorJDBC.crearTablas();

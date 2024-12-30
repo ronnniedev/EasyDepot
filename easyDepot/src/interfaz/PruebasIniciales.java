@@ -2,6 +2,7 @@ package interfaz;
 
 import java.sql.SQLException;
 
+import apykeys.Apykeys;
 import excepciones.LogicaException;
 import excepciones.PersistenciaException;
 import logica.Sistema;
@@ -12,13 +13,16 @@ import persistencia.GestorJDBC;
 public class PruebasIniciales {
 
 	public static void main(String[] args) throws PersistenciaException, SQLException, LogicaException{
+		// IMPORTANTE HAY QUE DETERMINAR QUE BASE DE DATOS VAMOS A USAR, EL 1 REPRESENTA LA BASE DE DATOS ESTANDAR
+		// ESTO EN VERSION FINAL DEBERIA ESTAR ENCRIPTADO
+		Apykeys.setBaseDatosFinal(1);
 		
+		// GestorJDBC.reiniciarPersistencia();
 		Sistema s = Sistema.getInstance();
 		
 		
-		
 		System.out.println("----------------ERRORES SALEN AQUI---------------------------- \n");
-		cargaDatos(s);
+		// cargaDatos(s);
 		// cerrarReserva(7,s);
 		/*
 		 * try {
@@ -39,7 +43,7 @@ public class PruebasIniciales {
 		comprobacionLoginsMovil("veronicapersonal1995@gmail.com","miau",s);
 		 */
 		
-		comprobarGestorEmail(new Cliente("diego-delosrios@hotmail.com","Diegito","Gonzalez","miau2"),s);
+		// comprobarGestorEmail(new Cliente("diego-delosrios@hotmail.com","Diegito","Gonzalez","miau2"),s);
 		
 		
 		

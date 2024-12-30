@@ -16,7 +16,7 @@ public class StatemedSingelton {
 	private static Statement st;
 	private static PreparedStatement ps;
 	private static String password = Apykeys.getPassword();
-	private static String direccion = "jdbc:mysql://localhost/easydepot";
+	private static String direccion = Apykeys.getBaseDatosFinal();
 	
 	private StatemedSingelton() {
 		
