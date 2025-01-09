@@ -73,6 +73,8 @@ public class Reserva {
 	public String getEmailCliente() {
 		return emailCliente;
 	}
+	
+	
 
 	/**
 	 * @param emailCliente the emailCliente to set

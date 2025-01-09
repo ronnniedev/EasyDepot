@@ -1,3 +1,8 @@
-Version 0.27
+Version 0.33
 
-- Se separa la base de datos para tener una de pruebas y una de uso estandar, se modifica el archivo Apykeys para reflejar esto como entrada numerica
+-Se añade interfaz grafica
+-Se crean paneles versátiles para cargar todo el sistema sobre la misma ventana
+-Se crea una nueva carpeta de ficheros llamada pruebas para las pruebas de las diferentes ventanas graficas
+-Se implementa pantalla de login y rendimiento general
+-Se implementan los buscadores de clientes,locales y reservas (aun no funcionales)
+-Se implementa la botonera con hover adaptativo

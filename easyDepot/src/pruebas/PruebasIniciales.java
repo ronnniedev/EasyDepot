@@ -1,4 +1,4 @@
-package interfaz;
+package pruebas;
 
 import java.sql.SQLException;
 
@@ -23,7 +23,7 @@ public class PruebasIniciales {
 		
 		System.out.println("----------------ERRORES SALEN AQUI---------------------------- \n");
 		// cargaDatos(s);
-		// cerrarReserva(7,s);
+		cerrarReserva(7,s);
 		/*
 		 * try {
 		 * 	s.eliminarCliente("veronicapersonal1995@gmail.com");

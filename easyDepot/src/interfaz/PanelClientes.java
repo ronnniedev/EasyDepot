@@ -1,0 +1,95 @@
+package interfaz;
+
+import java.awt.Color;
+import java.awt.Font;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableModel;
+
+import logica.Sistema;
+import modelo.Cliente;
+import modelo.Local;
+import javax.swing.JSpinner;
+
+public class PanelClientes extends JPanel {
+
+	private static final long serialVersionUID = 1L;
+	private Sistema s;
+	private JTextField buscador;
+
+	/**
+	 * Create the panel.
+	 */
+	public PanelClientes(JPanel panel,Sistema s) {
+		setBackground(new Color(255, 255, 255));
+		setLayout(null);
+		this.s = s;
+		
+		
+		this.setBounds(175, 0, 511, 503);
+		panel.add(this);
+		
+		JLabel lblClientes = new JLabel("Clientes",SwingConstants.CENTER);
+		lblClientes.setFont(new Font("Verdana", Font.BOLD, 24));
+		lblClientes.setBounds(0, 29, 511, 45);
+		this.add(lblClientes);
+		
+		String [] cabecera = {"Email","Nombre","Apellidos","Puntos Tienda","Reservas realizadas"};
+		List <String[]> datosLista = extraerClientes();
+		String [][] datos = datosLista.toArray(new String[0][0]);
+		
+		// Creamos un modelo de tabla no editable modificando el metodo isCellEditable para que no lo sea mas
+		DefaultTableModel modelo = new DefaultTableModel(datos, cabecera) {
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return false; // Hace todas las celdas no editables
+			}
+		};
+						
+		JTable tablaClientes = new JTable(modelo);
+		tablaClientes.setBorder(new LineBorder(new Color(0, 0, 0)));
+		tablaClientes.setBackground(new Color(255, 255, 255)); 
+		tablaClientes.setBounds(185, 119, 491, 311);
+		
+		JScrollPane scrollPane = new JScrollPane(tablaClientes);
+		scrollPane.setBounds(10, 98, 491, 311);
+		this.add(scrollPane);
+		
+		buscador = new JTextField();
+		buscador.setBounds(383, 69, 118, 19);
+		add(buscador);
+		buscador.setColumns(10);
+		
+		JSpinner selectorFiltro = new JSpinner();
+		selectorFiltro.setBounds(292, 68, 81, 20);
+		add(selectorFiltro);
+
+	}
+	
+	/**
+	 * Extrae en un arrayList un vector de String con los datos en crudo de todos los clientes alojados en el sistema
+	 * con excepcion de Eliminado que es la cuenta auxiliar para los clientes eliminados
+	 * @return List <String[]>
+	 */
+	private List<String[]> extraerClientes() {
+		List <String[]> datos = new ArrayList<String[]>();
+		
+		for(Cliente c: s.getClientes().values()) {
+			if(c.getEmail().compareTo("Eliminado") != 0) {
+				datos.add(new String[]{c.getEmail(),c.getNombre(),c.getApellidos(),c.getPuntosTienda() +""
+						,c.getNumeroReservas() + ""});
+			}
+			
+		}
+		
+		return datos;
+	}
+}

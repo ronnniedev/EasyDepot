@@ -107,7 +107,7 @@ public class Sistema {
 	 * @throws LogicaException
 	 */
 	public Boolean loginDesktop(String user,String password) throws LogicaException {
-		if(user == "admin" && password == "admin") {
+		if(user.compareTo("admin") == 0 && password.compareTo("admin") == 0) {
 			return true;
 		}
 		throw new LogicaException("ERROR usuario o contraseña incorrectos");
@@ -426,12 +426,60 @@ public class Sistema {
 			throw new LogicaException("ERROR cabina no encontrada en el sistema");
 		}
 		
-		
-		
 		r.setFechaSalida(new Timestamp(System.currentTimeMillis()));
 		c.setReservada(false);
 		gestor.actualizarCabina(c);
 		gestor.actualizarReserva(r);
+	}
+	/**
+	 * Calcula las reservas del sistema
+	 * @return int 
+	 */
+	public int calcularReservas() {
+		return reservas.size();
+	}
+	/**
+	 * Calcula los ingresos del sistema
+	 * @return Double
+	 */
+	public Double calcularIngresos() {
+		Double calculo = 0.0;
+		for(Local l: locales) {
+			calculo += l.getIngresos();
+		}
+		return calculo;
+	}
+	/**
+	 * Calcula los locales del sistema
+	 * @return int
+	 */
+	public int calcularLocales() {
+		return locales.size();
+	}
+	/**
+	 * Calcula los clientes del sistema restando el usuario de eliminacion
+	 * @return int
+	 */
+	public int calcularClientes() {
+		return clientes.size() - 1;
+	}
+	public Map<Email, Cliente> getClientes() {
+		return clientes;
+	}
+	public void setClientes(Map<Email, Cliente> clientes) {
+		this.clientes = clientes;
+	}
+	public List<Local> getLocales() {
+		return locales;
+	}
+	public void setLocales(List<Local> locales) {
+		this.locales = locales;
+	}
+	public List<Reserva> getReservas() {
+		return reservas;
+	}
+	public void setReservas(List<Reserva> reservas) {
+		this.reservas = reservas;
 	}
 
 	
