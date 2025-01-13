@@ -2,6 +2,8 @@ package interfaz;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +18,7 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
 import logica.Sistema;
+import modelo.Email;
 import modelo.Reserva;
 
 public class PanelReservas extends JPanel {
@@ -62,6 +65,18 @@ public class PanelReservas extends JPanel {
 		tablaReservas.setBorder(new LineBorder(new Color(0, 0, 0)));
 		tablaReservas.setBackground(new Color(255, 255, 255)); 
 		tablaReservas.setBounds(185, 119, 491, 311);
+		tablaReservas.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int row = tablaReservas.getSelectedRow();
+				String idReserva = (String) tablaReservas.getValueAt(row, 0);
+				// refresca la pantalla y crea un nuevo panel para generar los datos del cliente nuevo
+				removeAll();
+				repaint();
+				revalidate();  
+				add(new PanelReserva(panel,s,s.buscarReserva(Integer.parseInt(idReserva))));
+			}
+		});
 		
 		JScrollPane scrollPane = new JScrollPane(tablaReservas);
 		scrollPane.setBounds(10, 98, 491, 311);
@@ -77,6 +92,7 @@ public class PanelReservas extends JPanel {
 		add(selectorFiltro);
 	}
 	
+
 	/**
 	 * Extrae en un arrayList un vector de String con los datos en crudo de todas as reservas alojados en el sistema
 	 * @return List <String[]>

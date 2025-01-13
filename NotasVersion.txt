@@ -1,8 +1,4 @@
-Version 0.33
+Version 0.37
 
--Se añade interfaz grafica
--Se crean paneles versátiles para cargar todo el sistema sobre la misma ventana
--Se crea una nueva carpeta de ficheros llamada pruebas para las pruebas de las diferentes ventanas graficas
--Se implementa pantalla de login y rendimiento general
--Se implementan los buscadores de clientes,locales y reservas (aun no funcionales)
--Se implementa la botonera con hover adaptativo
+- Se implementa interfaz de manejo de administrador para cliente y reserva.
+- Se refactoriza creación de paneles auxiliares para facilitar el traspaso entre interfaces de edición.

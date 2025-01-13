@@ -16,14 +16,19 @@ import javax.swing.table.DefaultTableModel;
 
 import logica.Sistema;
 import modelo.Cliente;
+import modelo.Email;
 import modelo.Local;
 import javax.swing.JSpinner;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.ListSelectionModel;
 
 public class PanelClientes extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private Sistema s;
 	private JTextField buscador;
+	private JPanel panelito;
 
 	/**
 	 * Create the panel.
@@ -33,9 +38,10 @@ public class PanelClientes extends JPanel {
 		setLayout(null);
 		this.s = s;
 		
-		
 		this.setBounds(175, 0, 511, 503);
 		panel.add(this);
+		
+		panelito = this;
 		
 		JLabel lblClientes = new JLabel("Clientes",SwingConstants.CENTER);
 		lblClientes.setFont(new Font("Verdana", Font.BOLD, 24));
@@ -55,13 +61,25 @@ public class PanelClientes extends JPanel {
 		};
 						
 		JTable tablaClientes = new JTable(modelo);
+		tablaClientes.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tablaClientes.setBorder(new LineBorder(new Color(0, 0, 0)));
 		tablaClientes.setBackground(new Color(255, 255, 255)); 
 		tablaClientes.setBounds(185, 119, 491, 311);
-		
-		JScrollPane scrollPane = new JScrollPane(tablaClientes);
-		scrollPane.setBounds(10, 98, 491, 311);
-		this.add(scrollPane);
+		tablaClientes.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int row = tablaClientes.getSelectedRow();
+				String emailCliente = (String) tablaClientes.getValueAt(row, 0);
+				// refresca la pantalla y crea un nuevo panel para generar los datos del cliente nuevo
+				removeAll();
+				repaint();
+				revalidate();  
+				add(new PanelCliente(panel,s,s.getClientes().get(new Email(emailCliente))));
+			}
+		});
+		JScrollPane tabla = new JScrollPane(tablaClientes);
+		tabla.setBounds(10, 84, 491, 311);
+		this.add(tabla);
 		
 		buscador = new JTextField();
 		buscador.setBounds(383, 69, 118, 19);
