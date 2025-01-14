@@ -34,9 +34,6 @@ public class PanelReservas extends JPanel {
 		setBackground(new Color(255, 255, 255));
 		setLayout(null);
 		this.s = s;
-
-		
-		
 		this.setBounds(175, 0, 511, 503);
 		panel.add(this);
 		

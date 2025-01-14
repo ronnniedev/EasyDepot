@@ -66,6 +66,7 @@ public class VentanaPrincipal extends JFrame {
 	 */
 	public VentanaPrincipal(String titulo)throws PersistenciaException, SQLException, LogicaException {
 		super(titulo);
+		setResizable(false);
 		this.s = Sistema.getInstance();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(400, 150, 700, 540);
@@ -269,7 +270,8 @@ public class VentanaPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				panelPrincipal.removeAll();
 				cargarBotonera(panel);
-				new PanelClientes(panelPrincipal,s);
+				JPanel panelDatos = new JPanel();
+				new PanelClientes(panelPrincipal,s,"principal");
 			}
 		});
 		// Maneja el hover del boton Cliente

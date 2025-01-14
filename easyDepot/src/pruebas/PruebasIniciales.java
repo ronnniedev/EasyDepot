@@ -17,13 +17,13 @@ public class PruebasIniciales {
 		// ESTO EN VERSION FINAL DEBERIA ESTAR ENCRIPTADO
 		Apykeys.setBaseDatosFinal(1);
 		
-		// GestorJDBC.reiniciarPersistencia();
+		GestorJDBC.reiniciarPersistencia();
 		Sistema s = Sistema.getInstance();
 		
 		
 		System.out.println("----------------ERRORES SALEN AQUI---------------------------- \n");
-		// cargaDatos(s);
-		cerrarReserva(7,s);
+		cargaDatos(s);
+		// cerrarReserva(7,s);
 		/*
 		 * try {
 		 * 	s.eliminarCliente("veronicapersonal1995@gmail.com");

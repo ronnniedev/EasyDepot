@@ -115,7 +115,7 @@ public class PanelCliente extends JPanel {
 	            removeAll();
 	            repaint();
 	            revalidate();  
-	            new PanelClientes(panel,s);
+	            add(new PanelClientes(panel,s,"auxiliar"));
 	          } catch (LogicaException e1) {
 	            JOptionPane.showMessageDialog(null, "Error al borrar","ERROR", JOptionPane.ERROR_MESSAGE);
 	          }
