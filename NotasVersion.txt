@@ -1,4 +1,3 @@
-Version 0.37
+Version 0.4
 
-- Se implementa interfaz de manejo de administrador para cliente y reserva.
-- Se refactoriza creación de paneles auxiliares para facilitar el traspaso entre interfaces de edición.
+- Se implementan todas las interfaces de visualizacion de elementos individuales.

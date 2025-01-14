@@ -108,8 +108,8 @@ public class VentanaPrincipal extends JFrame {
 		tabbedPane.setBounds(227, 245, 5, 5);
 		panelPrincipal.add(tabbedPane);
 		
-		JLabel lbLogo = new JLabel("New label");
-		lbLogo.setIcon(new ImageIcon("C:\\Users\\mario\\OneDrive\\Desktop\\EasyDepot\\easyDepot\\img\\logoLogin.png"));
+		JLabel lbLogo = new JLabel();
+		lbLogo.setIcon(new ImageIcon(VentanaPrincipal.class.getResource("/iconos/logoLogin.png")));
 		lbLogo.setBounds(124, 32, 451, 122);
 		panelPrincipal.add(lbLogo);
 		
@@ -159,8 +159,7 @@ public class VentanaPrincipal extends JFrame {
 		panelAvatar.setLayout(null);
 		
 		JLabel lblAvatarAdmin = new JLabel();
-		lblAvatarAdmin.setIcon(new ImageIcon(
-				"C:\\Users\\mario\\OneDrive\\Desktop\\EasyDepot\\easyDepot\\img\\adminmod.png"));
+		lblAvatarAdmin.setIcon(new ImageIcon(VentanaPrincipal.class.getResource("/iconos/adminmod.png")));
 		lblAvatarAdmin.setBounds(10, 23, 60, 54);
 		panelAvatar.add(lblAvatarAdmin);
 		

@@ -2,6 +2,8 @@ package interfaz;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,7 +60,18 @@ public class PanelLocales extends JPanel {
 		tablaLocales.setBorder(new LineBorder(new Color(0, 0, 0)));
 		tablaLocales.setBackground(new Color(255, 255, 255)); 
 		tablaLocales.setBounds(185, 119, 491, 311);
-		
+		tablaLocales.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int row = tablaLocales.getSelectedRow();
+				String idLocal = (String) tablaLocales.getValueAt(row, 0);
+				// refresca la pantalla y crea un nuevo panel para generar los datos del cliente nuevo
+				removeAll();
+				repaint();
+				revalidate();  
+				add(new PanelLocal(panel,s,s.buscarLocal(Integer.parseInt(idLocal))));
+			}
+		});
 		
 		JScrollPane scrollPane = new JScrollPane(tablaLocales);
 		scrollPane.setBounds(10, 98, 491, 311);

@@ -8,9 +8,16 @@ import logica.Sistema;
 import modelo.Cliente;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
+
+import excepciones.LogicaException;
+
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JTextField;
 import javax.swing.JButton;
 
@@ -97,9 +104,27 @@ public class PanelCliente extends JPanel {
 		add(btnEditar);
 		
 		JButton btnEliminar = new JButton("Eliminar");
-		btnEliminar.setFont(new Font("Verdana", Font.BOLD, 16));
-		btnEliminar.setBounds(192, 419, 126, 45);
-		add(btnEliminar);
+	    btnEliminar.addActionListener(new ActionListener() {
+	      public void actionPerformed(ActionEvent e) {
+	        int respuesta = 
+	            JOptionPane.showConfirmDialog(null,"¿Vas a eliminar este cliente , estas seguro de ello?"
+	                ,"Advertencia",JOptionPane.YES_NO_OPTION);
+	        if(respuesta == JOptionPane.YES_OPTION) {
+	          try {
+	            s.eliminarCliente(c.getEmail());
+	            removeAll();
+	            repaint();
+	            revalidate();  
+	            new PanelClientes(panel,s);
+	          } catch (LogicaException e1) {
+	            JOptionPane.showMessageDialog(null, "Error al borrar","ERROR", JOptionPane.ERROR_MESSAGE);
+	          }
+	        }
+	      }
+	    });
+	    btnEliminar.setFont(new Font("Verdana", Font.BOLD, 16));
+	    btnEliminar.setBounds(192, 419, 126, 45);
+	    add(btnEliminar);
 		
 		JButton btnVerReservas = new JButton("Ver reservas");
 		btnVerReservas.setFont(new Font("Verdana", Font.BOLD, 12));
