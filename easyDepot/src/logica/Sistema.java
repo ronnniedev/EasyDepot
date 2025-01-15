@@ -2,6 +2,7 @@ package logica;
 
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -284,6 +285,33 @@ public class Sistema {
 		return true;
 	}
 	
+	public Cliente cambiarEmail(String viejoEmail,String nuevoEmail) throws LogicaException {
+		// Localizamos al viejo cliente
+		Cliente viejoCliente = clientes.get(new Email(viejoEmail));
+		
+		if(viejoCliente == null) {
+			throw new LogicaException("ERROR cliente no figura en base de datos");
+		}
+		
+		// Creamos el cliente con el nuevo email
+		Cliente nuevoCliente = new Cliente(nuevoEmail,viejoCliente.getNombre(),viejoCliente.getApellidos(),
+				viejoCliente.getPassword(),viejoCliente.getPuntosTienda(),viejoCliente.getNumeroReservas());
+		
+		addCliente(nuevoCliente);
+		// actualiza la base de datos del sistema y el gestor
+		List <Reserva> reservasCliente = buscarReservasCliente(viejoCliente.getEmail());
+		for(Reserva r: reservasCliente) {
+			if(r.getEmailCliente().compareTo(viejoEmail) == 0) {
+				r.setEmailCliente(nuevoEmail);
+				gestor.actualizarReserva(r);
+			}
+		}
+		// Eliminamos el viejo cliente del sistema
+		gestor.eliminarCliente(viejoCliente);
+		clientes.remove(new Email(viejoEmail));
+		return nuevoCliente;
+	}
+	
 	/**
 	 * Devuelve una lista asociada al cliente proporcionado, se supone que el email del mismo esta verificado
 	 * previamente
@@ -364,10 +392,29 @@ public class Sistema {
 		}
 		return null;
 	}
+	/**
+	 * Extrae las reservas de un cliente determinado y devuelve la lista
+	 * @param email : String
+	 * @return List : reservas
+	 */
+	public List<Reserva> reservasDeCliente(String email) {
+		List <Reserva> reservasCliente = new LinkedList<Reserva>();
+		for(Reserva r: reservas) {
+			if(r.getEmailCliente().compareTo(email) == 0) {
+				reservasCliente.add(r);
+			}
+		}
+		return reservasCliente;
+	}
 	
+	/**
+	 * Deriva los datos del sistema al gestor para que sean actualizados en la base de datos en referente al cliente
+	 * @param c
+	 */
+	public void actualizarCliente(Cliente c) {
+		gestor.actualizarCliente(c);
+	}
 	
-
-
 	/**
 	 * Lista todos los datos del sistema y lo devuelve en formato de texto
 	 * @return texto : String
@@ -481,6 +528,7 @@ public class Sistema {
 	public void setReservas(List<Reserva> reservas) {
 		this.reservas = reservas;
 	}
+	
 
 	
 	

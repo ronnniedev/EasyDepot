@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +18,8 @@ import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
+import excepciones.LogicaException;
+import excepciones.PersistenciaException;
 import logica.Sistema;
 import modelo.Email;
 import modelo.Reserva;
@@ -24,30 +27,31 @@ import modelo.Reserva;
 public class PanelReservas extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private Sistema s;
 	private JTextField buscador;
+	private Sistema s;
 
 	/**
 	 * Panel que muestra todas las reservas en el sistema, tambien tiene un filtro para poder buscarlas a placer
 	 */
-	public PanelReservas(JPanel panel, Sistema s) {
+	public PanelReservas(JPanel panel,String titulo,List<Reserva> reservas) {
 		setBackground(new Color(255, 255, 255));
 		setLayout(null);
-		this.s = s;
+		
+		try {
+			s = Sistema.getInstance();
+		} catch (Exception e) {
+			
+		}
 		this.setBounds(175, 0, 511, 503);
 		panel.add(this);
 		
-		JLabel lblRendimiento = new JLabel("Locales",SwingConstants.CENTER);
-		lblRendimiento.setFont(new Font("Verdana", Font.BOLD, 24));
-		lblRendimiento.setBounds(175, 29, 511, 45);
-		
-		JLabel lblReservas = new JLabel("Reservas",SwingConstants.CENTER);
+		JLabel lblReservas = new JLabel(titulo,SwingConstants.CENTER);
 		lblReservas.setFont(new Font("Verdana", Font.BOLD, 24));
 		lblReservas.setBounds(0, 33, 511, 45);
 		this.add(lblReservas);
 		
 		String [] cabecera = {"Id","Cliente email","Cabina","Fecha inicio","Fecha Salida","Incidencia"};
-		List <String[]> datosLista = extraerReservas();
+		List <String[]> datosLista = extraerReservas(reservas);
 		String [][] datos = datosLista.toArray(new String[0][0]);
 		
 		// Creamos un modelo de tabla no editable modificando el metodo isCellEditable para que no lo sea mas
@@ -94,10 +98,10 @@ public class PanelReservas extends JPanel {
 	 * Extrae en un arrayList un vector de String con los datos en crudo de todas as reservas alojados en el sistema
 	 * @return List <String[]>
 	 */
-	private List<String[]> extraerReservas() {
+	private List<String[]> extraerReservas(List<Reserva> reservas) {
 		List <String[]> datos = new ArrayList<String[]>();
 		
-		for(Reserva r: s.getReservas()) {
+		for(Reserva r: reservas) {
 			datos.add(new String[]{r.getIdReserva() + "",r.getEmailCliente(),r.getIdCabina(),r.getFechaInicio().toString()
 					,comprobarFechaSalida(r),r.isIncidencia() + ""});
 		}

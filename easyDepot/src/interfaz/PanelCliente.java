@@ -30,6 +30,7 @@ public class PanelCliente extends JPanel {
 	private JLabel lblReservas;
 	private JLabel lblPuntosTienda;
 	private JLabel lblCliente;
+	private PanelCliente panelCliente;
 
 	/**
 	 * Create the panel.
@@ -39,6 +40,8 @@ public class PanelCliente extends JPanel {
 		this.setBounds(0, 0, 511, 503);
 		panel.add(this);
 		setLayout(null);
+		
+		this.panelCliente = this;
 		
 		lblCliente = new JLabel("Cliente :", SwingConstants.LEFT);
 		lblCliente.setBackground(new Color(255, 255, 255));
@@ -99,6 +102,16 @@ public class PanelCliente extends JPanel {
 		panel_1.add(lblPuntosTienda);
 		
 		JButton btnEditar = new JButton("Editar");
+		btnEditar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				// inhabilita la ventana
+				VentanaPrincipal.getVentana().setEnabled(false);
+				// pasamos el contexto de la ventana para que se actualizen los datos de la aplicacion
+				new VentanaEditarCliente(c,panelCliente);
+				
+			}
+		});
 		btnEditar.setFont(new Font("Verdana", Font.BOLD, 16));
 		btnEditar.setBounds(19, 419, 126, 45);
 		add(btnEditar);
@@ -127,13 +140,22 @@ public class PanelCliente extends JPanel {
 	    add(btnEliminar);
 		
 		JButton btnVerReservas = new JButton("Ver reservas");
+		btnVerReservas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// para cargar una ventana desde la principal
+				VentanaPrincipal v = VentanaPrincipal.getVentana();
+				v.getPanelPrincipal().removeAll();
+				v.cargarBotonera(v.getPanelPrincipal());
+				new PanelReservas(v.getPanelPrincipal(),"Reservas de " + c.getEmail(),s.reservasDeCliente(c.getEmail()));
+			}
+		});
 		btnVerReservas.setFont(new Font("Verdana", Font.BOLD, 12));
 		btnVerReservas.setBounds(364, 419, 126, 45);
 		add(btnVerReservas);
 		mostrarCliente(c);
 	}
 
-	private void mostrarCliente(Cliente c) {
+	public void mostrarCliente(Cliente c) {
 		lblCliente.setText("Cliente: " + c.getEmail());
 		txtNombre.setText(c.getNombre());
 		txtApellidos.setText(c.getApellidos());

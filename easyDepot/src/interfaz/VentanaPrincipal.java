@@ -14,6 +14,7 @@ import logica.Sistema;
 
 import javax.swing.JButton;
 import java.awt.Font;
+import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -39,6 +40,8 @@ public class VentanaPrincipal extends JFrame {
 	private JTextField textUser;
 	private JPasswordField passwordField;
 	private Sistema s;
+	private static VentanaPrincipal ventana;
+	
 
 	/**
 	 * Launch the application.
@@ -67,6 +70,7 @@ public class VentanaPrincipal extends JFrame {
 	public VentanaPrincipal(String titulo)throws PersistenciaException, SQLException, LogicaException {
 		super(titulo);
 		setResizable(false);
+		this.ventana = this;
 		this.s = Sistema.getInstance();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(400, 150, 700, 540);
@@ -146,7 +150,7 @@ public class VentanaPrincipal extends JFrame {
 	 * Carga la botonera una vez se ha realizado el logeo con exito, tiene la configuracion de los 5 botones principales
 	 * @param panel
 	 */
-	private void cargarBotonera(JPanel panel) {
+	public void cargarBotonera(JPanel panel) {
 		panel.setBackground(new Color(255, 255, 255));
 		panel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		
@@ -244,7 +248,7 @@ public class VentanaPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				panelPrincipal.removeAll();
 				cargarBotonera(panel);
-				new PanelReservas(panelPrincipal,s);
+				new PanelReservas(panelPrincipal,"Locales",s.getReservas());
 			}
 		});
 		// Maneja el hover del boton Reservas
@@ -333,4 +337,17 @@ public class VentanaPrincipal extends JFrame {
 		boton.setForeground(new Color(0, 0, 0));
 		boton.setBackground(new Color(173, 219, 245));
 	}
+
+	public static VentanaPrincipal getVentana() {
+		return ventana;
+	}
+
+	public JPanel getPanelPrincipal() {
+		return panelPrincipal;
+	}
+
+	
+
+	
+	
 }

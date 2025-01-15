@@ -1,3 +1,4 @@
-Version 0.41
+Version 0.43
 
-- Opción de eliminar clientes añadida.
+- Opción de ver reservas de un cliente concreto añadida.
+- Opción de editar cliente creando las funciones pertinentes.
