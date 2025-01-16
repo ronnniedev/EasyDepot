@@ -81,6 +81,12 @@ public class PanelLocal extends JPanel {
 		JButton btnCabinas = new JButton("Ver cabinas");
 		btnCabinas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				// refresca la pantalla y crea un nuevo panel para generar los datos del cliente nuevo
+				removeAll();
+				repaint();
+				revalidate();  
+				add(new PanelCabinas(l,panel));
+				
 			}
 		});
 		btnCabinas.setFont(new Font("Verdana", Font.BOLD, 12));
@@ -93,6 +99,18 @@ public class PanelLocal extends JPanel {
 		add(btnVerArticulos);
 
 		JButton btnVerReservas = new JButton("Ver reservas");
+		btnVerReservas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				removeAll();
+				repaint();
+				revalidate();  
+				
+				JPanel panelPrueba = new PanelReservas(panel,"Reservas de local: " + l.getLocalId()
+				,s.buscarReservasLocal(l.getLocalId()));
+				panelPrueba.setBounds(0, 0, 511, 503);
+				add(panelPrueba);
+			}
+		});
 		btnVerReservas.setFont(new Font("Verdana", Font.BOLD, 12));
 		btnVerReservas.setBounds(344, 395, 126, 45);
 		add(btnVerReservas);

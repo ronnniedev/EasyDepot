@@ -327,6 +327,22 @@ public class Sistema {
 		}
 		return reservasClientes;
 	}
+	/**
+	 * Buscar las reservas de un local concreto
+	 * @param localId : int
+	 * @return	List <Reserva> : reservas
+	 */
+	public List<Reserva> buscarReservasLocal(int localId) {
+		List <Reserva> reservasLocal = new LinkedList<Reserva>();
+		
+		for(Reserva r: reservas) {
+			String trozos[] = r.getIdCabina().split("-");
+			if(localId == Integer.parseInt(trozos[0])) {
+				reservasLocal.add(r);
+			}
+		}
+		return reservasLocal;
+	}
 
 	/**
 	 * Busca una cabina en el sistema y devuelve el objeto pertinente, si no devuelve valor nulo
@@ -377,6 +393,24 @@ public class Sistema {
 		
 		return null;
 	}
+	
+	/**
+	 * Busca una reserva a traves de la cabina proporcionada
+	 * @param c : Cabina
+	 * @return String 
+	 */
+	public String buscarReservaCabina(Cabina c) {
+		if(!c.getReservada()) {
+			return null;
+		}
+		
+		for(Reserva r: reservas) {
+			if(r.getIdCabina().compareTo(c.getIdCabina()) == 0) {
+				return r.getIdReserva() + "";
+			}
+		}
+		return null;
+	}
 
 	/**
 	 * Busca un objeto Local dentro del sistema y lo devuelve, en caso de no encontrarlo devuelve nulo
@@ -409,10 +443,18 @@ public class Sistema {
 	
 	/**
 	 * Deriva los datos del sistema al gestor para que sean actualizados en la base de datos en referente al cliente
-	 * @param c
+	 * @param c : Cliente
 	 */
 	public void actualizarCliente(Cliente c) {
 		gestor.actualizarCliente(c);
+	}
+	
+	/**
+	 * Deriva los datos del sistema al gestor para que sean actualizados en la base de datos en referente a la cabina
+	 * @param c : Cabina
+	 */
+	public void actualizarCabina(Cabina c) {
+		gestor.actualizarCabina(c);
 	}
 	
 	/**
@@ -528,6 +570,8 @@ public class Sistema {
 	public void setReservas(List<Reserva> reservas) {
 		this.reservas = reservas;
 	}
+	
+	
 	
 
 	

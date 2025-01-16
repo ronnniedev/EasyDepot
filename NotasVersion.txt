@@ -1,4 +1,6 @@
-Version 0.43
+Version 0.47
 
-- Opción de ver reservas de un cliente concreto añadida.
-- Opción de editar cliente creando las funciones pertinentes.
+- Funciones de lógica añadidas.
+- Funcionalidades de reservas añadidas
+- Funcionalidades de clientes añadidas
+

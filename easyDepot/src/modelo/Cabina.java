@@ -109,6 +109,8 @@ public class Cabina {
 	public void setTipo(String tipo) {
 		this.tipo = tipo;
 	}
+	
+	
 
 	@Override
 	public String toString() {
