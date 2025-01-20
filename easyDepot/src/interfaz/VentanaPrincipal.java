@@ -51,7 +51,7 @@ public class VentanaPrincipal extends JFrame {
 			public void run() {
 				try {
 					Apykeys.setBaseDatosFinal(1);
-					VentanaPrincipal frame = new VentanaPrincipal("EasyDepot 0.47");
+					VentanaPrincipal frame = new VentanaPrincipal("EasyDepot 0.48");
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -274,7 +274,6 @@ public class VentanaPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				panelPrincipal.removeAll();
 				cargarBotonera(panel);
-				JPanel panelDatos = new JPanel();
 				new PanelClientes(panelPrincipal,s,"principal");
 			}
 		});
@@ -300,6 +299,9 @@ public class VentanaPrincipal extends JFrame {
 		JButton btnTickets = new JButton("Tickets");
 		btnTickets.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				panelPrincipal.removeAll();
+				cargarBotonera(panel);
+				new PanelTickets(panelPrincipal);
 			}
 		});
 		// Maneja el hover del boton Tickets

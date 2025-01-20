@@ -45,7 +45,7 @@ public class PruebasIniciales {
 		
 		// comprobarGestorEmail(new Cliente("diego-delosrios@hotmail.com","Diegito","Gonzalez","miau2"),s);
 		
-		
+		s.abrirIncidencia(s.buscarReserva(1),"GHJSAGDKSD HAHAHA");
 		
 		System.out.println("-------------------------------------------- \n");
 		System.out.println(s.listarDatos());

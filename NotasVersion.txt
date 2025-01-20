@@ -1,6 +1,4 @@
-Version 0.47
+Version 0.48
 
-- Funciones de lógica añadidas.
-- Funcionalidades de reservas añadidas
-- Funcionalidades de clientes añadidas
+- Se mete la tabla de Tickets para su proximo uso
 

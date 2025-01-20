@@ -570,6 +570,16 @@ public class Sistema {
 	public void setReservas(List<Reserva> reservas) {
 		this.reservas = reservas;
 	}
+	/**
+	 * Abre una incidencia en referente a la reserva y el mensaje proporcionado
+	 * @param r : Reserva
+	 * @param mensaje : String
+	 */
+	public void abrirIncidencia(Reserva r, String mensaje) {
+		r.setIncidencia(true);
+		r.setDescripcionIncidencia(mensaje);
+		gestor.actualizarReserva(r);
+	}
 	
 	
 	
