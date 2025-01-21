@@ -103,6 +103,14 @@ public class PanelReserva extends JPanel {
 		panelDatos.add(lblIncidencia);
 
 		btnVerIncidencia = new JButton("Ver Incidencia");
+		btnVerIncidencia.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				removeAll();
+				repaint();
+				revalidate();
+				add(new PanelTicket(panel,r));
+			}
+		});
 		btnVerIncidencia.setFont(new Font("Verdana", Font.BOLD, 16));
 		panelDatos.add(btnVerIncidencia);
 

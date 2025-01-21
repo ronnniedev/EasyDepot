@@ -45,7 +45,23 @@ public class PruebasIniciales {
 		
 		// comprobarGestorEmail(new Cliente("diego-delosrios@hotmail.com","Diegito","Gonzalez","miau2"),s);
 		
-		s.abrirIncidencia(s.buscarReserva(1),"GHJSAGDKSD HAHAHA");
+		s.abrirIncidencia(s.buscarReserva(1),"Informe de incidencia en consignariado\r\n"
+				+ "\r\n"
+				+ "Fecha: 20 de enero de 2025\r\n"
+				+ "Hora: 10:30 AM\r\n"
+				+ "Ubicación: Almacén Central\r\n"
+				+ "\r\n"
+				+ "Descripción de la incidencia:\r\n"
+				+ "Durante el proceso de recepción de mercancías, se detectó un error en la asignación de paquetes. Este fallo generó un desajuste en los registros del inventario, lo que provocó retrasos en las operaciones y confusión en la ubicación de las unidades.\r\n"
+				+ "\r\n"
+				+ "Impacto:\r\n"
+				+ "El error afectó a 12 operaciones, generando demoras en la entrega de mercancías y la necesidad de realizar ajustes manuales para identificar los paquetes afectados.\r\n"
+				+ "\r\n"
+				+ "Acciones tomadas:\r\n"
+				+ "Se detuvieron temporalmente las operaciones, se corrigieron los registros de forma manual y se informó al equipo técnico para revisar el sistema de gestión.\r\n"
+				+ "\r\n"
+				+ "Responsable del informe:\r\n"
+				+ "María López, Supervisora de Logística");
 		
 		System.out.println("-------------------------------------------- \n");
 		System.out.println(s.listarDatos());

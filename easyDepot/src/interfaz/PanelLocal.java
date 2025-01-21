@@ -18,6 +18,7 @@ import java.awt.event.ActionEvent;
 public class PanelLocal extends JPanel {
 
 	private static final long serialVersionUID = 1L;
+	private PanelLocal panelLocal;
 	private JLabel lblReserva;
 	private JTextField txtDireccion;
 	private JTextField txtCoordenadas;
@@ -35,6 +36,8 @@ public class PanelLocal extends JPanel {
 		this.setBounds(0, 0, 511, 503);
 		panel.add(this);
 		setLayout(null);
+		
+		this.panelLocal = this;
 
 		lblReserva = new JLabel("Id de local:", SwingConstants.LEFT);
 		lblReserva.setBackground(new Color(255, 255, 255));
@@ -116,6 +119,13 @@ public class PanelLocal extends JPanel {
 		add(btnVerReservas);
 
 		JButton btnEditarLocal = new JButton("Editar local");
+		btnEditarLocal.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VentanaPrincipal.getVentana().setEnabled(false);
+				
+				new VentanaEditarLocal(l,panelLocal);
+			}
+		});
 		btnEditarLocal.setFont(new Font("Verdana", Font.BOLD, 12));
 		btnEditarLocal.setBounds(189, 448, 126, 45);
 		add(btnEditarLocal);
@@ -127,7 +137,7 @@ public class PanelLocal extends JPanel {
 		mostrarLocal(l);
 	}
 
-	private void mostrarLocal(Local l) {
+	public void mostrarLocal(Local l) {
 		lblReserva.setText(lblReserva.getText().toString() + " " + l.getLocalId());
 		txtDireccion.setText(l.getDireccion());
 		txtCoordenadas.setText(l.getCoordenadas());

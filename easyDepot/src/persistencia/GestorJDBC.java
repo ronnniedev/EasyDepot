@@ -69,7 +69,7 @@ public class GestorJDBC {
 				+ "    fechaInicio TIMESTAMP NOT NULL,"
 				+ "    fechaSalida TIMESTAMP,"
 				+ "	   incidencia BOOLEAN,"
-				+ "    descripcionIncidencia VARCHAR(1000),"
+				+ "    descripcionIncidencia VARCHAR(2000),"
 				+ "    FOREIGN KEY (emailCliente) REFERENCES clientes(emailCliente),"
 				+ "    FOREIGN KEY (idCabina) REFERENCES cabinas(idCabina)"
 				+ ");";

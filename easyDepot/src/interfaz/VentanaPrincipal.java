@@ -51,7 +51,7 @@ public class VentanaPrincipal extends JFrame {
 			public void run() {
 				try {
 					Apykeys.setBaseDatosFinal(1);
-					VentanaPrincipal frame = new VentanaPrincipal("EasyDepot 0.48");
+					VentanaPrincipal frame = new VentanaPrincipal("EasyDepot 0.49");
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();

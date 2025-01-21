@@ -83,9 +83,8 @@ public class PanelCabina extends JPanel {
 		lblAbierto.setFont(new Font("Verdana", Font.BOLD, 16));
 		panelDatos.add(lblAbierto);
 		
-		txtAbierto = new JTextField();
+		txtAbierto = new JTextField(escribirEstado(c.getAbierto()));
 		txtAbierto.setHorizontalAlignment(SwingConstants.CENTER);
-		txtAbierto.setText(escribirEstado(c.getAbierto()));
 		txtAbierto.setFont(new Font("Verdana", Font.BOLD, 16));
 		txtAbierto.setEditable(false);
 		txtAbierto.setColumns(10);

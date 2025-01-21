@@ -458,6 +458,22 @@ public class Sistema {
 	}
 	
 	/**
+	 * Deriva los datos del sistema al gestor para que sean actualizados en la base de datos en referente a la reserva
+	 * @param r : Reserva
+	 */
+	public void actualizarReserva(Reserva r) {
+		gestor.actualizarReserva(r);
+	}
+	
+	/**
+	 * Deriva los datos del sistema al gestor para que sean actualizados en la base de datos en referente al local
+	 * @param l : Local
+	 */
+	public void actualizarLocal(Local l) {
+		gestor.actualizarLocal(l);
+	}
+	
+	/**
 	 * Lista todos los datos del sistema y lo devuelve en formato de texto
 	 * @return texto : String
 	 */
@@ -577,6 +593,17 @@ public class Sistema {
 	 */
 	public void abrirIncidencia(Reserva r, String mensaje) {
 		r.setIncidencia(true);
+		r.setDescripcionIncidencia(mensaje);
+		gestor.actualizarReserva(r);
+	}
+	
+	/**
+	 * Cierra una incidencia en referente a la reserva y el mensaje proporcionado
+	 * @param r : Reserva
+	 * @param mensaje : String
+	 */
+	public void cerrarIncidencia(Reserva r, String mensaje) {
+		r.setIncidencia(false);
 		r.setDescripcionIncidencia(mensaje);
 		gestor.actualizarReserva(r);
 	}
