@@ -18,6 +18,7 @@ public class PanelInicio extends JPanel {
 	 * a reservas, pasando tambien por el numero de clientes registrados y de locales en el sistema
 	 */
 	public PanelInicio(JPanel panel,Sistema s) {
+		// Establecemos las dimensiones del sistema
 		setBackground(new Color(255, 255, 255));
 		setLayout(null);
 		this.setBounds(175, 0, 511, 503);

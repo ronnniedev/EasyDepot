@@ -29,11 +29,19 @@ public class GestorCorreo {
 	private Session mSession;
 	private MimeMessage mCorreo;
 	
+	/**
+	 * Constructor de un gestor de correo por defecto
+	 */
 	public GestorCorreo() {
 		mProperties = new Properties();
 		
 	}
 	
+	/**
+	 * Crea un email con la configuracion establecida
+	 * @param receptor : String
+	 * @return
+	 */
 	public int createEmail(String receptor) {
 		emailTo = receptor;
 		subject = "Correo de verificacion EasyDepot";
@@ -71,6 +79,9 @@ public class GestorCorreo {
 		return token;
 	}
 	
+	/**
+	 * Envia un email con la configuracion establecida
+	 */
 	private void sendEmail() {
 		try {
 			Transport mTransport = mSession.getTransport("smtp");

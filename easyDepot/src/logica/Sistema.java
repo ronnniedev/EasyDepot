@@ -10,6 +10,7 @@ import java.util.Map;
 import apykeys.Apykeys;
 import excepciones.LogicaException;
 import excepciones.PersistenciaException;
+import modelo.Articulo;
 import modelo.Cabina;
 import modelo.Cliente;
 import modelo.Email;
@@ -41,11 +42,13 @@ public class Sistema {
 		this.clientes = gestor.leerClientes();
 		this.locales = gestor.leerLocales();
 		rellenarCabinas();
+		rellenarArticulos();
 		this.reservas = gestor.leerReservas();
 		// calculamos el numero de reservas que ha habido en el sistema
 		this.numeroReservas = calcularNumeroReservas();
 		comprobarCuentaEliminado();
 	}
+	
 	/**
 	 * Comprueba si existe la cuenta "Eliminado" en el sistema, si no es asi , la crea
 	 * @throws  LogicaException
@@ -151,6 +154,17 @@ public class Sistema {
 			}
 		}
 	}
+	/**
+	 * Rellena los articulos extrayendolos de la base de datos y asignandoselos a cada uno de los locales pertinentes
+	 */
+	private void rellenarArticulos() {
+		List <Articulo> articulos = gestor.leerArticulos();
+		
+		for(Articulo a: articulos) {
+			buscarLocal(a.getIdLocal()).getArticulos().add(a);
+		}
+		
+	}
 
 	/**
 	 * Calcula el numero de reservas que ha habido en el sistema, para poder
@@ -200,6 +214,7 @@ public class Sistema {
 		}
 		
 		gestor.insertarLocal(l);
+		l.setLocalId(locales.size() + 1);
 		gestor.insertarCabinas(l.rellenarCabinas());
 		return locales.add(l);
 	}
@@ -251,6 +266,32 @@ public class Sistema {
 	}
 	
 	/**
+	 * Mete un articulo en el sistema y la inserta dentro de la base de datos
+	 * asociandolo al local pertinente.
+	 * @param email : String
+	 * @param idLocal : int
+	 * @param tipoCabina : String
+	 * @return boolean
+	 * @throws LogicaException
+	 */
+	public Boolean addArticulo(int idLocal,String nombre,int stock,double precio,String imagen) throws LogicaException {
+		Local l = buscarLocal(idLocal);
+		
+		if(l == null) {
+			throw new LogicaException("ERROR Local no encontrado");
+		}
+		// metemos la info del articulo dentro de el constructor, esta se marca cogiendo primero la id del local y 
+		// despues el numero de la id dentro de los articulos
+		Articulo a = new Articulo(l.getLocalId() + "-" + 
+									Articulo.calcularId(l.getArticulos()), idLocal,nombre,stock,precio,imagen);
+		gestor.insertarArticulo(a);
+		l.getArticulos().add(a);
+		return true;
+	}
+	
+	
+	
+	/**
 	 * Elimina el cliente mediante el email proporcionado, al hacerlo asigna todas las reservas a la cuenta de 
 	 * eliminacion para que las reservas sigan funcionando, tambien actualiza los valores pertinentes antes del 
 	 * borrado del cliente. Devuelve true si todo se ha realizado correctamente.
@@ -285,6 +326,43 @@ public class Sistema {
 		return true;
 	}
 	
+	
+	/**
+	 * Elimina el cliente mediante el email proporcionado, al hacerlo asigna todas las reservas a la cuenta de 
+	 * eliminacion para que las reservas sigan funcionando, tambien actualiza los valores pertinentes antes del 
+	 * borrado del cliente. Devuelve true si todo se ha realizado correctamente.
+	 * @param email : String
+	 * @return boolean
+	 * @throws LogicaException
+	 */
+	public boolean eliminarArticulo(String idArticulo) throws LogicaException {
+		String trozos[] = idArticulo.split("-");
+		
+ 		Local l = buscarLocal(Integer.parseInt(trozos[0]));
+ 		
+ 		if(l == null) {
+ 			throw new LogicaException("Local no encontrado");
+ 		}
+		
+		Articulo a = buscarArticulo(l,idArticulo);
+		
+		if(a == null) {
+			throw new LogicaException("Articulo no encontrado");
+		}
+		
+		gestor.eliminarArticulo(a);
+		l.getArticulos().remove(a);
+		return true;
+	}
+	
+	/**
+	 * Cambia el email de un cliente eliminando el anterior y pasando todas sus reseravas asociadas al nuevo cliente
+	 * creado con el nuevo email
+	 * @param viejoEmail : String
+	 * @param nuevoEmail : String
+	 * @return nuevoCliente : Cliente
+	 * @throws LogicaException
+	 */
 	public Cliente cambiarEmail(String viejoEmail,String nuevoEmail) throws LogicaException {
 		// Localizamos al viejo cliente
 		Cliente viejoCliente = clientes.get(new Email(viejoEmail));
@@ -427,6 +505,20 @@ public class Sistema {
 		return null;
 	}
 	/**
+	 * Busca un objeto Articulo dentro del sistema y lo devuelve, en caso de no encontrarlo devuelve nulo
+	 * @param l : Local
+	 * @param String : idArticulo
+	 * @return Articulo
+	 */
+	public Articulo buscarArticulo(Local l,String idArticulo) {
+		for(Articulo a: l.getArticulos()) {
+			if(a.getIdArticulo().compareTo(idArticulo) == 0) {
+				return a;
+			}
+		}
+		return null;
+	}
+	/**
 	 * Extrae las reservas de un cliente determinado y devuelve la lista
 	 * @param email : String
 	 * @return List : reservas
@@ -472,6 +564,13 @@ public class Sistema {
 	public void actualizarLocal(Local l) {
 		gestor.actualizarLocal(l);
 	}
+	/**
+	 * Deriva los datos del sistema al gestor para que sean actualizados en la base de datos en referente al articulo
+	 * @param a : Articulo
+	 */
+	public void actualizarArticulo(Articulo a) {
+		gestor.actualizarArticulo(a);
+	}
 	
 	/**
 	 * Lista todos los datos del sistema y lo devuelve en formato de texto
@@ -496,6 +595,14 @@ public class Sistema {
 		
 		for(Reserva r: reservas) {
 			texto += r.toString() + "\n";
+		}
+		
+		texto += "--------------Articulos-------------\n";
+		
+		for(Local l: locales) {
+			for(Articulo a: l.getArticulos()) {
+				texto += a.toString() + "\n";
+			}
 		}
 		
 		return texto;
@@ -561,6 +668,7 @@ public class Sistema {
 	public int calcularLocales() {
 		return locales.size();
 	}
+	
 	/**
 	 * Calcula los clientes del sistema restando el usuario de eliminacion
 	 * @return int
@@ -568,21 +676,51 @@ public class Sistema {
 	public int calcularClientes() {
 		return clientes.size() - 1;
 	}
+	
+	/**
+	 * Devuelve los clientes
+	 * @return Map<Email, Cliente>
+	 */
 	public Map<Email, Cliente> getClientes() {
 		return clientes;
 	}
+	
+	/**
+	 * Establece una lista nueva de clientes
+	 * @param clientes
+	 */
 	public void setClientes(Map<Email, Cliente> clientes) {
 		this.clientes = clientes;
 	}
+	
+	/**
+	 * Devuelve una lista de locales
+	 * @return List<Local>
+	 */
 	public List<Local> getLocales() {
 		return locales;
 	}
+	
+	/**
+	 * Establece una lista de locales nuevos
+	 * @param locales
+	 */
 	public void setLocales(List<Local> locales) {
 		this.locales = locales;
 	}
+	
+	/**
+	 * Devuelve una lista de reservas
+	 * @return
+	 */
 	public List<Reserva> getReservas() {
 		return reservas;
 	}
+	
+	/**
+	 * Establece una lista de reservas
+	 * @return
+	 */
 	public void setReservas(List<Reserva> reservas) {
 		this.reservas = reservas;
 	}
@@ -607,6 +745,8 @@ public class Sistema {
 		r.setDescripcionIncidencia(mensaje);
 		gestor.actualizarReserva(r);
 	}
+
+	
 	
 	
 	

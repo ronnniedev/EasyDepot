@@ -12,6 +12,7 @@ import javax.swing.SwingConstants;
 import excepciones.LogicaException;
 import logica.GestorComprobaciones;
 import logica.Sistema;
+import modelo.Cliente;
 import modelo.Email;
 import modelo.Local;
 import modelo.Reserva;
@@ -33,26 +34,31 @@ public class PanelReserva extends JPanel {
 	private JButton btnModificarReserva;
 
 	/**
-	 * Create the panel.
+	 * Muestra la informacion de una reserva seleccionada, permite cerrar una reserva, ver su cliente asociado
+	 * local tambien y finalmente si hay una incidencia permite verla en su propio panel
 	 */
 	public PanelReserva(JPanel panel, Sistema s, Reserva r) {
+		// Establece las dimensiones del panel
 		setBackground(new Color(255, 255, 255));
 		this.setBounds(0, 0, 511, 503);
 		panel.add(this);
 		setLayout(null);
 
+		// Establece el titulo de la reserva
 		lblReserva = new JLabel("Id de Reserva :", SwingConstants.LEFT);
 		lblReserva.setBackground(new Color(255, 255, 255));
 		lblReserva.setFont(new Font("Verdana", Font.BOLD, 18));
 		lblReserva.setBounds(0, 35, 511, 45);
 		add(lblReserva);
 
+		// Establece el panel de los datos donde se muestra la informacion de la reserva
 		JPanel panelDatos = new JPanel();
 		panelDatos.setBounds(0, 90, 511, 293);
 		panelDatos.setBackground(new Color(255, 255, 255));
 		add(panelDatos);
 		panelDatos.setLayout(new GridLayout(5, 2, 0, 0));
 
+		// Instancia los textfields y labels que muestran la informacion de la reserva
 		JLabel lblEmail = new JLabel("Email cliente:");
 		lblEmail.setFont(new Font("Verdana", Font.BOLD, 16));
 		panelDatos.add(lblEmail);
@@ -102,6 +108,7 @@ public class PanelReserva extends JPanel {
 		lblIncidencia.setFont(new Font("Verdana", Font.BOLD, 16));
 		panelDatos.add(lblIncidencia);
 
+		// Este boton abre el panel asocaido al ticket de incidencia.
 		btnVerIncidencia = new JButton("Ver Incidencia");
 		btnVerIncidencia.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -114,7 +121,11 @@ public class PanelReserva extends JPanel {
 		btnVerIncidencia.setFont(new Font("Verdana", Font.BOLD, 16));
 		panelDatos.add(btnVerIncidencia);
 
-		btnModificarReserva = new JButton("TEXT");
+		/**
+		 * Permite el cierre de una reserva en caso de que esta este abierta, pregunta al usuario si quiere cerrar 
+		 * la reserva, en caso afirmativo la cierra y desactiva el boton
+		 */
+		btnModificarReserva = new JButton("Cerrar reserva");
 		btnModificarReserva.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int respuesta = JOptionPane.showConfirmDialog(null,
@@ -137,6 +148,10 @@ public class PanelReserva extends JPanel {
 		btnModificarReserva.setBounds(10, 428, 118, 47);
 		add(btnModificarReserva);
 
+		/**
+		 * Muestra el panel del cliente asoaciada a la reserva, en caso de que el cliente este eliminado este
+		 * boton estara desactivado
+		 */
 		JButton btnCliente = new JButton("Ver cliente");
 		btnCliente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -148,8 +163,12 @@ public class PanelReserva extends JPanel {
 		});
 		btnCliente.setFont(new Font("Verdana", Font.BOLD, 12));
 		btnCliente.setBounds(132, 428, 118, 47);
+		
 		add(btnCliente);
 
+		/**
+		 * Muestra el panel del local asoaciado a la reserva
+		 */
 		JButton btnLocal = new JButton("Ver local");
 		btnLocal.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -164,6 +183,9 @@ public class PanelReserva extends JPanel {
 		btnLocal.setBounds(260, 428, 118, 47);
 		add(btnLocal);
 
+		/**
+		 * Muestra el panel de la cabina asoaciadaa la reserva
+		 */
 		JButton btnVerCabina = new JButton("Ver cabina");
 		btnVerCabina.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -178,13 +200,29 @@ public class PanelReserva extends JPanel {
 		btnVerCabina.setFont(new Font("Verdana", Font.BOLD, 12));
 		btnVerCabina.setBounds(388, 428, 118, 47);
 		add(btnVerCabina);
+		
+		// Mostramos los datos por pantalla y ocultamos el boton de ver cliente en caso de ser necesario
 		mostrarReserva(r);
+		btnCliente.setEnabled(comprobarEliminado());
+	}
+
+	/**
+	 * Comprueba si el cliente que gestiona este panel es una cuenta eliminada, en cuyo caso no 
+	 * puede visualizarse como cliente
+	 * @return Boolean
+	 */
+	private boolean comprobarEliminado() {
+		if(txtEmail.getText().compareTo("Eliminado") == 0) {
+			return false;
+		}
+		return true;
 	}
 
 	/**
 	 * Carga todos los datos referentes a la reserva, ademas hace las distinciones
-	 * necesarias para poder activar el boton de incidencia en caso de ser necesario
-	 * 
+	 * necesarias para poder activar el boton de incidencia en caso de ser necesario 
+	 * si la reserva no tiene incidencias el boton ver incidencia es desactivado, en caso contrario
+	 * queda activado.
 	 * @param r : Reserva
 	 */
 	public void mostrarReserva(Reserva r) {

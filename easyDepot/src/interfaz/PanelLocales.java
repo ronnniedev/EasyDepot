@@ -31,19 +31,22 @@ public class PanelLocales extends JPanel {
 	 * donde pueden buscarse los locales de distinta manera
 	 */
 	public PanelLocales(JPanel panel, Sistema s) {
+		// Establecemos las dimensiones del panel
 		setBackground(new Color(255, 255, 255));
 		setLayout(null);
-		this.s = s;
 		
+		this.s = s;
 		
 		this.setBounds(175, 0, 511, 503);
 		panel.add(this);
 		
+		// Establece el titulo del panel
 		JLabel lblLocales = new JLabel("Locales",SwingConstants.CENTER);
 		lblLocales.setFont(new Font("Verdana", Font.BOLD, 24));
 		lblLocales.setBounds(0, 33, 511, 45);
 		this.add(lblLocales);
 		
+		// Estbablece la cabecera y los datos de la tabla de los locales
 		String [] cabecera = {"Id","Coordenadas","Direccion","Reservas realizadas"};
 		List <String[]> datosLista = extraerLocales();
 		String [][] datos = datosLista.toArray(new String[0][0]);
@@ -56,6 +59,8 @@ public class PanelLocales extends JPanel {
 			}
 		};
 				
+		// Instanciamos la tabla, en caso de seleccionar una fila se abre un panel mostrando un panel con el local 
+		// seleccionado
 		JTable tablaLocales = new JTable(modelo);
 		tablaLocales.setBorder(new LineBorder(new Color(0, 0, 0)));
 		tablaLocales.setBackground(new Color(255, 255, 255)); 

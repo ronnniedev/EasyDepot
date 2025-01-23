@@ -33,9 +33,11 @@ public class PanelCliente extends JPanel {
 	private PanelCliente panelCliente;
 
 	/**
-	 * Create the panel.
+	 * Muestra los datos de un cliente, permite la eliminacion de un cliente, las reservas asociaddas y la edicion
+	 * del mismo. Tambien muestra una tabla de reservas asociado con el cliente
 	 */
 	public PanelCliente(JPanel panel,Sistema s,Cliente c) {
+		// Establecemos dimensiones del panel
 		setBackground(new Color(255, 255, 255));
 		this.setBounds(0, 0, 511, 503);
 		panel.add(this);
@@ -43,6 +45,7 @@ public class PanelCliente extends JPanel {
 		
 		this.panelCliente = this;
 		
+		// Establecemos la informacion de un cliente y sus label asociados
 		lblCliente = new JLabel("Cliente :", SwingConstants.LEFT);
 		lblCliente.setBackground(new Color(255, 255, 255));
 		lblCliente.setFont(new Font("Verdana", Font.BOLD, 18));
@@ -54,6 +57,7 @@ public class PanelCliente extends JPanel {
 		panel_1.setBackground(new Color(255,255,255));
 		add(panel_1);
 		panel_1.setLayout(new GridLayout(4, 2, 0, 0));
+		
 		
 		JLabel lblNombre = new JLabel("Nombre: ");
 		lblNombre.setBackground(new Color(255, 255, 255));
@@ -101,10 +105,10 @@ public class PanelCliente extends JPanel {
 		lblPuntosTienda.setFont(new Font("Verdana", Font.BOLD, 16));
 		panel_1.add(lblPuntosTienda);
 		
+		// Despliega la ventana de edicion a traves de la cual podemos editar el cliente asociado al panel
 		JButton btnEditar = new JButton("Editar");
 		btnEditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
 				// inhabilita la ventana
 				VentanaPrincipal.getVentana().setEnabled(false);
 				// pasamos el contexto de la ventana para que se actualizen los datos de la aplicacion
@@ -116,6 +120,10 @@ public class PanelCliente extends JPanel {
 		btnEditar.setBounds(19, 419, 126, 45);
 		add(btnEditar);
 		
+		/**
+		 * Da la opcion de eliminar el cliente asoaciado a este panel del sistema, pregunta si quiere ser eliminado
+		 * en caso afirmativo borra el cliente y vuelve al panel de cliente, en caso contrario no pasa nada.
+		 */
 		JButton btnEliminar = new JButton("Eliminar");
 	    btnEliminar.addActionListener(new ActionListener() {
 	      public void actionPerformed(ActionEvent e) {
@@ -139,6 +147,9 @@ public class PanelCliente extends JPanel {
 	    btnEliminar.setBounds(192, 419, 126, 45);
 	    add(btnEliminar);
 		
+	    /**
+	     * Muestra las reservas asociadas con el cliente en una tabla, abriendo un panel de reservas.
+	     */
 		JButton btnVerReservas = new JButton("Ver reservas");
 		btnVerReservas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -155,6 +166,10 @@ public class PanelCliente extends JPanel {
 		mostrarCliente(c);
 	}
 
+	/**
+	 * Actualiza los datos de un cliente asociado y los muestra a traves de sus campos asociado en el paneel
+	 * @param c : Cliente
+	 */
 	public void mostrarCliente(Cliente c) {
 		lblCliente.setText("Cliente: " + c.getEmail());
 		txtNombre.setText(c.getNombre());

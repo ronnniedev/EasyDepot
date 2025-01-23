@@ -37,6 +37,7 @@ public class PanelCabinas extends JPanel {
 	 * Create the panel.
 	 */
 	public PanelCabinas(Local l,JPanel panel) {
+		// Establece las dimensiones de el panel
 		setBackground(new Color(255, 255, 255));
 		this.setBounds(0, 0, 511, 503);
 		panel.add(this);
@@ -46,7 +47,7 @@ public class PanelCabinas extends JPanel {
 		} catch (Exception e) {
 			
 		} 
-		
+		// Establece el titulo del panel
 		JLabel lblCabinasDeLocal = new JLabel("Cabinas de local: " + l.getLocalId(), SwingConstants.LEFT);
 		lblCabinasDeLocal.setFont(new Font("Verdana", Font.BOLD, 18));
 		lblCabinasDeLocal.setBackground(Color.WHITE);
@@ -65,6 +66,7 @@ public class PanelCabinas extends JPanel {
 					}
 				};
 		
+		// Tabla donde escoges cada row y muestra la informacion de la cabina establecida
 		JTable tablaCabinas = new JTable(modelo);
 		tablaCabinas.setBorder(new LineBorder(new Color(0, 0, 0)));
 		tablaCabinas.setBackground(new Color(255, 255, 255)); 
@@ -91,12 +93,18 @@ public class PanelCabinas extends JPanel {
 		this.add(buscador);
 		buscador.setColumns(10);
 		
+		// Permite escpger el filtro que determina el filtro de la tabla
 		JSpinner selectorFiltro = new JSpinner();
 		selectorFiltro.setBounds(292, 68, 81, 20);
 		add(selectorFiltro);
 		
 	}
 
+	/**
+	 * Extrae las cabinas dentro de la base de datos y devuelve una lista de String para escribir la tabla de cabinas
+	 * @param l : Local
+	 * @return List <String[]>
+	 */
 	private List<String[]> extraerCabinas(Local l) {
 		List <String[]> datos = new ArrayList<String[]>();
 		
@@ -106,9 +114,11 @@ public class PanelCabinas extends JPanel {
 		}
 		return datos;
 	}
-
-	
-
+	/**
+	 * Escribe la id de la reserva si esta se encuentra reserva, si no es asi, pone Sin reservar
+	 * @param c : Cabina
+	 * @return String
+	 */
 	private String escribirIdReserva(Cabina c) {
 		String id = s.buscarReservaCabina(c);
 		
@@ -118,13 +128,23 @@ public class PanelCabinas extends JPanel {
 		return id;
 	}
 
+	/**
+	 * Dependdiendo de si esta reservada la canina o no se muestra un String u otro
+	 * @param reservada : Boolean
+	 * @return String
+	 */
 	private String escribirReservada(Boolean reservada) {
 		if(reservada) {
 			return "Reservada";
 		}
 		return "Sin reservar";
 	}
-
+	
+	/**
+	 * Escribe el estado de la cabina dependiendo de si esta esta abierta o no
+	 * @param abierto : Boolean
+	 * @return String
+	 */
 	private String escribirEstado(Boolean abierto) {
 		if(abierto) {
 			return "Abierta";

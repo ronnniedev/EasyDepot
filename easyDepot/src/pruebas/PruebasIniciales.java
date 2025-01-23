@@ -6,6 +6,7 @@ import apykeys.Apykeys;
 import excepciones.LogicaException;
 import excepciones.PersistenciaException;
 import logica.Sistema;
+import modelo.Articulo;
 import modelo.Cliente;
 import modelo.Local;
 import persistencia.GestorJDBC;
@@ -104,9 +105,9 @@ public class PruebasIniciales {
 
 	private static void cargaDatos(Sistema s) {
 		
-		Local l = new Local(1, "0001-304", 0, 0, "zombis magicos");
-		Local l2 = new Local(2, "978594-18283", 0, 0, "Unendo");
-		Local l3 = new Local(3, "978594-18283", 0, 0, "Unendo");
+		Local l = new Local("0001-304", 0, 0, "zombis magicos");
+		Local l2 = new Local("978594-18283", 0, 0, "Unendo");
+		Local l3 = new Local("978594-18283", 0, 0, "Unendo");
 		
 		
 		try {
@@ -127,6 +128,16 @@ public class PruebasIniciales {
 			s.addReserva("veronicapersonal1995@gmail.com", 1,"Pequeña");
 			s.addReserva("diegoestuvoaqui@gmail.com", 3,"Pequeña");
 			s.addReserva("veronicapersonal1995@gmail.com", 1,"Grande");
+		} catch (LogicaException e) {
+			System.out.println(e.getMessage());
+		}
+		
+		try {
+			s.addArticulo(1, "Coca cola", 60, 115.2, "botecoca");
+			s.addArticulo(1, "Moca cola", 50, 100.2, "botecoca2");
+			s.addArticulo(3, "Foca cola", 50, 100.2, "botecoca2");
+			// s.eliminarArticulo("3-1");
+			s.actualizarArticulo(new Articulo("1-2",1,"Moca cola",67,8989,"monthyPithon"));
 		} catch (LogicaException e) {
 			System.out.println(e.getMessage());
 		}

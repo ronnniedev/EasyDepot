@@ -165,8 +165,6 @@ class PruebasDesktop {
 			System.out.println(e.getMessage());
 		}
 		
-		// System.out.println(s.listarDatos());
-		
 		try {
 			s.addReserva("veronicapersonal1995@gmail.com", 2,"Mediana");
 			s.addReserva("veronicapersonal1995@gmail.com", 1,"Pequeña");

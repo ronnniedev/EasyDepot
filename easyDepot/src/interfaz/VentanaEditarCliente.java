@@ -37,9 +37,10 @@ public class VentanaEditarCliente extends JFrame {
 	private Sistema s;
 
 	/**
-	 * Create the frame.
+	 * Esta ventana administra lso diferentes campos que se usaran para editar los datos de un cliente
 	 */
 	public VentanaEditarCliente(Cliente c,PanelCliente panelCliente) {
+		// Establecemos las dimensiones de la ventana
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(550, 280, 394, 333);
 		contentPane = new JPanel();
@@ -54,6 +55,7 @@ public class VentanaEditarCliente extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
+		// Establece los contenedores que muestran la informacion del cliente a editar
 		JLabel lblNewLabel = new JLabel("Editar Cliente");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setFont(new Font("Verdana", Font.BOLD, 16));
@@ -103,6 +105,8 @@ public class VentanaEditarCliente extends JFrame {
 		panel.add(txtPassword);
 		txtPassword.setColumns(10);
 		
+		// Boton que al darle actualiza el objeto del cliente con la informacion introducida en lso contenedores
+		// Comprueba que estan bien escritos y guarda el objeto en el sistema
 		JButton btnGuardar = new JButton("Guardar");
 		btnGuardar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -147,6 +151,8 @@ public class VentanaEditarCliente extends JFrame {
 		btnGuardar.setBounds(49, 244, 126, 45);
 		contentPane.add(btnGuardar);
 		
+		// Vuelve al panel anterior, siendo esta el panel del cliente, activamos la ventana del cliente y cerramos
+		// esta
 		JButton btnCancelar = new JButton("Cancelar");
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

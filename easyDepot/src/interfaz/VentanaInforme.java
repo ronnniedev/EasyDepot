@@ -23,9 +23,10 @@ public class VentanaInforme extends JFrame {
 
 
 	/**
-	 * Create the frame.
+	 * Una ventana a traves de la cual se muestra el informe de la incidencia
 	 */
 	public VentanaInforme(Reserva r) {
+		// Establece las dimensiones de la ventana
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(550,300, 536, 417);
@@ -36,6 +37,7 @@ public class VentanaInforme extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
+		// Creamos el scrollPane y el textArea que mostrara el informe en texto plano del informe de la incidencia
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollPane.setBounds(10, 74, 502, 246);
@@ -54,6 +56,7 @@ public class VentanaInforme extends JFrame {
 		lblInformeTitulo.setBounds(0, 20, 522, 33);
 		contentPane.add(lblInformeTitulo);
 		
+		// Habilita la ventana anterior y cierra esta ventana 
 		JButton btnSalir = new JButton("Cerrar");
 		btnSalir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

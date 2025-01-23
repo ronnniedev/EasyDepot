@@ -30,16 +30,21 @@ public class PanelClientes extends JPanel {
 	private JTextField buscador;
 
 	/**
-	 * Create the panel.
+	 * Muestra los clientes guardados dentro del sistema en formato de tabla, en caso de seleccionar una fila abre un
+	 * panel con la informacion del cliente. Recogemos el origen desde el que viene para determinar para determinar
+	 * las dimensiones del panel dependiendo de ello
 	 */
 	public PanelClientes(JPanel panel, Sistema s,String origen) {
+		// Instanciamos el sistema
 		this.s = s;
+		// Establece las dimensiones del panel
 		comprobarOrigen(origen);
 		setBackground(new Color(255, 255, 255));
 		setLayout(null);
 		panel.add(this);
 		setLayout(null);
 
+		// Muestra el titulo d ela taba
 		JLabel lblClientes = new JLabel("Clientes", SwingConstants.CENTER);
 		lblClientes.setFont(new Font("Verdana", Font.BOLD, 24));
 		lblClientes.setBounds(0, 29, 511, 45);
@@ -58,6 +63,7 @@ public class PanelClientes extends JPanel {
 			}
 		};
 
+		// Establece un
 		JTable tablaClientes = new JTable(modelo);
 		tablaClientes.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tablaClientes.setBorder(new LineBorder(new Color(0, 0, 0)));

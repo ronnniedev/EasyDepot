@@ -29,30 +29,36 @@ public class PanelCabina extends JPanel {
 	private Sistema s;
 
 	/**
-	 * Create the panel.
-	 * @param cabina 
-	 * @param s 
-	 * @param panel 
+	 * Un panel que muetsra la informacion de una cabina determinada, abrir la cabina, ver una reserva asociada y 
+	 * ver un local asociado
+	 * @param cabina : Cabina
+	 * @param s : Sistema
+	 * @param panel : JPanel
+	 * @param l : Local
 	 */
 	public PanelCabina(JPanel panel, Sistema s, Cabina c,Local l) {
+		// Establecemos las dimensiones del panel
 		setBackground(new Color(255, 255, 255));
 		this.setBounds(0, 0, 511, 503);
 		panel.add(this);
 		setLayout(null);
 		this.s = s;
 		
+		// Establece el titulo del panel
 		JLabel lblCabina = new JLabel("Cabina: " + c.getIdCabina(), SwingConstants.LEFT);
 		lblCabina.setFont(new Font("Verdana", Font.BOLD, 18));
 		lblCabina.setBackground(Color.WHITE);
 		lblCabina.setBounds(0, 25, 511, 45);
 		add(lblCabina);
 		
+		// Establece un panel para englobar datos de la cabina
 		JPanel panelDatos = new JPanel();
 		panelDatos.setBounds(0, 90, 511, 293);
 		panelDatos.setBackground(new Color(255,255,255));
 		add(panelDatos);
 		panelDatos.setLayout(new GridLayout(4, 2, 0, 0));
 		
+		// Se muestran los datos del cliente
 		JLabel lblLocalId = new JLabel("Id local:");
 		lblLocalId.setFont(new Font("Verdana", Font.BOLD, 16));
 		panelDatos.add(lblLocalId);
@@ -104,6 +110,7 @@ public class PanelCabina extends JPanel {
 		txtTipo.setBackground(Color.WHITE);
 		panelDatos.add(txtTipo);
 		
+		// Este boton abre o cierra la cabian dependiendo de su estado anterior
 		btnAbrir = new JButton(escribirBotonAbrir(c));
 		btnAbrir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -121,6 +128,8 @@ public class PanelCabina extends JPanel {
 		btnAbrir.setBounds(22, 421, 118, 47);
 		add(btnAbrir);
 		
+		// Cambia de panel y muestra la reserva asociada a la cabina en caso de haber reserva, si no el boton esta 
+		// inactivo
 		JButton btnVerReserva = new JButton("Ver reserva");
 		
 		btnVerReserva.addActionListener(new ActionListener() {
@@ -136,6 +145,7 @@ public class PanelCabina extends JPanel {
 		add(btnVerReserva);
 		btnVerReserva.setEnabled(c.getReservada());
 		
+		// Muestra el panel con los datos del local asociado a la cabina
 		JButton btnVerLocal = new JButton("Ver local");
 		btnVerLocal.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -151,6 +161,11 @@ public class PanelCabina extends JPanel {
 		
 	}
 
+	/**
+	 * Escribe el texto del boton abrir dependiendo de si esta la cabina abierta o no
+	 * @param c : Cabina
+	 * @return String
+	 */
 	private String escribirBotonAbrir(Cabina c) {
 		if(c.getAbierto()) {
 			return "Cerrar";
@@ -158,6 +173,11 @@ public class PanelCabina extends JPanel {
 		return "Abrir";
 	}
 	
+	/**
+	 * Escribe la id de la reserva si esta se encuentra reserva, si no es asi, pone Sin reservar
+	 * @param c : Cabina
+	 * @return String
+	 */
 	private String escribirIdReserva(Cabina c) {
 		String id = s.buscarReservaCabina(c);
 		
@@ -167,6 +187,11 @@ public class PanelCabina extends JPanel {
 		return id;
 	}
 	
+	/**
+	 * Escribe el estado de la cabina dependiendo de si esta esta abierta o no
+	 * @param abierto : Boolean
+	 * @return String
+	 */
 	private String escribirEstado(Boolean abierto) {
 		if(abierto) {
 			return "Abierta";

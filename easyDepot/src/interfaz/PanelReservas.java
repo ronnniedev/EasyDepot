@@ -34,6 +34,7 @@ public class PanelReservas extends JPanel {
 	 * Panel que muestra todas las reservas en el sistema, tambien tiene un filtro para poder buscarlas a placer
 	 */
 	public PanelReservas(JPanel panel,String titulo,List<Reserva> reservas) {
+		// Establece las dimensiones del panel
 		setBackground(new Color(255, 255, 255));
 		setLayout(null);
 		
@@ -45,11 +46,13 @@ public class PanelReservas extends JPanel {
 		this.setBounds(175, 0, 511, 503);
 		panel.add(this);
 		
+		//Muestra el titulo de la tabla
 		JLabel lblReservas = new JLabel(titulo,SwingConstants.CENTER);
 		lblReservas.setFont(new Font("Verdana", Font.BOLD, 24));
 		lblReservas.setBounds(0, 33, 511, 45);
 		this.add(lblReservas);
 		
+		// Establecemos la cabecera y lso datos
 		String [] cabecera = {"Id","Cliente email","Cabina","Fecha inicio","Fecha Salida","Incidencia"};
 		List <String[]> datosLista = extraerReservas(reservas);
 		String [][] datos = datosLista.toArray(new String[0][0]);
@@ -62,6 +65,8 @@ public class PanelReservas extends JPanel {
 			}
 		};
 		
+		// Creamos la tabla, en caso de seleccionar una fila abrirmo un panel con la informacion de la reserva 
+		// pertinente
 		JTable tablaReservas = new JTable(modelo);
 		tablaReservas.setBorder(new LineBorder(new Color(0, 0, 0)));
 		tablaReservas.setBackground(new Color(255, 255, 255)); 

@@ -36,12 +36,14 @@ public class PanelTicket extends JPanel {
 	private JButton btnCerrarIncidencia;
 
 	/**
-	 * Create the panel.
+	 * Muestra la informacion asoaciada a una reserva asoaciada al panel, permite abrir y cerrar una cabina asociada,
+	 * ver un cliente asociado, un local, ver la reserva asoaciada y finalmente cerrar la incidencia.
 	 * @throws LogicaException 
 	 * @throws SQLException 
 	 * @throws PersistenciaException 
 	 */
 	public PanelTicket(JPanel panel, Reserva r) {
+		// Establecemos las dimensiones del panel
 		setBackground(new Color(255, 255, 255));
 		this.setBounds(0, 0, 511, 503);
 		
@@ -49,6 +51,8 @@ public class PanelTicket extends JPanel {
 		
 		panel.add(this);
 		setLayout(null);
+		
+		// Instanciamos el sistema
 		try {
 			this.s = Sistema.getInstance();
 			c = s.buscarCabina(r.getIdCabina(), s.buscarLocal(Integer.parseInt(r.getIdCabina().charAt(0)+"")));
@@ -56,10 +60,11 @@ public class PanelTicket extends JPanel {
 			System.out.println(e.getMessage());
 		}
 		
+		// Instanciamos el local buscandolo en el sistema
 		String trozos[] = r.getIdCabina().split("-");
 		this.l = s.buscarLocal(Integer.parseInt(trozos[0]));
 		
-		
+		//Instanciamos los labels y textfields para mostrar la informacion de la reserva y cliente
 		JLabel lblReserva = new JLabel("Incidencia de reserva: " + r.getIdReserva(), SwingConstants.LEFT);
 		lblReserva.setFont(new Font("Verdana", Font.BOLD, 18));
 		lblReserva.setBackground(Color.WHITE);
@@ -75,6 +80,8 @@ public class PanelTicket extends JPanel {
 		JLabel lblCliente = new JLabel("Email Cliente:");
 		lblCliente.setFont(new Font("Verdana", Font.BOLD, 16));
 		panelDatos.add(lblCliente);
+		
+		// Labels definitorios
 		
 		txtCliente = new JTextField(r.getEmailCliente());
 		txtCliente.setBackground(new Color(255, 255, 255));
@@ -109,6 +116,7 @@ public class PanelTicket extends JPanel {
 		lblMensaje.setFont(new Font("Verdana", Font.BOLD, 16));
 		panelDatos.add(lblMensaje);
 		
+		// Abre la ventana del informe
 		JButton btnVerInforme = new JButton("Ver Informe");
 		btnVerInforme.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -132,6 +140,7 @@ public class PanelTicket extends JPanel {
 		txtEstadoCabina.setColumns(10);
 		panelDatos.add(txtEstadoCabina);
 		
+		// ABre o cierra la cabina dependiendo de su estado
 		btnAbrir = new JButton(escribirBotonAbrir(c));
 		btnAbrir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -162,6 +171,7 @@ public class PanelTicket extends JPanel {
 		btnCliente.setBounds(189, 395, 126, 47);
 		add(btnCliente);
 		
+		// Muetsra el panel del local mostrando la informacion asociada al mismo
 		JButton btnLocal = new JButton("Ver local");
 		btnLocal.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -175,6 +185,7 @@ public class PanelTicket extends JPanel {
 		btnLocal.setBounds(344, 395, 126, 47);
 		add(btnLocal);
 		
+		// Abre el informe de cierre de incidencia
 		btnCerrarIncidencia = new JButton("Cerrar Incidencia");
 		btnCerrarIncidencia.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -187,6 +198,7 @@ public class PanelTicket extends JPanel {
 		habilitarBotonCierre(r);
 		add(btnCerrarIncidencia);
 		
+		// Visualiza la reserva
 		JButton btnReserva = new JButton("Ver reserva");
 		btnReserva.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -198,11 +210,29 @@ public class PanelTicket extends JPanel {
 		});
 		btnReserva.setFont(new Font("Verdana", Font.BOLD, 12));
 		btnReserva.setBounds(111, 446, 126, 47);
-		add(btnReserva);
 		
-
+		// comprobamos si el cliente que estamos tratando es uno eliminado
+		add(btnReserva);
+		btnCliente.setEnabled(comprobarEliminado());
 	}
 	
+	/**
+	 * Comprueba si el cliente que gestiona este panel es una cuenta eliminada, en cuyo caso no 
+	 * puede visualizarse como cliente
+	 * @return Boolean
+	 */
+	private boolean comprobarEliminado() {
+		if(txtCliente.getText().compareTo("Eliminado") == 0) {
+			return false;
+		}
+		return true;
+	}
+	
+	/**
+	 * Escribe el boton de abrir o cerrar dependiendo del estado de la cabina 
+	 * @param c : Cabina
+	 * @return String
+	 */
 	private String escribirBotonAbrir(Cabina c) {
 		if(c.getAbierto()) {
 			return "Cerrar";
@@ -210,6 +240,11 @@ public class PanelTicket extends JPanel {
 		return "Abrir";
 	}
 	
+	/**
+	 * Escribe el estado de la cabina dependiendo de su estado
+	 * @param abierto : Boolean
+	 * @return String
+	 */
 	private String escribirEstado(Boolean abierto) {
 		if(abierto) {
 			return "Abierta";
@@ -217,6 +252,10 @@ public class PanelTicket extends JPanel {
 		return "Cerrada";
 	}
 	
+	/**
+	 * Comprueba si la incidencia esta abierta, en caso de que lo este activa el boton de abrir incidencia
+	 * @param r : Reserva
+	 */
 	public void habilitarBotonCierre(Reserva r) {
 		btnCerrarIncidencia.setEnabled(r.isIncidencia());
 	}

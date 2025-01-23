@@ -28,9 +28,10 @@ public class VentanaEditarLocal extends JFrame {
 	private JTextField txtCoordenadas;
 
 	/**
-	 * Create the frame.
+	 * Una ventana que permite editar la informacion de un local determinado.
 	 */
 	public VentanaEditarLocal(Local l,PanelLocal panelLocal) {
+		// Establecemos las dimensiones de la ventana
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(600, 300, 394, 290);
 		contentPane = new JPanel();
@@ -45,6 +46,7 @@ public class VentanaEditarLocal extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
+		// Establecemos el panel que contiene los componentes donde se mostrara la informacion a editar del local
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(255, 255, 255));
 		panel.setBounds(0, 46, 380, 142);
@@ -76,6 +78,8 @@ public class VentanaEditarLocal extends JFrame {
 		lblNewLabel.setBounds(0, 0, 380, 36);
 		contentPane.add(lblNewLabel);
 		
+		// Guarda los datos con el texto introducido en los campos , vuelve a la ventana anterior y activar la ventana
+		// del local actualizando lso datos del mismo
 		JButton btnGuardar = new JButton("Guardar");
 		btnGuardar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -93,6 +97,7 @@ public class VentanaEditarLocal extends JFrame {
 		btnGuardar.setBounds(41, 198, 126, 45);
 		contentPane.add(btnGuardar);
 		
+		// Habilita la ventana anterior y cierra esta
 		JButton btnCancelar = new JButton("Cancelar");
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

@@ -44,14 +44,14 @@ public class VentanaPrincipal extends JFrame {
 	
 
 	/**
-	 * Launch the application.
+	 * Inicia la aplicaion
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					Apykeys.setBaseDatosFinal(1);
-					VentanaPrincipal frame = new VentanaPrincipal("EasyDepot 0.49");
+					VentanaPrincipal frame = new VentanaPrincipal("EasyDepot 0.5");
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -68,9 +68,11 @@ public class VentanaPrincipal extends JFrame {
 	 * @throws PersistenciaException 
 	 */
 	public VentanaPrincipal(String titulo)throws PersistenciaException, SQLException, LogicaException {
+		// Establecemos el titulo de la ventana principal
 		super(titulo);
 		setResizable(false);
-		this.ventana = this;
+		
+		ventana = this;
 		this.s = Sistema.getInstance();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(400, 150, 700, 540);
@@ -81,6 +83,7 @@ public class VentanaPrincipal extends JFrame {
 		setContentPane(panelPrincipal);
 		panelPrincipal.setLayout(null);
 		
+		// Abre el email asociado al correo que se muestra, para dar soporte
 		JButton btnContacto = new JButton("Contacto");
 		btnContacto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -97,6 +100,7 @@ public class VentanaPrincipal extends JFrame {
 		btnContacto.setBounds(369, 395, 129, 54);
 		panelPrincipal.add(btnContacto);
 		
+		// Establecemos los contenedores de user y password
 		textUser = new JTextField();
 		textUser.setFont(new Font("Verdana", Font.PLAIN, 16));
 		textUser.setColumns(10);
@@ -113,11 +117,13 @@ public class VentanaPrincipal extends JFrame {
 		tabbedPane.setBounds(227, 245, 5, 5);
 		panelPrincipal.add(tabbedPane);
 		
+		// Instanciamos el logo
 		JLabel lbLogo = new JLabel();
 		lbLogo.setIcon(new ImageIcon(VentanaPrincipal.class.getResource("/iconos/logoLogin.png")));
 		lbLogo.setBounds(124, 32, 451, 122);
 		panelPrincipal.add(lbLogo);
 		
+		// Se muestra en caso de que haya un error
 		JLabel lblErrorLogin = new JLabel("Clave o usuario incorrecto, introduzcalo de nuevo.");
 		lblErrorLogin.setForeground(new Color(255, 0, 0));
 		lblErrorLogin.setFont(new Font("Verdana", Font.BOLD, 16));
@@ -125,6 +131,10 @@ public class VentanaPrincipal extends JFrame {
 		panelPrincipal.add(lblErrorLogin);
 		lblErrorLogin.setVisible(false);
 		
+		/**
+		 * Comprueba si el usuario y la password es correcta, en caso afirmativo logea y cargamos la informacion de 
+		 * inicio
+		 */
 		JButton btnLogin = new JButton("Login");
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -151,18 +161,21 @@ public class VentanaPrincipal extends JFrame {
 	 * @param panel
 	 */
 	public void cargarBotonera(JPanel panel) {
+		// Establecemos las dimensiones de la botonera
 		panel.setBackground(new Color(255, 255, 255));
 		panel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		
-		// Creamos un borde vacion
+		// Creamos un borde vacio
 		Border emptyBorder = BorderFactory.createEmptyBorder();
 
+		// Instanciamos los labels y botones que estaran asociados a la botonera
 		JPanel panelAvatar = new JPanel();
 		panelAvatar.setBackground(new Color(173, 219, 245));
 		panelAvatar.setBounds(0, 0, 175, 100);
 		panel.add(panelAvatar);
 		panelAvatar.setLayout(null);
 		
+		// Instanciamos el icono de administrador
 		JLabel lblAvatarAdmin = new JLabel();
 		lblAvatarAdmin.setIcon(new ImageIcon(VentanaPrincipal.class.getResource("/iconos/adminmod.png")));
 		lblAvatarAdmin.setBounds(10, 23, 60, 54);
@@ -235,10 +248,8 @@ public class VentanaPrincipal extends JFrame {
 		});
 		btnInicio.setFont(new Font("Verdana", Font.BOLD, 16));
 		btnInicio.setBackground(new Color(173, 219, 245));
-		btnInicio.setBorder(emptyBorder);
-		panelBotonera.add(btnInicio);
 		
-		btnLocales.setBorder(emptyBorder);
+		panelBotonera.add(btnInicio);
 		panelBotonera.add(btnLocales);
 		
 		
@@ -248,7 +259,7 @@ public class VentanaPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				panelPrincipal.removeAll();
 				cargarBotonera(panel);
-				new PanelReservas(panelPrincipal,"Locales",s.getReservas());
+				new PanelReservas(panelPrincipal,"Reservas",s.getReservas());
 			}
 		});
 		// Maneja el hover del boton Reservas
@@ -264,7 +275,7 @@ public class VentanaPrincipal extends JFrame {
 		});
 		btnReservas.setBackground(new Color(173, 219, 245));
 		btnReservas.setFont(new Font("Verdana", Font.BOLD, 16));
-		btnReservas.setBorder(emptyBorder);
+		
 		panelBotonera.add(btnReservas);
 		
 		
@@ -291,7 +302,7 @@ public class VentanaPrincipal extends JFrame {
 		btnClientes.setForeground(new Color(0, 0, 0));
 		btnClientes.setBackground(new Color(173, 219, 245));
 		btnClientes.setFont(new Font("Verdana", Font.BOLD, 16));
-		btnClientes.setBorder(emptyBorder);
+		
 		panelBotonera.add(btnClientes);
 		
 		
@@ -304,7 +315,7 @@ public class VentanaPrincipal extends JFrame {
 				new PanelTickets(panelPrincipal);
 			}
 		});
-		// Maneja el hover del boton Tickets
+		// Maneja el hover del boton Tickets dependiendo de si sale el raton o no
 		btnTickets.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -317,8 +328,17 @@ public class VentanaPrincipal extends JFrame {
 		});
 		btnTickets.setBackground(new Color(173, 219, 245));
 		btnTickets.setFont(new Font("Verdana", Font.BOLD, 16));
+		// Quitamos el borde
 		btnTickets.setBorder(emptyBorder);
 		panelBotonera.add(btnTickets);
+		// Quitamos el borde
+		btnLocales.setBorder(emptyBorder);
+		// Quitamos el borde
+		btnClientes.setBorder(emptyBorder);
+		// Quitamos el borde
+		btnReservas.setBorder(emptyBorder);
+		// Quitamos el borde
+		btnInicio.setBorder(emptyBorder);
 		panel.add(panelBotonera);
 	}
 	
@@ -340,10 +360,18 @@ public class VentanaPrincipal extends JFrame {
 		boton.setBackground(new Color(173, 219, 245));
 	}
 
+	/**
+	 * Devuelve la ventana Principal
+	 * @return
+	 */
 	public static VentanaPrincipal getVentana() {
 		return ventana;
 	}
 
+	/**
+	 * Devuelve el panel principal
+	 * @return
+	 */
 	public JPanel getPanelPrincipal() {
 		return panelPrincipal;
 	}

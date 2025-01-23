@@ -32,6 +32,15 @@ public class Local {
 		this.cabinas = new LinkedList<Cabina>();
 	}
 
+	public Local(String coordenadas, int numeroReservas, int ingresos, String direccion) {
+		this.coordenadas = coordenadas;
+		this.numeroReservas = numeroReservas;
+		this.ingresos = ingresos;
+		this.direccion = direccion;
+		this.articulos = new LinkedList<Articulo>();
+		this.cabinas = new LinkedList<Cabina>();
+	}
+
 	/**
 	 * Rellan la lista de cabinas de un local cuando este se crea inicialmente
 	 * Actualmente configurada para que alla solo 6 cabinas pero puede modifcarse cambiando el valor del mismo

@@ -1,15 +1,18 @@
 package modelo;
 
+import java.util.List;
+
 public class Articulo {
 
-	private int idArticulo;
+	private String idArticulo;
 	private int idLocal;
 	private String nombre;
+	private int stock;
 	private double precio;
 	private String imagen;
 	
 	/**
-	 * Constructor de cinco parametros para la clase Articulo, usado por defecto en la carga de la base de datos
+	 * Constructor de seis parametros para la clase Articulo, usado por defecto en la carga de la base de datos
 	 * y creacion base
 	 * @param idArticulo : int
 	 * @param idLocal : int
@@ -17,19 +20,39 @@ public class Articulo {
 	 * @param precio : double
 	 * @param imagen : String
 	 */
-	public Articulo(int idArticulo, int idLocal, String nombre, double precio, String imagen) {
+	public Articulo(String idArticulo, int idLocal, String nombre, int stock, double precio, String imagen) {
+		super();
 		this.idArticulo = idArticulo;
 		this.idLocal = idLocal;
 		this.nombre = nombre;
+		this.stock = stock;
 		this.precio = precio;
 		this.imagen = imagen;
 	}
+	
+	/**
+	 * @return the stock
+	 */
+	public int getStock() {
+		return stock;
+	}
+
+
+
+	/**
+	 * @return the stock
+	 */
+	public void setStock(int stock) {
+		this.stock = stock;
+	}
+
+
 
 
 	/**
 	 * @return the idArticulo
 	 */
-	public int getIdArticulo() {
+	public String getIdArticulo() {
 		return idArticulo;
 	}
 
@@ -37,7 +60,7 @@ public class Articulo {
 	/**
 	 * @param idArticulo the idArticulo to set
 	 */
-	public void setIdArticulo(int idArticulo) {
+	public void setIdArticulo(String idArticulo) {
 		this.idArticulo = idArticulo;
 	}
 
@@ -105,12 +128,32 @@ public class Articulo {
 		this.imagen = imagen;
 	}
 
+	/**
+	 * Calcula la id del articulo basandose en los articulos previamente insertados y sumandole 1 a la ultima cifra de
+	 * la id
+	 * @param articulos
+	 * @return
+	 */
+	public static int calcularId(List<Articulo> articulos) {
+		if(articulos.size() == 0) {
+			return 1;
+		}
+		
+		String trozos [] = articulos.get(articulos.size()-1).getIdArticulo().split("-");
+		return Integer.parseInt(trozos[1]) + 1;
+	}
+
 
 	@Override
 	public String toString() {
-		return "Articulo [idArticulo=" + idArticulo + ", idLocal=" + idLocal + ", nombre=" + nombre + ", precio="
-				+ precio + ", imagen=" + imagen + "]";
+		return "Articulo [idArticulo=" + idArticulo + ", idLocal=" + idLocal + ", nombre=" + nombre + ", stock=" + stock
+				+ ", precio=" + precio + ", imagen=" + imagen + "]";
 	}
+
+	
+
+
+	
 	
 	
 	

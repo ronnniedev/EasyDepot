@@ -11,6 +11,7 @@ import java.util.Map;
 import java.sql.Timestamp;
 
 import excepciones.PersistenciaException;
+import modelo.Articulo;
 import modelo.Cabina;
 import modelo.Cliente;
 import modelo.Email;
@@ -48,7 +49,7 @@ public class GestorJDBC {
 				+ "    numeroReservas INT"
 				+ ");";
 		String consultaLocales = "CREATE TABLE IF NOT EXISTS locales ("
-				+ "    idLocal INT PRIMARY KEY,"
+				+ "    idLocal INT AUTO_INCREMENT PRIMARY KEY,"
 				+ "    coordenadas VARCHAR(100) NOT NULL,"
 				+ "    numeroReservas INT NOT NULL,"
 				+ "    ingresos NUMERIC(10,2) NOT NULL,"
@@ -63,7 +64,7 @@ public class GestorJDBC {
 				+ "    FOREIGN KEY (idLocal) REFERENCES locales(idLocal)"
 				+ ");";
 		String consultaReservas = "CREATE TABLE IF NOT EXISTS reservas ("
-				+ "    idReserva INT PRIMARY KEY,"
+				+ "    idReserva INT AUTO_INCREMENT PRIMARY KEY,"
 				+ "    emailCliente VARCHAR(100) NOT NULL,"
 				+ "    idCabina VARCHAR(10) NOT NULL,"
 				+ "    fechaInicio TIMESTAMP NOT NULL,"
@@ -73,12 +74,22 @@ public class GestorJDBC {
 				+ "    FOREIGN KEY (emailCliente) REFERENCES clientes(emailCliente),"
 				+ "    FOREIGN KEY (idCabina) REFERENCES cabinas(idCabina)"
 				+ ");";
+		String consultaArticulos = "CREATE TABLE IF NOT EXISTS articulos ("
+				+ "    idArticulo VARCHAR(10) PRIMARY KEY,"
+				+ "    idLocal INT NOT NULL,"
+				+ "    nombre VARCHAR(100) NOT NULL,"
+				+ "    stock INT NOT NULL,"
+				+ "    precio NUMERIC(10,2) NOT NULL,"
+				+ "    imagen VARCHAR(100),"
+				+ "    FOREIGN KEY (idLocal) REFERENCES locales(idLocal)"
+				+ ");";
 		
 		
 		st.executeUpdate(consultaClientes);
 		st.executeUpdate(consultaLocales);
 		st.executeUpdate(consultaCabinas);
 		st.executeUpdate(consultaReservas);
+		st.executeUpdate(consultaArticulos);
 		StatemedSingelton.close();
 	}
 
@@ -218,6 +229,42 @@ public class GestorJDBC {
 	}
 	
 	/**
+	 * Lee todos los articulos del sistema y las devuelve en forma de lista de articulos
+	 * @return List <Articulo>
+	 */
+	public List<Articulo> leerArticulos() {
+		Statement st = null;
+		ResultSet rs = null;
+		List <Articulo> listaArticulos = new LinkedList<Articulo>();
+		
+		try {
+			st = StatemedSingelton.getInstance();
+			String consulta = "SELECT * FROM articulos";
+			rs = st.executeQuery(consulta);
+			while(rs.next()) {
+				listaArticulos.add(prepararArticulo(rs));
+			}
+		} catch (PersistenciaException e) {
+			System.out.println(e.getMessage());
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}finally {
+			try {
+				rs.close();
+				StatemedSingelton.close();
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			} catch (PersistenciaException e) {
+				System.out.println(e.getMessage());
+			}
+			
+		}
+		return listaArticulos;
+		
+	}
+	
+	
+	/**
 	 * Inserta un cliente dentro de la base de datos
 	 * @param c : Cliente
 	 */
@@ -255,14 +302,13 @@ public class GestorJDBC {
 	public void insertarLocal(Local l) {
 		PreparedStatement ps = null;
 		try {
-			String insertLocal = "INSERT INTO locales (idLocal,coordenadas,numeroReservas,ingresos,direccion)"
-									+ " VALUES (?,?,?,?,?)";
+			String insertLocal = "INSERT INTO locales (coordenadas,numeroReservas,ingresos,direccion)"
+									+ " VALUES (?,?,?,?)";
 			ps = StatemedSingelton.getInstance(insertLocal);
-			ps.setInt(1, l.getLocalId());
-			ps.setString(2, l.getCoordenadas());
-			ps.setInt(3, l.getNumeroReservas());
-			ps.setDouble(4,l.getIngresos());
-			ps.setString(5, l.getDireccion());
+			ps.setString(1, l.getCoordenadas());
+			ps.setInt(2, l.getNumeroReservas());
+			ps.setDouble(3,l.getIngresos());
+			ps.setString(4, l.getDireccion());
 			ps.executeUpdate();
 		} catch (PersistenciaException e1) {
 			System.out.println(e1.getMessage());
@@ -316,17 +362,16 @@ public class GestorJDBC {
 	public void insertarReserva(Reserva r) {
 		PreparedStatement ps = null;
 		try {
-			String insertReserva = "INSERT INTO reservas (idReserva,emailCliente,idCabina,fechaInicio,fechaSalida"
+			String insertReserva = "INSERT INTO reservas (emailCliente,idCabina,fechaInicio,fechaSalida"
 								+ ",incidencia,descripcionIncidencia)"
-					+ " VALUES (?,?,?,?,?,?,?)";
+					+ " VALUES (?,?,?,?,?,?)";
 			ps = StatemedSingelton.getInstance(insertReserva);
-			ps.setInt(1, r.getIdReserva());
-			ps.setString(2, r.getEmailCliente());
-			ps.setString(3,r.getIdCabina());
-			ps.setTimestamp(4,r.getFechaInicio());
-			ps.setTimestamp(5, r.getFechaSalida());
-			ps.setBoolean(6, r.isIncidencia());
-			ps.setString(7, r.getDescripcionIncidencia());
+			ps.setString(1, r.getEmailCliente());
+			ps.setString(2,r.getIdCabina());
+			ps.setTimestamp(3,r.getFechaInicio());
+			ps.setTimestamp(4, r.getFechaSalida());
+			ps.setBoolean(5, r.isIncidencia());
+			ps.setString(6, r.getDescripcionIncidencia());
 			ps.executeUpdate();
 			
 		} catch (PersistenciaException e1) {
@@ -341,6 +386,38 @@ public class GestorJDBC {
 			}
 		}
 		
+	}
+	
+	/**
+	 * Inserta un Articulo dentro de la base de datos
+	 * @param a : articulo
+	 */
+	public void insertarArticulo(Articulo a) {
+		PreparedStatement ps = null;
+		try {
+			String insertArticulo = "INSERT INTO articulos (idArticulo,idLocal,nombre,stock"
+									+ ",precio,imagen)"
+									+ " VALUES (?,?,?,?,?,?)";
+			ps = StatemedSingelton.getInstance(insertArticulo);
+			ps.setString(1, a.getIdArticulo());
+			ps.setInt(2, a.getIdLocal());
+			ps.setString(3, a.getNombre());
+			ps.setInt(4, a.getStock());
+			ps.setDouble(5, a.getPrecio());
+			ps.setString(6, a.getImagen());
+			ps.executeUpdate();
+			
+		} catch (PersistenciaException e1) {
+			System.out.println(e1.getMessage());
+		} catch (SQLException e1) {
+			System.out.println(e1.getMessage());
+		}finally {
+			try {
+				StatemedSingelton.close();
+			} catch (PersistenciaException e) {
+				System.out.println(e.getMessage());
+			}
+		}
 	}
 	
 	/**
@@ -431,6 +508,35 @@ public class GestorJDBC {
 	}
 	
 	/**
+	 * Actualiza los valores modificables de una cabina
+	 * @param c : Cabina
+	 */
+	public void actualizarArticulo(Articulo a) {
+		PreparedStatement ps = null;
+		try {
+			String updateCabina = "UPDATE articulos SET nombre = ?, stock = ?, precio = ?, imagen = ? "
+									+ " WHERE idArticulo ='"+ a.getIdArticulo() +"'";
+			ps = StatemedSingelton.getInstance(updateCabina);
+			ps.setString(1, a.getNombre());
+			ps.setInt(2, a.getStock());
+			ps.setDouble(3, a.getPrecio());
+			ps.setString(4, a.getImagen());
+			ps.executeUpdate();
+		} catch (PersistenciaException e1) {
+			System.out.println(e1.getMessage());
+		} catch (SQLException e1) {
+			System.out.println(e1.getMessage());
+		}finally {
+			try {
+				StatemedSingelton.close();
+			} catch (PersistenciaException e) {
+				System.out.println(e.getMessage());
+			}
+		}
+		
+	}
+	
+	/**
 	 * Actualiza los valores modificables de una reserva
 	 * @param r : Reserva
 	 */
@@ -460,6 +566,11 @@ public class GestorJDBC {
 		
 	}
 	
+	/**
+	 * Elimina un cliente concreto y eiqueta las reservas asociadas con el email eliminado 
+	 * @param c : Cliente
+	 * @param reservas : List<Reserva>
+	 */
 	public void eliminarCliente(Cliente c,List <Reserva> reservas) {
 		Statement st = null;
 		try {
@@ -484,10 +595,39 @@ public class GestorJDBC {
 		}
 		
 	}
+	/**
+	 * Elimina el cliente de la base de datos
+	 * @param c : Cliente
+	 */
 	public void eliminarCliente(Cliente c) {
 		Statement st = null;
 		try {
 			String consulta = "DELETE FROM clientes where emailCliente = '"+c.getEmail()+"'";
+			st = StatemedSingelton.getInstance();
+			st.executeUpdate(consulta);
+		} catch (PersistenciaException e1) {
+			System.out.println(e1.getMessage());
+		} catch (SQLException e1) {
+			System.out.println(e1.getMessage());
+		}finally {
+			try {
+				StatemedSingelton.close();
+			} catch (PersistenciaException e) {
+				
+				System.out.println(e.getMessage());
+			}
+		}
+		
+	}
+	
+	/**
+	 * Elimina el articulo de la base de datos
+	 * @param a : Articulo
+	 */
+	public void eliminarArticulo(Articulo a) {
+		Statement st = null;
+		try {
+			String consulta = "DELETE FROM articulos where idArticulo ='"+a.getIdArticulo()+"'";
 			st = StatemedSingelton.getInstance();
 			st.executeUpdate(consulta);
 		} catch (PersistenciaException e1) {
@@ -573,6 +713,23 @@ public class GestorJDBC {
 		
 		return new Cabina(idCabina,idLocal,abierto,reservada,tipo);
 	}
+	/**
+	 * Prepara el resultset asociado a un articulo
+	 * @param rs : ResultSet
+	 * @return new Articulo
+	 * @throws SQLException
+	 */
+	private Articulo prepararArticulo(ResultSet rs) throws SQLException {
+		
+		String idArticulo = rs.getString(1);
+		int idLocal = rs.getInt(2);
+		String nombre = rs.getString(3);
+		int stock = rs.getInt(4);
+		double precio = rs.getDouble(5);
+		String imagen = rs.getString(6);
+		
+		return new Articulo(idArticulo,idLocal,nombre,stock,precio,imagen);
+	}
 
 	/**
 	 * Reinicia la base de datos del sistema, esta funcion es exclusiva de la version de desarrollo
@@ -586,13 +743,18 @@ public class GestorJDBC {
 		String consultaLocales = "DROP TABLE IF EXISTS locales";
 		String consultaCabinas = "DROP TABLE IF EXISTS cabinas";
 		String consultaReservas = "DROP TABLE IF EXISTS reservas";
+		String consultaArticulos = "DROP TABLE IF EXISTS articulos";
 		st.executeUpdate(consultaReservas);
+		st.executeUpdate(consultaArticulos);
 		st.executeUpdate(consultaCabinas);
 		st.executeUpdate(consultaClientes);
 		st.executeUpdate(consultaLocales);
 		StatemedSingelton.close();
 		return true;
 	}
+	
+	
+	
 
 	
 

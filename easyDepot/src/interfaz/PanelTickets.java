@@ -36,9 +36,11 @@ public class PanelTickets extends JPanel {
 	private DefaultTableModel modelo;
 	
 	/**
-	 * Create the panel.
+	 * Muestra una tabla con todas las incidencias asociadas al sistema, tiene un filtro donde se muestran las 
+	 * incidencias abiertas o cerradas
 	 */
 	public PanelTickets(JPanel panel) {
+		// Establecen las dimensiones del sistema
 		setBackground(new Color(255, 255, 255));
 		setLayout(null);
 		
@@ -50,11 +52,13 @@ public class PanelTickets extends JPanel {
 		this.setBounds(175, 0, 511, 503);
 		panel.add(this);
 		
+		// Establece el titulo del panel
 		JLabel lblTickets = new JLabel("Tickets", SwingConstants.CENTER);
 		lblTickets.setFont(new Font("Verdana", Font.BOLD, 24));
 		lblTickets.setBounds(0, 14, 511, 45);
 		this.add(lblTickets);
 		
+		// Instancia la cabecera y los datos de la tabla
 		String [] cabecera = {"Id Reserva","Id Local","Id Cabina","Email cliente"};
 		List<String[]> datosLista = extraerTicketsAbiertos();
 		String [][] datos = datosLista.toArray(new String[0][0]);
@@ -68,7 +72,9 @@ public class PanelTickets extends JPanel {
 					return false; // Hace todas las celdas no editables
 				}
 			};
-			
+		
+		// Intanciamos las tablas con los datos de los tickets, en caso de seleccionar una fila 
+		// esta abre un panel con la informacion de la incidencia
 		tablaTickets = new JTable(modelo);
 		tablaTickets.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tablaTickets.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -96,6 +102,8 @@ public class PanelTickets extends JPanel {
 		add(buscador);
 		buscador.setColumns(10);
 		
+		// Cargamos las selecciones del filtro,  siendo estas abiertas o cerradas
+		// En caso de seleccioanr abiertas muestra las incidencias abiertas, en caso contrario las cerradas
 		JComboBox<String> comboBox = new JComboBox();
 		comboBox.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
