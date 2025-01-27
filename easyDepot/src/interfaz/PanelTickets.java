@@ -18,6 +18,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
+import componentes.Estilos;
 import logica.Sistema;
 import modelo.Cliente;
 import modelo.Email;
@@ -76,10 +77,9 @@ public class PanelTickets extends JPanel {
 		// Intanciamos las tablas con los datos de los tickets, en caso de seleccionar una fila 
 		// esta abre un panel con la informacion de la incidencia
 		tablaTickets = new JTable(modelo);
-		tablaTickets.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		tablaTickets.setBorder(new LineBorder(new Color(0, 0, 0)));
-		tablaTickets.setBackground(new Color(255, 255, 255));
-		tablaTickets.setBounds(185, 119, 491, 311);
+		Estilos.prepararTabla(tablaTickets);
+		
+		
 		tablaTickets.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {

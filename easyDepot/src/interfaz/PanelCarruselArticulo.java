@@ -20,6 +20,7 @@ import java.util.List;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import componentes.Button;
 import excepciones.LogicaException;
 
 import java.awt.event.ActionListener;
@@ -39,10 +40,10 @@ public class PanelCarruselArticulo extends JPanel {
 	private JLabel lblArticulo;
 	private boolean modoCreacion;
 	private JPanel panel;
-	private JButton btnAnterior;
-	private JButton btnPosterior;
-	private JButton btnTablas;
-	private JButton btnEliminar;
+	private Button btnAnterior;
+	private Button btnPosterior;
+	private Button btnTablas;
+	private Button btnEliminar;
 	
 
 	/**
@@ -69,7 +70,7 @@ public class PanelCarruselArticulo extends JPanel {
 		}
 		
 		// Cambia al panel Articulos
-		btnTablas = new JButton("Modo Tabla");
+		btnTablas = new Button("Modo Tabla");
 		btnTablas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				removeAll();
@@ -88,7 +89,7 @@ public class PanelCarruselArticulo extends JPanel {
 		panel_1.setLayout(null);
 		
 		// Pregunta antes de eliminar el articulo
-		btnEliminar = new JButton("Eliminar");
+		btnEliminar = new Button("Eliminar");
 		btnEliminar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int respuesta = 
@@ -102,7 +103,7 @@ public class PanelCarruselArticulo extends JPanel {
 		panel_1.add(btnEliminar);
 		
 		// Va al articulo anterior en la lista, en caso de no haber mas retorna al ultimo articulo de la lista
-		btnAnterior = new JButton("Anterior");
+		btnAnterior = new Button("Anterior");
 		btnAnterior.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if((indexSeleccionado - 1) < 0) {
@@ -120,7 +121,7 @@ public class PanelCarruselArticulo extends JPanel {
 		
 		// Va al articulo inmediatamente posterior en la lista de articulos, en caso de no haber mas retorna al primer
 		// articulo de la lista
-		btnPosterior = new JButton("Posterior");
+		btnPosterior = new Button("Posterior");
 		btnPosterior.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if((indexSeleccionado + 1)  == articulos.size()) {
@@ -226,7 +227,7 @@ public class PanelCarruselArticulo extends JPanel {
 		// Guarda los datos de el articulo seleccionado, en caso de estar el modo creacion activado registra el
 		// nuevo articulo en el sistema, en caso contrario actualiza los valores del articulo en el sistema y
 		// la base de datos
-		JButton btnGuardar = new JButton("Guardar cambios");
+		Button btnGuardar = new Button("Guardar cambios");
 		btnGuardar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(!modoCreacion) {
@@ -261,13 +262,13 @@ public class PanelCarruselArticulo extends JPanel {
 		panel_1.add(btnGuardar);
 		
 		// A futuro permitira cargar una imagen nueva para el articulo asociado TODO
-		JButton btnSeleccionarImagen = new JButton("Subir Imagen");
+		Button btnSeleccionarImagen = new Button("Subir Imagen");
 		btnSeleccionarImagen.setFont(new Font("Verdana", Font.BOLD, 16));
 		btnSeleccionarImagen.setBounds(17, 199, 190, 29);
 		panel_1.add(btnSeleccionarImagen);
 		
 		// Activa el modo creacion y guarda los datos de una nuevo articulo que se utilizara como plantilla
-		JButton btnInsertar = new JButton("Crear articulo");
+		Button btnInsertar = new Button("Crear articulo");
 		btnInsertar.setFont(new Font("Verdana", Font.BOLD, 16));
 		btnInsertar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -348,6 +349,7 @@ public class PanelCarruselArticulo extends JPanel {
 					add(new PanelLocal(panel,s,l));
 				}else {
 					articuloSeleccionado = articulos.get(0);
+					indexSeleccionado = 0;
 					actualizarDatos(articuloSeleccionado);
 				}
 			} catch (LogicaException e1) {

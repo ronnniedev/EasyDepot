@@ -18,6 +18,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
+import componentes.Estilos;
 import excepciones.LogicaException;
 import excepciones.PersistenciaException;
 import logica.Sistema;
@@ -68,9 +69,9 @@ public class PanelReservas extends JPanel {
 		// Creamos la tabla, en caso de seleccionar una fila abrirmo un panel con la informacion de la reserva 
 		// pertinente
 		JTable tablaReservas = new JTable(modelo);
-		tablaReservas.setBorder(new LineBorder(new Color(0, 0, 0)));
-		tablaReservas.setBackground(new Color(255, 255, 255)); 
-		tablaReservas.setBounds(185, 119, 491, 311);
+		Estilos.prepararTabla(tablaReservas);
+		
+		
 		tablaReservas.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {

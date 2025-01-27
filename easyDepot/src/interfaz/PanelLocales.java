@@ -17,6 +17,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
+import componentes.Estilos;
 import logica.Sistema;
 import modelo.Local;
 
@@ -62,9 +63,8 @@ public class PanelLocales extends JPanel {
 		// Instanciamos la tabla, en caso de seleccionar una fila se abre un panel mostrando un panel con el local 
 		// seleccionado
 		JTable tablaLocales = new JTable(modelo);
-		tablaLocales.setBorder(new LineBorder(new Color(0, 0, 0)));
-		tablaLocales.setBackground(new Color(255, 255, 255)); 
-		tablaLocales.setBounds(185, 119, 491, 311);
+		Estilos.prepararTabla(tablaLocales);
+		
 		tablaLocales.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {

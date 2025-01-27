@@ -14,6 +14,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
+import componentes.Estilos;
 import logica.Sistema;
 import modelo.Cliente;
 import modelo.Email;
@@ -65,10 +66,9 @@ public class PanelClientes extends JPanel {
 
 		// Establece un
 		JTable tablaClientes = new JTable(modelo);
-		tablaClientes.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		tablaClientes.setBorder(new LineBorder(new Color(0, 0, 0)));
-		tablaClientes.setBackground(new Color(255, 255, 255));
-		tablaClientes.setBounds(185, 119, 491, 311);
+		Estilos.prepararTabla(tablaClientes);
+		
+		
 		tablaClientes.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -82,6 +82,8 @@ public class PanelClientes extends JPanel {
 				add(new PanelCliente(panel, s, s.getClientes().get(new Email(emailCliente))));
 			}
 		});
+		
+		
 		JScrollPane tabla = new JScrollPane(tablaClientes);
 		tabla.setBounds(10, 98, 491, 311);
 		this.add(tabla);

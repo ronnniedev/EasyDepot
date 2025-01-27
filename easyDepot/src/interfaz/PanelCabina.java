@@ -137,7 +137,7 @@ public class PanelCabina extends JPanel {
 				removeAll();
 				repaint();
 				revalidate();  
-				add(new PanelReserva(panel,s,s.buscarReserva(c.getIdLocal())));
+				add(new PanelReserva(panel,s,s.buscarReserva(Integer.parseInt(txtIdReserva.getText()))));
 			}
 		});
 		btnVerReserva.setFont(new Font("Verdana", Font.BOLD, 10));

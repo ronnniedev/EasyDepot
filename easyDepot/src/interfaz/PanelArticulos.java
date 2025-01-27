@@ -16,6 +16,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
+import componentes.Estilos;
 import excepciones.LogicaException;
 import excepciones.PersistenciaException;
 import logica.Sistema;
@@ -70,9 +71,7 @@ public class PanelArticulos extends JPanel {
 		
 		// Creamos la tabla de articulos
 		JTable tablaArticulos = new JTable(modelo);
-		tablaArticulos.setBorder(new LineBorder(new Color(0, 0, 0)));
-		tablaArticulos.setBackground(new Color(255, 255, 255)); 
-		tablaArticulos.setBounds(185, 119, 491, 311);
+		Estilos.prepararTabla(tablaArticulos);
 		tablaArticulos.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {

@@ -1,5 +1,5 @@
-Version 0.5
+Version 0.51
 
-- Se implementa todo el modulo de carrusel y tabla de artículos
-- Se documenta todo el código 
+- Se implementan elementos estilísticos, iconos de botones y nuevo sistema de generación de tablas
+
 

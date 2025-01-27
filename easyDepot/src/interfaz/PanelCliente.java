@@ -11,6 +11,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 
+import componentes.Button;
+import componentes.ButtonGris;
 import excepciones.LogicaException;
 
 import java.awt.Font;
@@ -106,7 +108,7 @@ public class PanelCliente extends JPanel {
 		panel_1.add(lblPuntosTienda);
 		
 		// Despliega la ventana de edicion a traves de la cual podemos editar el cliente asociado al panel
-		JButton btnEditar = new JButton("Editar");
+		Button btnEditar = new Button("Editar");
 		btnEditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// inhabilita la ventana
@@ -124,7 +126,7 @@ public class PanelCliente extends JPanel {
 		 * Da la opcion de eliminar el cliente asoaciado a este panel del sistema, pregunta si quiere ser eliminado
 		 * en caso afirmativo borra el cliente y vuelve al panel de cliente, en caso contrario no pasa nada.
 		 */
-		JButton btnEliminar = new JButton("Eliminar");
+		ButtonGris btnEliminar = new ButtonGris("Eliminar");
 	    btnEliminar.addActionListener(new ActionListener() {
 	      public void actionPerformed(ActionEvent e) {
 	        int respuesta = 
@@ -150,7 +152,7 @@ public class PanelCliente extends JPanel {
 	    /**
 	     * Muestra las reservas asociadas con el cliente en una tabla, abriendo un panel de reservas.
 	     */
-		JButton btnVerReservas = new JButton("Ver reservas");
+		Button btnVerReservas = new Button("Ver reservas");
 		btnVerReservas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// para cargar una ventana desde la principal

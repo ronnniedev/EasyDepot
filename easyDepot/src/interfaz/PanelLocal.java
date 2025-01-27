@@ -190,7 +190,7 @@ public class PanelLocal extends JPanel {
 	 * @param l : Local
 	 */
 	public void mostrarLocal(Local l) {
-		lblReserva.setText(lblReserva.getText().toString() + " " + l.getLocalId());
+		lblReserva.setText("Id de local:" + " " + l.getLocalId());
 		txtDireccion.setText(l.getDireccion());
 		txtCoordenadas.setText(l.getCoordenadas());
 		lblIngresos.setText("Ingresos :" + l.getIngresos());
