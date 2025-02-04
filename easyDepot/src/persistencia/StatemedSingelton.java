@@ -33,7 +33,7 @@ public class StatemedSingelton {
 		} catch (ClassNotFoundException e) {
 			throw new PersistenciaException("ERROR en la conexion");
 		} catch (SQLException e) {
-			throw new PersistenciaException("ERROR al conectar");
+			throw new PersistenciaException(e.getMessage());
 		}
 		return st;
 	}
@@ -49,7 +49,7 @@ public class StatemedSingelton {
 		} catch (ClassNotFoundException e) {
 			throw new PersistenciaException("ERROR en la conexion");
 		} catch (SQLException e) {
-			throw new PersistenciaException("ERROR en el driver");
+			throw new PersistenciaException(e.getMessage());
 		}
 		return ps;
 	}

@@ -9,13 +9,19 @@ import modelo.Cabina;
 import modelo.Local;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+
+import componentes.Button;
+import componentes.Colores;
+import componentes.Estilos;
+import componentes.PanelDatosRedondeado;
+
 import java.awt.Font;
 import java.awt.GridLayout;
 import javax.swing.JTextField;
-import javax.swing.Icon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.ImageIcon;
 
 public class PanelCabina extends JPanel {
 
@@ -23,8 +29,7 @@ public class PanelCabina extends JPanel {
 	private JTextField txtLocalId;
 	private JTextField txtIdReserva;
 	private JTextField txtTipo;
-	private JTextField txtAbierto;
-	private JButton btnAbrir;
+	private Button btnAbrir;
 	private JLabel lblAbierto;
 	private Sistema s;
 
@@ -44,26 +49,20 @@ public class PanelCabina extends JPanel {
 		setLayout(null);
 		this.s = s;
 		
-		// Establece el titulo del panel
-		JLabel lblCabina = new JLabel("Cabina: " + c.getIdCabina(), SwingConstants.LEFT);
-		lblCabina.setFont(new Font("Verdana", Font.BOLD, 18));
-		lblCabina.setBackground(Color.WHITE);
-		lblCabina.setBounds(0, 25, 511, 45);
-		add(lblCabina);
-		
 		// Establece un panel para englobar datos de la cabina
-		JPanel panelDatos = new JPanel();
-		panelDatos.setBounds(0, 90, 511, 293);
-		panelDatos.setBackground(new Color(255,255,255));
+		PanelDatosRedondeado panelDatos = new PanelDatosRedondeado(30);
+		panelDatos.setBounds(42, 90, 426, 293);
 		add(panelDatos);
-		panelDatos.setLayout(new GridLayout(4, 2, 0, 0));
+		panelDatos.setLayout(null);
 		
 		// Se muestran los datos del cliente
 		JLabel lblLocalId = new JLabel("Id local:");
+		lblLocalId.setBounds(41, 28, 123, 40);
 		lblLocalId.setFont(new Font("Verdana", Font.BOLD, 16));
 		panelDatos.add(lblLocalId);
 		
 		txtLocalId = new JTextField();
+		txtLocalId.setBounds(234, 29, 168, 40);
 		txtLocalId.setHorizontalAlignment(SwingConstants.CENTER);
 		txtLocalId.setText(l.getLocalId()+ "");
 		txtLocalId.setFont(new Font("Verdana", Font.BOLD, 16));
@@ -73,10 +72,12 @@ public class PanelCabina extends JPanel {
 		panelDatos.add(txtLocalId);
 		
 		JLabel lblIdReserva = new JLabel("Id reserva:");
+		lblIdReserva.setBounds(41, 89, 123, 40);
 		lblIdReserva.setFont(new Font("Verdana", Font.BOLD, 16));
 		panelDatos.add(lblIdReserva);
 		
 		txtIdReserva = new JTextField();
+		txtIdReserva.setBounds(234, 90, 168, 40);
 		txtIdReserva.setHorizontalAlignment(SwingConstants.CENTER);
 		txtIdReserva.setText(escribirIdReserva(c));
 		txtIdReserva.setFont(new Font("Verdana", Font.BOLD, 16));
@@ -86,22 +87,19 @@ public class PanelCabina extends JPanel {
 		panelDatos.add(txtIdReserva);
 		
 		lblAbierto = new JLabel("Abierto :");
-		lblAbierto.setFont(new Font("Verdana", Font.BOLD, 16));
+		lblAbierto.setHorizontalTextPosition(SwingConstants.LEFT);
+		lblAbierto.setIcon(Estilos.prepararImagenCandado(mostrarEstado(c.getAbierto())));
+		lblAbierto.setBounds(108, 219, 209, 64);
+		lblAbierto.setFont(new Font("Verdana", Font.BOLD, 24));
 		panelDatos.add(lblAbierto);
 		
-		txtAbierto = new JTextField(escribirEstado(c.getAbierto()));
-		txtAbierto.setHorizontalAlignment(SwingConstants.CENTER);
-		txtAbierto.setFont(new Font("Verdana", Font.BOLD, 16));
-		txtAbierto.setEditable(false);
-		txtAbierto.setColumns(10);
-		txtAbierto.setBackground(Color.WHITE);
-		panelDatos.add(txtAbierto);
-		
 		JLabel lblTipo = new JLabel("Tipo: ");
+		lblTipo.setBounds(41, 139, 102, 50);
 		lblTipo.setFont(new Font("Verdana", Font.BOLD, 16));
 		panelDatos.add(lblTipo);
 		
 		txtTipo = new JTextField(c.getTipo());
+		txtTipo.setBounds(234, 149, 168, 40);
 		txtTipo.setHorizontalAlignment(SwingConstants.CENTER);
 		txtTipo.setText(c.getTipo());
 		txtTipo.setFont(new Font("Verdana", Font.BOLD, 16));
@@ -111,7 +109,7 @@ public class PanelCabina extends JPanel {
 		panelDatos.add(txtTipo);
 		
 		// Este boton abre o cierra la cabian dependiendo de su estado anterior
-		btnAbrir = new JButton(escribirBotonAbrir(c));
+		btnAbrir = new Button(escribirBotonAbrir(c));
 		btnAbrir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(c.getAbierto()) {
@@ -120,8 +118,8 @@ public class PanelCabina extends JPanel {
 					c.setAbierto(true);
 				}
 				btnAbrir.setText(escribirBotonAbrir(c));
-				txtAbierto.setText(escribirEstado(c.getAbierto()));
 				s.actualizarCabina(c);
+				lblAbierto.setIcon(Estilos.prepararImagenCandado(mostrarEstado(c.getAbierto())));
 			}
 		});
 		btnAbrir.setFont(new Font("Verdana", Font.BOLD, 10));
@@ -130,7 +128,7 @@ public class PanelCabina extends JPanel {
 		
 		// Cambia de panel y muestra la reserva asociada a la cabina en caso de haber reserva, si no el boton esta 
 		// inactivo
-		JButton btnVerReserva = new JButton("Ver reserva");
+		Button btnVerReserva = new Button("Ver reserva");
 		
 		btnVerReserva.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -146,7 +144,7 @@ public class PanelCabina extends JPanel {
 		btnVerReserva.setEnabled(c.getReservada());
 		
 		// Muestra el panel con los datos del local asociado a la cabina
-		JButton btnVerLocal = new JButton("Ver local");
+		Button btnVerLocal = new Button("Ver local");
 		btnVerLocal.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				removeAll();
@@ -158,6 +156,17 @@ public class PanelCabina extends JPanel {
 		btnVerLocal.setFont(new Font("Verdana", Font.BOLD, 10));
 		btnVerLocal.setBounds(371, 421, 118, 47);
 		add(btnVerLocal);
+		
+		PanelDatosRedondeado panelTitulo = new PanelDatosRedondeado(30);
+		panelTitulo.setBounds(88, 31, 334, 33);
+		panelTitulo.setBackground(Colores.getAZUL_CLARO());
+		add(panelTitulo);
+		
+		// Establece el titulo del panel
+		JLabel lblCabina = new JLabel("Cabina: " + c.getIdCabina(), SwingConstants.CENTER);
+		panelTitulo.add(lblCabina);
+		lblCabina.setFont(new Font("Verdana", Font.BOLD, 18));
+		lblCabina.setBackground(Color.WHITE);
 		
 	}
 
@@ -192,10 +201,10 @@ public class PanelCabina extends JPanel {
 	 * @param abierto : Boolean
 	 * @return String
 	 */
-	private String escribirEstado(Boolean abierto) {
+	private String mostrarEstado(Boolean abierto) {
 		if(abierto) {
-			return "Abierta";
+			return "/iconos/candadoAbierto.png";
 		}
-		return "Cerrada";
+		return "/iconos/candadoCerrado.png";
 	}
 }

@@ -1,6 +1,9 @@
 package pruebas;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import apykeys.Apykeys;
 import excepciones.LogicaException;
@@ -10,6 +13,7 @@ import modelo.Articulo;
 import modelo.Cliente;
 import modelo.Local;
 import persistencia.GestorJDBC;
+import persistencia.StatemedSingelton;
 
 public class PruebasIniciales {
 
@@ -18,13 +22,27 @@ public class PruebasIniciales {
 		// ESTO EN VERSION FINAL DEBERIA ESTAR ENCRIPTADO
 		Apykeys.setBaseDatosFinal(1);
 		
-		GestorJDBC.reiniciarPersistencia();
+		// GestorJDBC.reiniciarPersistencia();
+		//System.out.println("Llega");
 		Sistema s = Sistema.getInstance();
+		 /*
+		try {
+			Class.forName("org.postgresql.Driver");
+			System.out.println(Apykeys.getBaseDatosFinal());
+			System.out.println(Apykeys.getPassword());
+			Connection con = DriverManager.getConnection(Apykeys.getBaseDatosFinal(), "u0xwhahreely5fup7nq3", Apykeys.getPassword());
+			Statement st = con.createStatement();
+			st.close();
+			System.out.println("Exito");
+		} catch (ClassNotFoundException e) {
+			throw new PersistenciaException("ERROR en la conexion");
+		}
+		*/
 		
 		
 		System.out.println("----------------ERRORES SALEN AQUI---------------------------- \n");
-		cargaDatos(s);
-		// cerrarReserva(7,s);
+		// cargaDatos(s);
+		//cerrarReserva(7,s);
 		/*
 		 * try {
 		 * 	s.eliminarCliente("veronicapersonal1995@gmail.com");
@@ -45,7 +63,6 @@ public class PruebasIniciales {
 		 */
 		
 		// comprobarGestorEmail(new Cliente("diego-delosrios@hotmail.com","Diegito","Gonzalez","miau2"),s);
-		
 		s.abrirIncidencia(s.buscarReserva(1),"Informe de incidencia en consignariado\r\n"
 				+ "\r\n"
 				+ "Fecha: 20 de enero de 2025\r\n"
@@ -64,8 +81,7 @@ public class PruebasIniciales {
 				+ "Responsable del informe:\r\n"
 				+ "María López, Supervisora de Logística");
 		
-		System.out.println("-------------------------------------------- \n");
-		System.out.println(s.listarDatos());
+		
 	}
 
 	private static void comprobarGestorEmail(Cliente c,Sistema s) {
@@ -109,9 +125,7 @@ public class PruebasIniciales {
 		Local l2 = new Local("978594-18283", 0, 0, "Unendo");
 		Local l3 = new Local("978594-18283", 0, 0, "Unendo");
 		
-		
 		try {
-			
 			s.addCliente(new Cliente("veronicapersonal1995@gmail.com","Veronica","Gonzalez","miau"));
 			s.addCliente(new Cliente("diegoestuvoaqui@gmail.com","Diego","De los rios","bizcocho"));
 			s.addLocal(l);

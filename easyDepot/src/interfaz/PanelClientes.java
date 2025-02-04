@@ -11,18 +11,15 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
 import componentes.Estilos;
 import logica.Sistema;
 import modelo.Cliente;
 import modelo.Email;
-import modelo.Local;
 import javax.swing.JSpinner;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import javax.swing.ListSelectionModel;
 
 public class PanelClientes extends JPanel {
 
@@ -51,13 +48,18 @@ public class PanelClientes extends JPanel {
 		lblClientes.setBounds(0, 29, 511, 45);
 		this.add(lblClientes);
 
-		String[] cabecera = { "Email", "Nombre", "Apellidos", "Puntos Tienda", "Reservas realizadas" };
+		String[] cabecera = { "Email", "Nombre", "Apellidos"};
 		List<String[]> datosLista = extraerClientes();
 		String[][] datos = datosLista.toArray(new String[0][0]);
 
 		// Creamos un modelo de tabla no editable modificando el metodo isCellEditable
 		// para que no lo sea mas
 		DefaultTableModel modelo = new DefaultTableModel(datos, cabecera) {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			public boolean isCellEditable(int row, int column) {
 				return false; // Hace todas las celdas no editables
@@ -66,7 +68,7 @@ public class PanelClientes extends JPanel {
 
 		// Establece un
 		JTable tablaClientes = new JTable(modelo);
-		Estilos.prepararTabla(tablaClientes);
+		Estilos.prepararTabla(tablaClientes,modelo,4);
 		
 		
 		tablaClientes.addMouseListener(new MouseAdapter() {
@@ -76,17 +78,20 @@ public class PanelClientes extends JPanel {
 				String emailCliente = (String) tablaClientes.getValueAt(row, 0);
 				// refresca la pantalla y crea un nuevo panel para generar los datos del cliente
 				// nuevo
-				removeAll();
-				repaint();
-				revalidate();
-				add(new PanelCliente(panel, s, s.getClientes().get(new Email(emailCliente))));
+				if(emailCliente != null) {
+					removeAll();
+					repaint();
+					revalidate();
+					add(new PanelCliente(panel, s, s.getClientes().get(new Email(emailCliente))));	
+				}
+				
 			}
 		});
 		
 		
-		JScrollPane tabla = new JScrollPane(tablaClientes);
-		tabla.setBounds(10, 98, 491, 311);
-		this.add(tabla);
+		JScrollPane scrollPane = new JScrollPane(tablaClientes);
+		Estilos.estiloBarra(scrollPane);
+		this.add(scrollPane);
 
 		buscador = new JTextField();
 		buscador.setBounds(383, 69, 118, 19);
@@ -127,8 +132,7 @@ public class PanelClientes extends JPanel {
 
 		for (Cliente c : s.getClientes().values()) {
 			if (c.getEmail().compareTo("Eliminado") != 0) {
-				datos.add(new String[] { c.getEmail(), c.getNombre(), c.getApellidos(), c.getPuntosTienda() + "",
-						c.getNumeroReservas() + "" });
+				datos.add(new String[] { c.getEmail(), c.getNombre(), c.getApellidos()});
 			}
 
 		}

@@ -2,12 +2,10 @@ package logica;
 
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import apykeys.Apykeys;
 import excepciones.LogicaException;
 import excepciones.PersistenciaException;
 import modelo.Articulo;
@@ -215,7 +213,11 @@ public class Sistema {
 		
 		gestor.insertarLocal(l);
 		l.setLocalId(locales.size() + 1);
-		gestor.insertarCabinas(l.rellenarCabinas());
+		List <Cabina>cabinas = l.rellenarCabinas();
+		for(Cabina c: cabinas) {
+			gestor.insertarCabina(c);
+		}
+		
 		return locales.add(l);
 	}
 	

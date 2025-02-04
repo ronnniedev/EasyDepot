@@ -1,5 +1,8 @@
-Version 0.51
+Version 0.61
 
-- Se implementan elementos estilísticos, iconos de botones y nuevo sistema de generación de tablas
+- cloud integrado
+- Estetica de visionado de elementos mejorada
+- Estetica de tablas mejorada
+- Integración de imágenes para mostrar si una cabina esta abierta o cerrada
 
 

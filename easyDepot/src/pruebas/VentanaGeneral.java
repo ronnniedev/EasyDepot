@@ -16,8 +16,6 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.font.TextAttribute;
-import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
@@ -30,7 +28,6 @@ public class VentanaGeneral extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private Sistema s;
 
 	/**
 	 * Launch the application.
@@ -53,7 +50,6 @@ public class VentanaGeneral extends JFrame {
 	 */
 	public VentanaGeneral(String titulo, Sistema s) {
 		super(titulo);
-		this.s = s;
 		
 		// Creamos un borde vacion
 		Border emptyBorder = BorderFactory.createEmptyBorder();

@@ -15,15 +15,12 @@ import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
-import excepciones.LogicaException;
-import excepciones.PersistenciaException;
+import componentes.Estilos;
 import logica.Sistema;
 
 import java.awt.Font;
-import java.awt.TextField;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,9 +65,7 @@ public class PanelCabinas extends JPanel {
 		
 		// Tabla donde escoges cada row y muestra la informacion de la cabina establecida
 		JTable tablaCabinas = new JTable(modelo);
-		tablaCabinas.setBorder(new LineBorder(new Color(0, 0, 0)));
-		tablaCabinas.setBackground(new Color(255, 255, 255)); 
-		tablaCabinas.setBounds(185, 119, 491, 311);
+		Estilos.prepararTabla(tablaCabinas,modelo,4);
 		tablaCabinas.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {

@@ -11,19 +11,19 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
-import javax.swing.JButton;
 import javax.swing.ImageIcon;
 import java.awt.GridLayout;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import componentes.Button;
+import componentes.CargadorImagenes;
 import excepciones.LogicaException;
 
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.awt.event.ActionEvent;
 
 public class PanelCarruselArticulo extends JPanel {
@@ -263,6 +263,11 @@ public class PanelCarruselArticulo extends JPanel {
 		
 		// A futuro permitira cargar una imagen nueva para el articulo asociado TODO
 		Button btnSeleccionarImagen = new Button("Subir Imagen");
+		btnSeleccionarImagen.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				BufferedImage imagen = CargadorImagenes.selectAndLoadImage();
+			}
+		});
 		btnSeleccionarImagen.setFont(new Font("Verdana", Font.BOLD, 16));
 		btnSeleccionarImagen.setBounds(17, 199, 190, 29);
 		panel_1.add(btnSeleccionarImagen);

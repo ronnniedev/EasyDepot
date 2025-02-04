@@ -8,11 +8,13 @@ import java.awt.Image;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
 
@@ -24,6 +26,15 @@ public class Estilos {
 		
 		ImageIcon icono = new ImageIcon(VentanaPrincipal.class.getResource(ruta));
 		Image imagenEscalada = icono.getImage().getScaledInstance(27, 27, Image.SCALE_SMOOTH);
+		ImageIcon iconoEscalado = new ImageIcon(imagenEscalada);
+		
+		return iconoEscalado;
+	}
+	
+	public static ImageIcon prepararImagenCandado(String ruta) {
+		
+		ImageIcon icono = new ImageIcon(VentanaPrincipal.class.getResource(ruta));
+		Image imagenEscalada = icono.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
 		ImageIcon iconoEscalado = new ImageIcon(imagenEscalada);
 		
 		return iconoEscalado;
@@ -51,25 +62,33 @@ public class Estilos {
 		return boton;
 	}
 	
-	public static void prepararTabla(JTable tabla) {
+	/**
+	 * Formato general para las tablas del proyecto, recogemos la tabal que vamos a modificar, su modelo y finalmente
+	 * el ajuste de adaptación de las columnas
+	 * @param tabla : JTable
+	 * @param modelo : DefaulTableModel
+	 * @param ajuste : int
+	 */
+	public static void prepararTabla(JTable tabla, DefaultTableModel modelo,int ajuste) {
 		
 		tabla.setBorder(new LineBorder(new Color(0, 0, 0)));
 		tabla.setBackground(new Color(255, 255, 255)); 
 		tabla.setBounds(185, 119, 491, 311);
 		
-		int numeroColumnas = tabla.getColumnModel().getColumnCount();
+		// formatear texto al gusto para las celdas
+		tabla.setFont(new Font("Verdana",Font.PLAIN,15));
+		
 		DefaultTableCellRenderer renderer = (DefaultTableCellRenderer) tabla.getDefaultRenderer(Object.class);
 	        
 		// Centramos el texto dentro de la tabla y modificamos su texto
 	    renderer.setHorizontalAlignment(SwingConstants.CENTER);
-	    renderer.setFont(new Font("Verdana",Font.PLAIN,18));
-	    
 	    tabla.setRowHeight(25);
 		
 	    
 	    // Preparamos la cabecera
 	    JTableHeader header = tabla.getTableHeader();
-        Font headerFont = new Font("Arial", Font.BOLD, 14); // Cambiar el tamaño de la fuente de la cabecera
+	    header.setBackground(Colores.getAZUL_CLARO());
+        Font headerFont = new Font("Verdana", Font.BOLD, 14); // Cambiar el tamaño de la fuente de la cabecera
         header.setFont(headerFont);
         
         // Preparamos la altura de la cabecera
@@ -77,29 +96,51 @@ public class Estilos {
         // Desactivamos que se puedan intercambiar las columnas
         header.setReorderingAllowed(false);
 	    
+        int numeroColumnas = tabla.getColumnModel().getColumnCount();
         
         // Desactivamos cada columna para que no sea redimensionable a traves del raton
 		for(int i = 0; i < numeroColumnas; i++) {
 			TableColumn columna = tabla.getColumnModel().getColumn(i);
-			
 			columna.setResizable(false);
 		}
 		
-		adjustColumnWidths(tabla);
+		adjustColumnWidths(tabla,ajuste);
+		cargarTablaCompleta(modelo);
+		
+	}
+	/**
+	 * Carga filas hasta la fila 12 , teniendo en cuenta las fila que ya tienen contenido, de tal manera que la
+	 * tabla siempre se renderize al completo
+	 * @param modelo
+	 */
+	public static void cargarTablaCompleta(DefaultTableModel modelo) {
+		// Mete columnas vacias hasta que hace tope con el fondo para que no quede una tabla asimetrica
+		for(int i = modelo.getRowCount(); i < 12;i++) {
+			modelo.addRow(new String[]{});
+		}
 	}
 	
-	private static void adjustColumnWidths(JTable table) {
+	private static void adjustColumnWidths(JTable table,int ajuste) {
 		for (int column = 0; column < table.getColumnCount(); column++) {
-			int maxWidth = 0;
+			int maxWidth = 10;
 			for (int row = 0; row < table.getRowCount(); row++) {
 				Object value = table.getValueAt(row, column);
 				if (value != null) {
 					maxWidth = Math.max(maxWidth, value.toString().length());
 				}
 			}
-			table.getColumnModel().getColumn(column).setPreferredWidth(maxWidth * 4);
+			table.getColumnModel().getColumn(column).setPreferredWidth(maxWidth * ajuste);
 		}
 	}
+	
+	public static void estiloBarra(JScrollPane panelBarra) {
+		panelBarra.setBounds(10, 98, 491, 311);
+		panelBarra.setVerticalScrollBar(new ScrollBarCustom());
+	}
+	
+	
+	
+	
 	
 	
 

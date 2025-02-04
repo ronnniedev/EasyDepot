@@ -9,10 +9,12 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import componentes.Button;
+import componentes.Colores;
+import componentes.PanelDatosRedondeado;
 import excepciones.LogicaException;
 import logica.GestorComprobaciones;
 import logica.Sistema;
-import modelo.Cliente;
 import modelo.Email;
 import modelo.Local;
 import modelo.Reserva;
@@ -44,26 +46,20 @@ public class PanelReserva extends JPanel {
 		panel.add(this);
 		setLayout(null);
 
-		// Establece el titulo de la reserva
-		lblReserva = new JLabel("Id de Reserva :", SwingConstants.LEFT);
-		lblReserva.setBackground(new Color(255, 255, 255));
-		lblReserva.setFont(new Font("Verdana", Font.BOLD, 18));
-		lblReserva.setBounds(0, 35, 511, 45);
-		add(lblReserva);
-
 		// Establece el panel de los datos donde se muestra la informacion de la reserva
-		JPanel panelDatos = new JPanel();
-		panelDatos.setBounds(0, 90, 511, 293);
-		panelDatos.setBackground(new Color(255, 255, 255));
+		PanelDatosRedondeado panelDatos = new PanelDatosRedondeado(30);
+		panelDatos.setBounds(42, 90, 426, 293);
 		add(panelDatos);
-		panelDatos.setLayout(new GridLayout(5, 2, 0, 0));
+		panelDatos.setLayout(null);
 
 		// Instancia los textfields y labels que muestran la informacion de la reserva
 		JLabel lblEmail = new JLabel("Email cliente:");
+		lblEmail.setBounds(10, 9, 175, 39);
 		lblEmail.setFont(new Font("Verdana", Font.BOLD, 16));
 		panelDatos.add(lblEmail);
 
 		txtEmail = new JTextField();
+		txtEmail.setBounds(140, 11, 276, 39);
 		txtEmail.setBackground(new Color(255, 255, 255));
 		txtEmail.setEditable(false);
 		txtEmail.setFont(new Font("Verdana", Font.BOLD, 12));
@@ -71,10 +67,12 @@ public class PanelReserva extends JPanel {
 		txtEmail.setColumns(10);
 
 		JLabel lblCabina = new JLabel("Cabina (Local-Cabina):");
+		lblCabina.setBounds(10, 58, 207, 39);
 		lblCabina.setFont(new Font("Verdana", Font.BOLD, 16));
 		panelDatos.add(lblCabina);
 
 		txtCabina = new JTextField();
+		txtCabina.setBounds(225, 59, 191, 38);
 		txtCabina.setBackground(new Color(255, 255, 255));
 		txtCabina.setEditable(false);
 		txtCabina.setFont(new Font("Verdana", Font.BOLD, 16));
@@ -82,10 +80,12 @@ public class PanelReserva extends JPanel {
 		panelDatos.add(txtCabina);
 
 		JLabel lblFechaInicio = new JLabel("Dia Deposito:");
+		lblFechaInicio.setBounds(10, 117, 201, 39);
 		lblFechaInicio.setFont(new Font("Verdana", Font.BOLD, 16));
 		panelDatos.add(lblFechaInicio);
 
 		txtFechaInicio = new JTextField();
+		txtFechaInicio.setBounds(184, 117, 232, 39);
 		txtFechaInicio.setBackground(new Color(255, 255, 255));
 		txtFechaInicio.setEditable(false);
 		txtFechaInicio.setFont(new Font("Verdana", Font.BOLD, 16));
@@ -93,10 +93,12 @@ public class PanelReserva extends JPanel {
 		panelDatos.add(txtFechaInicio);
 
 		JLabel lblFechaSalida = new JLabel("Dia extraccion:");
+		lblFechaSalida.setBounds(10, 175, 201, 39);
 		lblFechaSalida.setFont(new Font("Verdana", Font.BOLD, 16));
 		panelDatos.add(lblFechaSalida);
 
 		txtFechaSalida = new JTextField();
+		txtFechaSalida.setBounds(184, 175, 232, 39);
 		txtFechaSalida.setBackground(new Color(255, 255, 255));
 		txtFechaSalida.setEditable(false);
 		txtFechaSalida.setText("Aun no ha sido extraido");
@@ -105,11 +107,13 @@ public class PanelReserva extends JPanel {
 		panelDatos.add(txtFechaSalida);
 
 		lblIncidencia = new JLabel("Incidencia: ");
+		lblIncidencia.setBounds(10, 233, 181, 39);
 		lblIncidencia.setFont(new Font("Verdana", Font.BOLD, 16));
 		panelDatos.add(lblIncidencia);
 
 		// Este boton abre el panel asocaido al ticket de incidencia.
-		btnVerIncidencia = new JButton("Ver Incidencia");
+		btnVerIncidencia = new Button("Ver Incidencia");
+		btnVerIncidencia.setBounds(184, 233, 232, 39);
 		btnVerIncidencia.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				removeAll();
@@ -125,7 +129,7 @@ public class PanelReserva extends JPanel {
 		 * Permite el cierre de una reserva en caso de que esta este abierta, pregunta al usuario si quiere cerrar 
 		 * la reserva, en caso afirmativo la cierra y desactiva el boton
 		 */
-		btnModificarReserva = new JButton("Cerrar reserva");
+		btnModificarReserva = new Button("Cerrar reserva");
 		btnModificarReserva.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int respuesta = JOptionPane.showConfirmDialog(null,
@@ -152,7 +156,7 @@ public class PanelReserva extends JPanel {
 		 * Muestra el panel del cliente asoaciada a la reserva, en caso de que el cliente este eliminado este
 		 * boton estara desactivado
 		 */
-		JButton btnCliente = new JButton("Ver cliente");
+		JButton btnCliente = new Button("Ver cliente");
 		btnCliente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				removeAll();
@@ -169,7 +173,7 @@ public class PanelReserva extends JPanel {
 		/**
 		 * Muestra el panel del local asoaciado a la reserva
 		 */
-		JButton btnLocal = new JButton("Ver local");
+		JButton btnLocal = new Button("Ver local");
 		btnLocal.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				removeAll();
@@ -186,7 +190,7 @@ public class PanelReserva extends JPanel {
 		/**
 		 * Muestra el panel de la cabina asoaciadaa la reserva
 		 */
-		JButton btnVerCabina = new JButton("Ver cabina");
+		JButton btnVerCabina = new Button("Ver cabina");
 		btnVerCabina.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				removeAll();
@@ -202,8 +206,19 @@ public class PanelReserva extends JPanel {
 		add(btnVerCabina);
 		
 		// Mostramos los datos por pantalla y ocultamos el boton de ver cliente en caso de ser necesario
-		mostrarReserva(r);
 		btnCliente.setEnabled(comprobarEliminado());
+		
+		JPanel panelTitulo = new PanelDatosRedondeado(30);
+		panelTitulo.setBounds(135, 31, 240, 33);
+		panelTitulo.setBackground(Colores.getAZUL_CLARO());
+		add(panelTitulo);
+		
+		// Establece el titulo de la reserva
+		lblReserva = new JLabel("Id de Reserva :", SwingConstants.LEFT);
+		panelTitulo.add(lblReserva);
+		lblReserva.setBackground(new Color(255, 255, 255));
+		lblReserva.setFont(new Font("Verdana", Font.BOLD, 18));
+		mostrarReserva(r);
 	}
 
 	/**
@@ -239,8 +254,10 @@ public class PanelReserva extends JPanel {
 		}
 
 		if (!r.isIncidencia()) {
-			lblIncidencia.setText("Incidencia : Sin Incidencias");
+			lblIncidencia.setText("Incidencia : No");
 			btnVerIncidencia.setEnabled(false);
+		}else {
+			lblIncidencia.setText("Incidencia : Si");
 		}
 
 	}

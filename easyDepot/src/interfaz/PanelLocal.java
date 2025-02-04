@@ -9,6 +9,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import componentes.Button;
+import componentes.ButtonGris;
+import componentes.Colores;
+import componentes.PanelDatosRedondeado;
 import logica.Sistema;
 import modelo.Local;
 import javax.swing.JTextField;
@@ -27,8 +31,10 @@ public class PanelLocal extends JPanel {
 	private JLabel lblCoordenadas;
 	private JLabel lblIngresos;
 	private JLabel lblReservas;
-	private JButton btnVolver;
-	private JButton btnVerArticulos;
+	private Button btnVerArticulos;
+	private JTextField txtIngresos;
+	private JTextField txtReservas;
+	private JPanel panelTitulo;
 
 	/**
 	 * Muestra la informacion de un local y permite su edicion, ver las reservas del mismo y sus articulos
@@ -42,27 +48,16 @@ public class PanelLocal extends JPanel {
 		
 		this.panelLocal = this;
 
-		// Establecemos el titulo del panel
-		lblReserva = new JLabel("Id de local:", SwingConstants.LEFT);
-		lblReserva.setBackground(new Color(255, 255, 255));
-		lblReserva.setFont(new Font("Verdana", Font.BOLD, 18));
-		lblReserva.setBounds(0, 35, 511, 45);
-		add(lblReserva);
-
 		// Panel que contiene todos los textfields y labels de la reserva asociada al panel
-		JPanel panelDatos = new JPanel();
-		panelDatos.setBounds(0, 90, 511, 295);
-		panelDatos.setBackground(new Color(255, 255, 255));
+		// Establece un panel para englobar datos de la cabina
+		PanelDatosRedondeado panelDatos = new PanelDatosRedondeado(30);
+		panelDatos.setBounds(42, 90, 426, 293);
 		add(panelDatos);
-		panelDatos.setLayout(new GridLayout(3, 2, 0, 0));
-
-		
-		// Instanciamos los componentes
-		lblDireccion = new JLabel("Direccion : ");
-		lblDireccion.setFont(new Font("Verdana", Font.BOLD, 16));
-		panelDatos.add(lblDireccion);
+		panelDatos.setLayout(null);
+		add(panelDatos);
 
 		txtDireccion = new JTextField();
+		txtDireccion.setBounds(234, 29, 168, 40);
 		txtDireccion.setBackground(new Color(255, 255, 255));
 		txtDireccion.setEditable(false);
 		txtDireccion.setFont(new Font("Verdana", Font.BOLD, 16));
@@ -70,10 +65,12 @@ public class PanelLocal extends JPanel {
 		txtDireccion.setColumns(10);
 
 		lblCoordenadas = new JLabel("Coordenadas : ");
+		lblCoordenadas.setBounds(41, 98, 147, 27);
 		lblCoordenadas.setFont(new Font("Verdana", Font.BOLD, 16));
 		panelDatos.add(lblCoordenadas);
 
 		txtCoordenadas = new JTextField();
+		txtCoordenadas.setBounds(234, 92, 168, 40);
 		txtCoordenadas.setBackground(new Color(255, 255, 255));
 		txtCoordenadas.setEditable(false);
 		txtCoordenadas.setFont(new Font("Verdana", Font.BOLD, 16));
@@ -81,15 +78,43 @@ public class PanelLocal extends JPanel {
 		panelDatos.add(txtCoordenadas);
 
 		lblIngresos = new JLabel("Ingresos : ");
+		lblIngresos.setBounds(41, 163, 147, 27);
 		lblIngresos.setFont(new Font("Verdana", Font.BOLD, 16));
 		panelDatos.add(lblIngresos);
 
 		lblReservas = new JLabel("Reservas : ");
+		lblReservas.setBounds(41, 227, 214, 27);
 		lblReservas.setFont(new Font("Verdana", Font.BOLD, 16));
 		panelDatos.add(lblReservas);
+		
+
+		
+		// Instanciamos los componentes
+		lblDireccion = new JLabel("Direccion : ");
+		lblDireccion.setBounds(41, 29, 123, 40);
+		panelDatos.add(lblDireccion);
+		lblDireccion.setFont(new Font("Verdana", Font.BOLD, 16));
+		
+		txtIngresos = new JTextField();
+		txtIngresos.setText((String) null);
+		txtIngresos.setFont(new Font("Verdana", Font.BOLD, 16));
+		txtIngresos.setEditable(false);
+		txtIngresos.setColumns(10);
+		txtIngresos.setBackground(Color.WHITE);
+		txtIngresos.setBounds(234, 157, 168, 40);
+		panelDatos.add(txtIngresos);
+		
+		txtReservas = new JTextField();
+		txtReservas.setText((String) null);
+		txtReservas.setFont(new Font("Verdana", Font.BOLD, 16));
+		txtReservas.setEditable(false);
+		txtReservas.setColumns(10);
+		txtReservas.setBackground(Color.WHITE);
+		txtReservas.setBounds(234, 221, 168, 40);
+		panelDatos.add(txtReservas);
 
 		// Abre el panel de las cabinas mostrando todas las cabinas asoaciadas a un local
-		JButton btnCabinas = new JButton("Ver cabinas");
+		Button btnCabinas = new Button("Ver cabinas");
 		btnCabinas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// refresca la pantalla y crea un nuevo panel para generar los datos del cliente nuevo
@@ -109,7 +134,7 @@ public class PanelLocal extends JPanel {
 		 * no tenga articulos este pregunta al usuario si quiere crear uno, en caso contrario solo abre el panel
 		 * mostrando los articulos
 		 */
-		btnVerArticulos = new JButton("Ver articulos");
+		btnVerArticulos = new Button("Ver articulos");
 		btnVerArticulos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(!comprobarContenido(l)) {
@@ -136,7 +161,7 @@ public class PanelLocal extends JPanel {
 		add(btnVerArticulos);
 
 		// Muestra las reservas asociadas a un local.
-		JButton btnVerReservas = new JButton("Ver reservas");
+		Button btnVerReservas = new Button("Ver reservas");
 		btnVerReservas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				removeAll();
@@ -154,7 +179,7 @@ public class PanelLocal extends JPanel {
 		add(btnVerReservas);
 
 		// Abre una ventana de editar local , tambien bloquea el poder manipular la ventana del local
-		JButton btnEditarLocal = new JButton("Editar local");
+		ButtonGris btnEditarLocal = new ButtonGris("Editar local");
 		btnEditarLocal.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				VentanaPrincipal.getVentana().setEnabled(false);
@@ -165,11 +190,17 @@ public class PanelLocal extends JPanel {
 		btnEditarLocal.setFont(new Font("Verdana", Font.BOLD, 12));
 		btnEditarLocal.setBounds(189, 448, 126, 45);
 		add(btnEditarLocal);
-
-		btnVolver = new JButton("Volver");
-		btnVolver.setFont(new Font("Verdana", Font.BOLD, 12));
-		btnVolver.setBounds(385, 10, 116, 38);
-		add(btnVolver);
+		
+		panelTitulo = new PanelDatosRedondeado(30);
+		panelTitulo.setBounds(135, 31, 240, 33);
+		panelTitulo.setBackground(Colores.getAZUL_CLARO());
+		add(panelTitulo);
+		
+		// Establecemos el titulo del panel
+		lblReserva = new JLabel("Id de local:", SwingConstants.CENTER);
+		panelTitulo.add(lblReserva);
+		lblReserva.setBackground(new Color(255, 255, 255));
+		lblReserva.setFont(new Font("Verdana", Font.BOLD, 18));
 		mostrarLocal(l);
 	}
 
@@ -190,10 +221,10 @@ public class PanelLocal extends JPanel {
 	 * @param l : Local
 	 */
 	public void mostrarLocal(Local l) {
-		lblReserva.setText("Id de local:" + " " + l.getLocalId());
+		lblReserva.setText("Local: " + l.getLocalId());
 		txtDireccion.setText(l.getDireccion());
 		txtCoordenadas.setText(l.getCoordenadas());
-		lblIngresos.setText("Ingresos :" + l.getIngresos());
-		lblReservas.setText("Reservas realizadas : " + l.getNumeroReservas());
+		txtIngresos.setText(l.getIngresos() + "");
+		txtReservas.setText(l.getNumeroReservas() + "");
 	}
 }

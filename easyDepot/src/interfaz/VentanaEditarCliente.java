@@ -1,13 +1,11 @@
 package interfaz;
 
-import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import excepciones.LogicaException;
-import excepciones.PersistenciaException;
 import logica.GestorComprobaciones;
 import logica.Sistema;
 import modelo.Cliente;
@@ -20,7 +18,6 @@ import java.awt.GridLayout;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.event.ActionEvent;
@@ -136,6 +133,7 @@ public class VentanaEditarCliente extends JFrame {
 					
 					if(c.getEmail().compareTo(email) != 0) {
 						cMostrar = s.cambiarEmail(c.getEmail(), email);
+						c.setEmail(email);
 					}
 				
 					panelCliente.mostrarCliente(cMostrar);

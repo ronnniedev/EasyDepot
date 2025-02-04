@@ -10,18 +10,13 @@ import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
-import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
 import componentes.Estilos;
 import logica.Sistema;
-import modelo.Cliente;
-import modelo.Email;
 import modelo.Reserva;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
@@ -68,6 +63,11 @@ public class PanelTickets extends JPanel {
 		// Creamos un modelo de tabla no editable modificando el metodo isCellEditable
 				// para que no lo sea mas
 			modelo = new DefaultTableModel(datos, cabecera) {
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
+
 				@Override
 				public boolean isCellEditable(int row, int column) {
 					return false; // Hace todas las celdas no editables
@@ -77,25 +77,28 @@ public class PanelTickets extends JPanel {
 		// Intanciamos las tablas con los datos de los tickets, en caso de seleccionar una fila 
 		// esta abre un panel con la informacion de la incidencia
 		tablaTickets = new JTable(modelo);
-		Estilos.prepararTabla(tablaTickets);
+		Estilos.prepararTabla(tablaTickets,modelo,10);
 		
 		
 		tablaTickets.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				int row = tablaTickets.getSelectedRow();
-				String reservaId = (String) tablaTickets.getValueAt(row, 0);
+				String ticketId = (String) tablaTickets.getValueAt(row, 0);
 				// refresca la pantalla y crea un nuevo panel para generar los datos del cliente
 				// nuevo
-				removeAll();
-				repaint();
-				revalidate();
-				add(new PanelTicket(panel,s.buscarReserva(Integer.parseInt(reservaId))));
+				if(ticketId!= null) {
+					// refresca la pantalla y crea un nuevo panel para generar los datos del cliente nuevo
+					removeAll();
+					repaint();
+					revalidate();
+					add(new PanelTicket(panel,s.buscarReserva(Integer.parseInt(ticketId))));
+				}
 			}
 		});
-		JScrollPane tabla = new JScrollPane(tablaTickets);
-		tabla.setBounds(10, 98, 491, 311);
-		this.add(tabla);
+		JScrollPane scrollPane = new JScrollPane(tablaTickets);
+		Estilos.estiloBarra(scrollPane);
+		this.add(scrollPane);
 
 		buscador = new JTextField();
 		buscador.setBounds(383, 69, 118, 19);
@@ -104,7 +107,7 @@ public class PanelTickets extends JPanel {
 		
 		// Cargamos las selecciones del filtro,  siendo estas abiertas o cerradas
 		// En caso de seleccioanr abiertas muestra las incidencias abiertas, en caso contrario las cerradas
-		JComboBox<String> comboBox = new JComboBox();
+		JComboBox<String> comboBox = new JComboBox<String>();
 		comboBox.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				String seleccionado = e.getItem().toString();
@@ -172,10 +175,12 @@ public class PanelTickets extends JPanel {
 			datosLista = extraerTicketsCerrados();
 		}
 		
-		
 		for(String [] fila: datosLista) {
 			modelo.addRow(fila);
 		}
+		
+		// Cargamos la tabla entera
+		Estilos.cargarTablaCompleta(modelo);
 	}
 
 	

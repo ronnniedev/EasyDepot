@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,15 +12,11 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
-import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
 import componentes.Estilos;
-import excepciones.LogicaException;
-import excepciones.PersistenciaException;
 import logica.Sistema;
 import modelo.Articulo;
-import modelo.Cabina;
 import modelo.Local;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -71,22 +66,25 @@ public class PanelArticulos extends JPanel {
 		
 		// Creamos la tabla de articulos
 		JTable tablaArticulos = new JTable(modelo);
-		Estilos.prepararTabla(tablaArticulos);
+		Estilos.prepararTabla(tablaArticulos,modelo,4);
 		tablaArticulos.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				int row = tablaArticulos.getSelectedRow();
 				String idArticulo = (String) tablaArticulos.getValueAt(row, 0);
 				// refresca la pantalla y crea un nuevo panel para generar los datos del cliente nuevo
-				removeAll();
-				repaint();
-				revalidate();  
-				add(new PanelCarruselArticulo(panel,l,s.buscarArticulo(l,idArticulo)));
+				if(idArticulo != null) {
+					removeAll();
+					repaint();
+					revalidate();  
+					add(new PanelCarruselArticulo(panel,l,s.buscarArticulo(l,idArticulo)));
+				}
+				
 			}
 		});
 		
 		JScrollPane scrollPane = new JScrollPane(tablaArticulos);
-		scrollPane.setBounds(10, 120, 491, 311);
+		Estilos.estiloBarra(scrollPane);
 		this.add(scrollPane);
 		
 		JButton btnVista = new JButton("Modo Vista");

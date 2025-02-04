@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import apykeys.Apykeys;
 import excepciones.LogicaException;
 import excepciones.PersistenciaException;
+import logica.GestorComprobaciones;
 import logica.Sistema;
 import modelo.Cliente;
 import modelo.Local;
@@ -97,7 +98,7 @@ class PruebasDesktop {
 	@Test
 	void testaddReserva() throws PersistenciaException, SQLException, LogicaException {
 		
-		// Correco incorrecto
+		// Correo incorrecto
 		assertThrows(LogicaException.class,() -> s.addReserva("wrongemail", 2, "Pequeña"));
 		// Local inexistente
 		assertThrows(LogicaException.class,() -> s.addReserva("veronicapersonal1995@gmail.com", 4, "Pequeña"));
@@ -142,6 +143,20 @@ class PruebasDesktop {
 		
 	}
 	
+	@Test
+	void testComprobarEmail() throws PersistenciaException, SQLException, LogicaException {
+		
+		// Correos no valido
+		assertThrows(LogicaException.class,() -> GestorComprobaciones.comprobarEmail("test@correo.com"));
+		assertThrows(LogicaException.class,() -> GestorComprobaciones.comprobarEmail("@test@correo.com"));
+		
+		// Emails admitidos
+		assertTrue(GestorComprobaciones.comprobarEmail("test@yahoo.com"));
+		assertTrue(GestorComprobaciones.comprobarEmail("test@gmail.com"));
+		assertTrue(GestorComprobaciones.comprobarEmail("test@outlook.com"));
+		assertTrue(GestorComprobaciones.comprobarEmail("test@hotmail.com"));
+	}
+	
 	@BeforeEach
 	private void cargaDatos() throws PersistenciaException, SQLException, LogicaException {
 		// IMPORTANTE NO TOCAR , ESTO DETERMINA QUE BASE DE DATOS SE VA A USAR
@@ -149,9 +164,9 @@ class PruebasDesktop {
 		GestorJDBC.reiniciarPersistencia();
 		s = new Sistema();
 		GestorJDBC.crearTablas();
-		Local l = new Local(1, "0001-304", 0, 0, "zombis magicos");
+		Local l = new Local(1, "0001-304", 0, 0, "Ejemplo");
 		Local l2 = new Local(2, "978594-18283", 0, 0, "Unendo");
-		Local l3 = new Local(3, "978594-18283", 0, 0, "Unendo");
+		Local l3 = new Local(3, "956594-18283", 0, 0, "Unendo2");
 		
 		
 		try {

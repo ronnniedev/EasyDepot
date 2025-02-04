@@ -27,10 +27,7 @@ import logica.Sistema;
 import modelo.Local;
 
 import javax.swing.JTable;
-import javax.swing.border.CompoundBorder;
 import javax.swing.border.LineBorder;
-import org.eclipse.wb.swing.FocusTraversalOnArray;
-import java.awt.Component;
 import javax.swing.JTextField;
 
 public class VentanaLocales extends JFrame {

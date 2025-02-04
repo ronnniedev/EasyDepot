@@ -12,6 +12,7 @@ import componentes.Button;
 import componentes.ButtonGris;
 import componentes.Colores;
 import componentes.Estilos;
+import componentes.TxtRedondeado;
 import excepciones.LogicaException;
 import excepciones.PersistenciaException;
 import logica.Sistema;
@@ -19,7 +20,6 @@ import logica.Sistema;
 import javax.swing.JButton;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.Image;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -29,7 +29,6 @@ import java.net.URISyntaxException;
 import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 import javax.swing.JPasswordField;
 import javax.swing.JTabbedPane;
 import javax.swing.JLabel;
@@ -106,13 +105,15 @@ public class VentanaPrincipal extends JFrame {
 		panelPrincipal.add(btnContacto);
 
 		// Establecemos los contenedores de user y password
-		textUser = new JTextField();
+		textUser = new JTextField(40);
+		textUser.setBorder(BorderFactory.createLineBorder(Colores.getAZUL_OSCURO(), 3));
 		textUser.setFont(new Font("Verdana", Font.PLAIN, 16));
 		textUser.setColumns(10);
 		textUser.setBounds(193, 232, 305, 54);
 		panelPrincipal.add(textUser);
 
 		passwordField = new JPasswordField();
+		passwordField.setBorder(BorderFactory.createLineBorder(Colores.getAZUL_OSCURO(), 3));
 		passwordField.setFont(new Font("Verdana", Font.PLAIN, 16));
 		passwordField.setToolTipText("password");
 		passwordField.setBounds(193, 309, 305, 54);

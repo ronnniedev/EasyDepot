@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,14 +14,10 @@ import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
 import componentes.Estilos;
-import excepciones.LogicaException;
-import excepciones.PersistenciaException;
 import logica.Sistema;
-import modelo.Email;
 import modelo.Reserva;
 
 public class PanelReservas extends JPanel {
@@ -30,6 +25,8 @@ public class PanelReservas extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private JTextField buscador;
 	private Sistema s;
+	private JTable tablaReservas;
+	private DefaultTableModel modelo;
 
 	/**
 	 * Panel que muestra todas las reservas en el sistema, tambien tiene un filtro para poder buscarlas a placer
@@ -54,12 +51,12 @@ public class PanelReservas extends JPanel {
 		this.add(lblReservas);
 		
 		// Establecemos la cabecera y lso datos
-		String [] cabecera = {"Id","Cliente email","Cabina","Fecha inicio","Fecha Salida","Incidencia"};
+		String [] cabecera = {"Id","Cliente email","Cab","Fecha inicio"};
 		List <String[]> datosLista = extraerReservas(reservas);
 		String [][] datos = datosLista.toArray(new String[0][0]);
 		
 		// Creamos un modelo de tabla no editable modificando el metodo isCellEditable para que no lo sea mas
-		DefaultTableModel modelo = new DefaultTableModel(datos, cabecera) {
+		modelo = new DefaultTableModel(datos, cabecera) {
 			@Override
 			public boolean isCellEditable(int row, int column) {
 				return false; // Hace todas las celdas no editables
@@ -68,8 +65,9 @@ public class PanelReservas extends JPanel {
 		
 		// Creamos la tabla, en caso de seleccionar una fila abrirmo un panel con la informacion de la reserva 
 		// pertinente
-		JTable tablaReservas = new JTable(modelo);
-		Estilos.prepararTabla(tablaReservas);
+		tablaReservas = new JTable(modelo);
+		tablaReservas.setBackground(new Color(0, 255, 255));
+		Estilos.prepararTabla(tablaReservas,modelo,4);
 		
 		
 		tablaReservas.addMouseListener(new MouseAdapter() {
@@ -77,16 +75,18 @@ public class PanelReservas extends JPanel {
 			public void mouseClicked(MouseEvent e) {
 				int row = tablaReservas.getSelectedRow();
 				String idReserva = (String) tablaReservas.getValueAt(row, 0);
+				if(idReserva != null) {
 				// refresca la pantalla y crea un nuevo panel para generar los datos del cliente nuevo
-				removeAll();
-				repaint();
-				revalidate();  
-				add(new PanelReserva(panel,s,s.buscarReserva(Integer.parseInt(idReserva))));
+					removeAll();
+					repaint();
+					revalidate();  
+					add(new PanelReserva(panel,s,s.buscarReserva(Integer.parseInt(idReserva))));
+				}
 			}
 		});
 		
 		JScrollPane scrollPane = new JScrollPane(tablaReservas);
-		scrollPane.setBounds(10, 98, 491, 311);
+		Estilos.estiloBarra(scrollPane);
 		this.add(scrollPane);
 		
 		buscador = new JTextField();
@@ -108,8 +108,7 @@ public class PanelReservas extends JPanel {
 		List <String[]> datos = new ArrayList<String[]>();
 		
 		for(Reserva r: reservas) {
-			datos.add(new String[]{r.getIdReserva() + "",r.getEmailCliente(),r.getIdCabina(),r.getFechaInicio().toString()
-					,comprobarFechaSalida(r),r.isIncidencia() + ""});
+			datos.add(new String[]{r.getIdReserva() + "",r.getEmailCliente(),r.getIdCabina(),r.getFechaInicio().toString()});
 		}
 		
 		return datos;

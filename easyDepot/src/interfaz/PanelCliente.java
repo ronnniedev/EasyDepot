@@ -13,6 +13,8 @@ import javax.swing.SwingConstants;
 
 import componentes.Button;
 import componentes.ButtonGris;
+import componentes.Colores;
+import componentes.PanelDatosRedondeado;
 import excepciones.LogicaException;
 
 import java.awt.Font;
@@ -21,7 +23,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JTextField;
-import javax.swing.JButton;
 
 public class PanelCliente extends JPanel {
 
@@ -47,65 +48,65 @@ public class PanelCliente extends JPanel {
 		
 		this.panelCliente = this;
 		
-		// Establecemos la informacion de un cliente y sus label asociados
-		lblCliente = new JLabel("Cliente :", SwingConstants.LEFT);
-		lblCliente.setBackground(new Color(255, 255, 255));
-		lblCliente.setFont(new Font("Verdana", Font.BOLD, 18));
-		lblCliente.setBounds(0, 35, 511, 45);
-		add(lblCliente);
-		
-		JPanel panel_1 = new JPanel();
-		panel_1.setBounds(0, 90, 511, 293);
-		panel_1.setBackground(new Color(255,255,255));
-		add(panel_1);
-		panel_1.setLayout(new GridLayout(4, 2, 0, 0));
+		PanelDatosRedondeado panelDatos = new PanelDatosRedondeado(30);
+		panelDatos.setBounds(42, 90, 426, 293);
+		add(panelDatos);
+		panelDatos.setLayout(null);
 		
 		
 		JLabel lblNombre = new JLabel("Nombre: ");
+		lblNombre.setBounds(41, 29, 123, 40);
 		lblNombre.setBackground(new Color(255, 255, 255));
 		lblNombre.setFont(new Font("Verdana", Font.BOLD, 16));
-		panel_1.add(lblNombre);
+		panelDatos.add(lblNombre);
 		
 		txtNombre = new JTextField();
+		txtNombre.setBounds(234, 29, 168, 40);
 		txtNombre.setBackground(new Color(255, 255, 255));
 		txtNombre.setEditable(false);
 		txtNombre.setFont(new Font("Verdana", Font.BOLD, 16));
-		panel_1.add(txtNombre);
+		panelDatos.add(txtNombre);
 		txtNombre.setColumns(10);
 		
 		JLabel lblApellidos = new JLabel("Apellidos: ");
+		lblApellidos.setBounds(41, 98, 147, 27);
 		lblApellidos.setBackground(new Color(255, 255, 255));
 		lblApellidos.setFont(new Font("Verdana", Font.BOLD, 16));
-		panel_1.add(lblApellidos);
+		panelDatos.add(lblApellidos);
 		
 		txtApellidos = new JTextField();
+		txtApellidos.setBounds(234, 92, 168, 40);
 		txtApellidos.setBackground(new Color(255, 255, 255));
 		txtApellidos.setEditable(false);
 		txtApellidos.setFont(new Font("Verdana", Font.BOLD, 16));
-		panel_1.add(txtApellidos);
+		panelDatos.add(txtApellidos);
 		txtApellidos.setColumns(10);
 		
 		JLabel lblNombre_1_1 = new JLabel("Password: ");
+		lblNombre_1_1.setBounds(41, 163, 147, 27);
 		lblNombre_1_1.setBackground(new Color(255, 255, 255));
 		lblNombre_1_1.setFont(new Font("Verdana", Font.BOLD, 16));
-		panel_1.add(lblNombre_1_1);
+		panelDatos.add(lblNombre_1_1);
 		
 		txtPassword = new JTextField();
+		txtPassword.setBounds(234, 157, 168, 40);
 		txtPassword.setBackground(new Color(255, 255, 255));
 		txtPassword.setEditable(false);
 		txtPassword.setFont(new Font("Verdana", Font.BOLD, 16));
-		panel_1.add(txtPassword);
+		panelDatos.add(txtPassword);
 		txtPassword.setColumns(10);
 		
 		lblReservas = new JLabel("Reservas realizadas:");
+		lblReservas.setBounds(41, 227, 157, 27);
 		lblReservas.setBackground(new Color(255, 255, 255));
 		lblReservas.setFont(new Font("Verdana", Font.BOLD, 16));
-		panel_1.add(lblReservas);
+		panelDatos.add(lblReservas);
 		
 		lblPuntosTienda = new JLabel("Puntos de Tienda:");
+		lblPuntosTienda.setBounds(203, 227, 213, 27);
 		lblPuntosTienda.setBackground(new Color(255, 255, 255));
 		lblPuntosTienda.setFont(new Font("Verdana", Font.BOLD, 16));
-		panel_1.add(lblPuntosTienda);
+		panelDatos.add(lblPuntosTienda);
 		
 		// Despliega la ventana de edicion a traves de la cual podemos editar el cliente asociado al panel
 		Button btnEditar = new Button("Editar");
@@ -165,6 +166,17 @@ public class PanelCliente extends JPanel {
 		btnVerReservas.setFont(new Font("Verdana", Font.BOLD, 12));
 		btnVerReservas.setBounds(364, 419, 126, 45);
 		add(btnVerReservas);
+		
+		JPanel panelTitulo = new PanelDatosRedondeado(30);
+		panelTitulo.setBounds(44, 31, 422, 33);
+		panelTitulo.setBackground(Colores.getAZUL_CLARO());
+		add(panelTitulo);
+		
+		// Establecemos la informacion de un cliente y sus label asociados
+		lblCliente = new JLabel("Cliente :", SwingConstants.LEFT);
+		panelTitulo.add(lblCliente);
+		lblCliente.setBackground(new Color(255, 255, 255));
+		lblCliente.setFont(new Font("Verdana", Font.BOLD, 18));
 		mostrarCliente(c);
 	}
 

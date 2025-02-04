@@ -1,7 +1,6 @@
 package interfaz;
 
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -80,7 +79,8 @@ public class VentanaInformeCierre extends JFrame {
 				r.setDescripcionIncidencia(r.getDescripcionIncidencia() + prepararCabecera(l) +txtInforme.getText());
 				r.setIncidencia(false);
 				s.actualizarReserva(r);
-				panelTicket.habilitarBotonCierre(r);
+				panelTicket.habilitarBotonCierre();
+				panelTicket.actualizarEstado();
 				dispose();
 			}
 		});

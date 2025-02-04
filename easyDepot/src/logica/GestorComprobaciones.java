@@ -28,7 +28,7 @@ public class GestorComprobaciones {
 	 * @throws LogicaException
 	 */
 	public static boolean comprobarEmail(String email) throws LogicaException {
-		List <String> correosCorrectos = new ArrayList();
+		List <String> correosCorrectos = new ArrayList<String>();
 		correosCorrectos.add("@yahoo.com");
 		correosCorrectos.add("@gmail.com");
 		correosCorrectos.add("@outlook.com");

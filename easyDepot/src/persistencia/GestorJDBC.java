@@ -327,20 +327,18 @@ public class GestorJDBC {
 	 * Inserta las cabinas de un local dentro de la base de datos
 	 * @param List : cabinas
 	 */
-	public void insertarCabinas(List<Cabina> cabinas) {
+	public void insertarCabina(Cabina c) {
 		PreparedStatement ps = null;
 		try {
-			for(Cabina c: cabinas) {
-				String insertCabina = "INSERT INTO cabinas (idCabina,idLocal,abierto,reservada,tipo)"
-						+ " VALUES (?,?,?,?,?)";
-				ps = StatemedSingelton.getInstance(insertCabina);
-				ps.setString(1, c.getIdCabina());
-				ps.setInt(2, c.getIdLocal());
-				ps.setBoolean(3,c.getAbierto());
-				ps.setBoolean(4,c.getReservada());
-				ps.setString(5, c.getTipo());
-				ps.executeUpdate();
-			}
+			String insertCabina = "INSERT INTO cabinas (idCabina,idLocal,abierto,reservada,tipo)"
+					+ " VALUES (?,?,?,?,?)";
+			ps = StatemedSingelton.getInstance(insertCabina);
+			ps.setString(1, c.getIdCabina());
+			ps.setInt(2, c.getIdLocal());
+			ps.setBoolean(3,c.getAbierto());
+			ps.setBoolean(4,c.getReservada());
+			ps.setString(5, c.getTipo());
+			ps.executeUpdate();
 		} catch (PersistenciaException e1) {
 			System.out.println(e1.getMessage());
 		} catch (SQLException e1) {
@@ -589,7 +587,6 @@ public class GestorJDBC {
 			try {
 				StatemedSingelton.close();
 			} catch (PersistenciaException e) {
-				
 				System.out.println(e.getMessage());
 			}
 		}
@@ -613,7 +610,6 @@ public class GestorJDBC {
 			try {
 				StatemedSingelton.close();
 			} catch (PersistenciaException e) {
-				
 				System.out.println(e.getMessage());
 			}
 		}
@@ -638,7 +634,6 @@ public class GestorJDBC {
 			try {
 				StatemedSingelton.close();
 			} catch (PersistenciaException e) {
-				
 				System.out.println(e.getMessage());
 			}
 		}

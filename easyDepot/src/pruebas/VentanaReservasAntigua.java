@@ -27,7 +27,6 @@ import javax.swing.border.LineBorder;
 
 import apykeys.Apykeys;
 import logica.Sistema;
-import modelo.Local;
 import modelo.Reserva;
 
 public class VentanaReservasAntigua extends JFrame {

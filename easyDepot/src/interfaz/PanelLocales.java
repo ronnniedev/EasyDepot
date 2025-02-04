@@ -14,7 +14,6 @@ import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
 import componentes.Estilos;
@@ -48,7 +47,7 @@ public class PanelLocales extends JPanel {
 		this.add(lblLocales);
 		
 		// Estbablece la cabecera y los datos de la tabla de los locales
-		String [] cabecera = {"Id","Coordenadas","Direccion","Reservas realizadas"};
+		String [] cabecera = {"Id","Coordenadas","Direccion","Reservas"};
 		List <String[]> datosLista = extraerLocales();
 		String [][] datos = datosLista.toArray(new String[0][0]);
 		
@@ -63,23 +62,24 @@ public class PanelLocales extends JPanel {
 		// Instanciamos la tabla, en caso de seleccionar una fila se abre un panel mostrando un panel con el local 
 		// seleccionado
 		JTable tablaLocales = new JTable(modelo);
-		Estilos.prepararTabla(tablaLocales);
-		
+		Estilos.prepararTabla(tablaLocales,modelo,4);
 		tablaLocales.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				int row = tablaLocales.getSelectedRow();
 				String idLocal = (String) tablaLocales.getValueAt(row, 0);
 				// refresca la pantalla y crea un nuevo panel para generar los datos del cliente nuevo
-				removeAll();
-				repaint();
-				revalidate();  
-				add(new PanelLocal(panel,s,s.buscarLocal(Integer.parseInt(idLocal))));
+				if(idLocal != null) {
+					removeAll();
+					repaint();
+					revalidate();  
+					add(new PanelLocal(panel,s,s.buscarLocal(Integer.parseInt(idLocal))));
+				}
 			}
 		});
 		
 		JScrollPane scrollPane = new JScrollPane(tablaLocales);
-		scrollPane.setBounds(10, 98, 491, 311);
+		Estilos.estiloBarra(scrollPane);
 		this.add(scrollPane);
 		
 		buscador = new JTextField();
