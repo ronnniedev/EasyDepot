@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.Image;
 
 import javax.swing.BorderFactory;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
@@ -37,6 +38,13 @@ public class Estilos {
 		Image imagenEscalada = icono.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
 		ImageIcon iconoEscalado = new ImageIcon(imagenEscalada);
 		
+		return iconoEscalado;
+	}
+	
+	public static Icon prepararImagenFlecha(String ruta) {
+		ImageIcon icono = new ImageIcon(VentanaPrincipal.class.getResource(ruta));
+		Image imagenEscalada = icono.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+		ImageIcon iconoEscalado = new ImageIcon(imagenEscalada);
 		return iconoEscalado;
 	}
 	
@@ -137,6 +145,8 @@ public class Estilos {
 		panelBarra.setBounds(10, 98, 491, 311);
 		panelBarra.setVerticalScrollBar(new ScrollBarCustom());
 	}
+
+	
 	
 	
 	

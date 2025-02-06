@@ -107,8 +107,8 @@ public class PanelTickets extends JPanel {
 		
 		// Cargamos las selecciones del filtro,  siendo estas abiertas o cerradas
 		// En caso de seleccioanr abiertas muestra las incidencias abiertas, en caso contrario las cerradas
-		JComboBox<String> comboBox = new JComboBox<String>();
-		comboBox.addItemListener(new ItemListener() {
+		JComboBox<String> cBSelector = new JComboBox<String>();
+		cBSelector.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				String seleccionado = e.getItem().toString();
 				cargarTabla(seleccionado);
@@ -116,10 +116,10 @@ public class PanelTickets extends JPanel {
 
 			
 		});
-		comboBox.setModel(new DefaultComboBoxModel<String>(new String[] {"Abiertas", "Cerradas"}));
-		comboBox.setFont(new Font("Verdana", Font.PLAIN, 12));
-		comboBox.setBounds(277, 67, 96, 21);
-		add(comboBox);
+		cBSelector.setModel(new DefaultComboBoxModel<String>(new String[] {"Abiertas", "Cerradas"}));
+		cBSelector.setFont(new Font("Verdana", Font.PLAIN, 12));
+		cBSelector.setBounds(277, 67, 96, 21);
+		add(cBSelector);
 
 	}
 	

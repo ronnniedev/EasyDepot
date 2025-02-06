@@ -20,9 +20,9 @@ public class PruebasIniciales {
 	public static void main(String[] args) throws PersistenciaException, SQLException, LogicaException{
 		// IMPORTANTE HAY QUE DETERMINAR QUE BASE DE DATOS VAMOS A USAR, EL 1 REPRESENTA LA BASE DE DATOS ESTANDAR
 		// ESTO EN VERSION FINAL DEBERIA ESTAR ENCRIPTADO
-		Apykeys.setBaseDatosFinal(1);
+		Apykeys.setBaseDatosFinal(3);
 		
-		// GestorJDBC.reiniciarPersistencia();
+		GestorJDBC.reiniciarPersistencia();
 		//System.out.println("Llega");
 		Sistema s = Sistema.getInstance();
 		 /*
@@ -41,7 +41,7 @@ public class PruebasIniciales {
 		
 		
 		System.out.println("----------------ERRORES SALEN AQUI---------------------------- \n");
-		// cargaDatos(s);
+		cargaDatos(s);
 		//cerrarReserva(7,s);
 		/*
 		 * try {
@@ -81,7 +81,7 @@ public class PruebasIniciales {
 				+ "Responsable del informe:\r\n"
 				+ "María López, Supervisora de Logística");
 		
-		
+		System.out.println("Fin");
 	}
 
 	private static void comprobarGestorEmail(Cliente c,Sistema s) {
@@ -128,6 +128,24 @@ public class PruebasIniciales {
 		try {
 			s.addCliente(new Cliente("veronicapersonal1995@gmail.com","Veronica","Gonzalez","miau"));
 			s.addCliente(new Cliente("diegoestuvoaqui@gmail.com","Diego","De los rios","bizcocho"));
+			s.addCliente(new Cliente("laura_smith@hotmail.com","Laura","Smith","gatito123"));
+			s.addCliente(new Cliente("juan_perez@yahoo.com","Juan","Perez","contraseña1"));
+			s.addCliente(new Cliente("maria.jimenez@outlook.com","Maria","Jimenez","dulcecafe"));
+			s.addCliente(new Cliente("carlos89@gmail.com","Carlos","Ruiz","montaña456"));
+			s.addCliente(new Cliente("sandra_vega@hotmail.com","Sandra","Vega","solyluna"));
+			s.addCliente(new Cliente("andres.lopez@yahoo.com","Andres","Lopez","estrella789"));
+			s.addCliente(new Cliente("patricia_fernandez@outlook.com","Patricia","Fernandez","rivera2024"));
+			s.addCliente(new Cliente("david.romero@gmail.com","David","Romero","bosqueverde"));
+			s.addCliente(new Cliente("cristina_morales@hotmail.com","Cristina","Morales","nubegris"));
+			s.addCliente(new Cliente("alejandro_garcia@yahoo.com","Alejandro","Garcia","azulmarino"));
+			s.addCliente(new Cliente("sofia_martinez@outlook.com","Sofia","Martinez","flor1234"));
+			s.addCliente(new Cliente("javier_rodriguez@gmail.com","Javier","Rodriguez","cieloabierto"));
+			s.addCliente(new Cliente("paula_gomez@hotmail.com","Paula","Gomez","viento2023"));
+			s.addCliente(new Cliente("ricardo_navarro@yahoo.com","Ricardo","Navarro","oceanoazul"));
+			s.addCliente(new Cliente("natalia_diaz@outlook.com","Natalia","Diaz","nocheclara"));
+			s.addCliente(new Cliente("francisco_mendez@gmail.com","Francisco","Mendez","lluviasuave"));
+			s.addCliente(new Cliente("lucia_ramos@hotmail.com","Lucia","Ramos","hojasverdes"));
+			s.addCliente(new Cliente("adrian_castillo@yahoo.com","Adrian","Castillo","rocadura"));
 			s.addLocal(l);
 			s.addLocal(l2);
 			s.addLocal(l3);

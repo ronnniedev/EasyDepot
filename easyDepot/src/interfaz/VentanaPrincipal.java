@@ -36,12 +36,15 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import java.awt.Color;
 import java.awt.Desktop;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class VentanaPrincipal extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel panelPrincipal;
 	private JTextField textUser;
+	private JLabel lblErrorLogin;
 	private JPasswordField passwordField;
 	private Sistema s;
 	private static VentanaPrincipal ventana;
@@ -54,7 +57,7 @@ public class VentanaPrincipal extends JFrame {
 			public void run() {
 				try {
 					Apykeys.setBaseDatosFinal(1);
-					VentanaPrincipal frame = new VentanaPrincipal("EasyDepot 0.51");
+					VentanaPrincipal frame = new VentanaPrincipal("EasyDepot 0.65");
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -106,6 +109,14 @@ public class VentanaPrincipal extends JFrame {
 
 		// Establecemos los contenedores de user y password
 		textUser = new JTextField(40);
+		textUser.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode()==KeyEvent.VK_ENTER){
+			        logear();
+			    }
+			}
+		});
 		textUser.setBorder(BorderFactory.createLineBorder(Colores.getAZUL_OSCURO(), 3));
 		textUser.setFont(new Font("Verdana", Font.PLAIN, 16));
 		textUser.setColumns(10);
@@ -113,6 +124,14 @@ public class VentanaPrincipal extends JFrame {
 		panelPrincipal.add(textUser);
 
 		passwordField = new JPasswordField();
+		passwordField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode()==KeyEvent.VK_ENTER){
+			        logear();
+			    }
+			}
+		});
 		passwordField.setBorder(BorderFactory.createLineBorder(Colores.getAZUL_OSCURO(), 3));
 		passwordField.setFont(new Font("Verdana", Font.PLAIN, 16));
 		passwordField.setToolTipText("password");
@@ -130,7 +149,7 @@ public class VentanaPrincipal extends JFrame {
 		panelPrincipal.add(lbLogo);
 
 		// Se muestra en caso de que haya un error
-		JLabel lblErrorLogin = new JLabel("Clave o usuario incorrecto, introduzcalo de nuevo.");
+		lblErrorLogin = new JLabel("Clave o usuario incorrecto, introduzcalo de nuevo.");
 		lblErrorLogin.setForeground(new Color(255, 0, 0));
 		lblErrorLogin.setFont(new Font("Verdana", Font.BOLD, 16));
 		lblErrorLogin.setBounds(124, 176, 510, 46);
@@ -144,16 +163,7 @@ public class VentanaPrincipal extends JFrame {
 		Button btnLogin = new Button("Login");
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String user = textUser.getText();
-				String password = String.valueOf(passwordField.getPassword());
-				try {
-					s.loginDesktop(user, password);
-					panelPrincipal.removeAll();
-					cargarBotonera(panelPrincipal);
-					new PanelInicio(panelPrincipal, s);
-				} catch (LogicaException e1) {
-					lblErrorLogin.setVisible(true);
-				}
+				logear();
 			}
 		});
 		btnLogin.setFont(new Font("Verdana", Font.BOLD, 16));
@@ -386,6 +396,19 @@ public class VentanaPrincipal extends JFrame {
 	 */
 	public JPanel getPanelPrincipal() {
 		return panelPrincipal;
+	}
+	
+	private void logear() {
+		String user = textUser.getText();
+		String password = String.valueOf(passwordField.getPassword());
+		try {
+			s.loginDesktop(user, password);
+			panelPrincipal.removeAll();
+			cargarBotonera(panelPrincipal);
+			new PanelInicio(panelPrincipal, s);
+		} catch (LogicaException e1) {
+			lblErrorLogin.setVisible(true);
+		}
 	}
 
 }

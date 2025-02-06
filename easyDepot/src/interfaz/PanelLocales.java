@@ -86,10 +86,6 @@ public class PanelLocales extends JPanel {
 		buscador.setBounds(383, 69, 118, 19);
 		this.add(buscador);
 		buscador.setColumns(10);
-		
-		JSpinner selectorFiltro = new JSpinner();
-		selectorFiltro.setBounds(292, 68, 81, 20);
-		add(selectorFiltro);
 	}
 
 	/**

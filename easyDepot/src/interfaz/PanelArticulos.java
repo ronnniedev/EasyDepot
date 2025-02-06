@@ -14,18 +14,26 @@ import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
+import componentes.Button;
+import componentes.Colores;
 import componentes.Estilos;
+import componentes.PanelDatosRedondeado;
 import logica.Sistema;
 import modelo.Articulo;
 import modelo.Local;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JTextField;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class PanelArticulos extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private Sistema s;
+	private List <Articulo> articulos;
+	private JTextField buscador;
 
 	/**
 	 * Panel que muestra todos los articulos dentro del sistema y dentro de una tabla
@@ -39,21 +47,15 @@ public class PanelArticulos extends JPanel {
 		
 		try {
 			this.s = Sistema.getInstance();
+			articulos = l.getArticulos();
 		} catch (Exception e) {
 			
 		} 
 		
-		// establece el titulo de lel panel
-		JLabel lblCabinasDeLocal = new JLabel("Articulos de local: " + l.getLocalId(), SwingConstants.CENTER);
-		lblCabinasDeLocal.setFont(new Font("Verdana", Font.BOLD, 18));
-		lblCabinasDeLocal.setBackground(Color.WHITE);
-		lblCabinasDeLocal.setBounds(0, 32, 511, 45);
-		add(lblCabinasDeLocal);
-		
 		
 		// preparamos la tabla y el modelo
 		String [] cabecera = {"Id articulo","Nombre","Stock","Precio"};
-		List <String[]> datosLista = extraerArticulos(l.getArticulos());
+		List <String[]> datosLista = extraerArticulos("");
 		String [][] datos = datosLista.toArray(new String[0][0]);
 		
 		// Creamos un modelo de tabla no editable modificando el metodo isCellEditable para que no lo sea mas
@@ -85,9 +87,10 @@ public class PanelArticulos extends JPanel {
 		
 		JScrollPane scrollPane = new JScrollPane(tablaArticulos);
 		Estilos.estiloBarra(scrollPane);
+		scrollPane.setBounds(10, 120, 491, 311);
 		this.add(scrollPane);
 		
-		JButton btnVista = new JButton("Modo Vista");
+		JButton btnVista = new Button("Modo Vista");
 		btnVista.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				removeAll();
@@ -97,8 +100,40 @@ public class PanelArticulos extends JPanel {
 			}
 		});
 		btnVista.setFont(new Font("Verdana", Font.BOLD, 10));
-		btnVista.setBounds(205, 87, 100, 21);
+		btnVista.setBounds(205, 78, 100, 30);
 		add(btnVista);
+		
+		buscador = new JTextField();
+		buscador.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				List<String[]> datosLista = null;
+				modelo.setNumRows(0);
+				
+				datosLista = extraerArticulos(buscador.getText());
+				
+				for(String [] fila: datosLista) {
+					modelo.addRow(fila);
+				}
+				
+				// Cargamos la tabla entera
+				Estilos.cargarTablaCompleta(modelo);
+			}
+		});
+		buscador.setBounds(360, 87, 115, 22);
+		add(buscador);
+		buscador.setColumns(10);
+		
+		JPanel panelTitulo = new PanelDatosRedondeado(30);
+		panelTitulo.setBounds(130, 31, 250, 30);
+		panelTitulo.setBackground(Colores.getAZUL_CLARO());
+		add(panelTitulo);
+		
+		// establece el titulo de lel panel
+		JLabel lblCabinasDeLocal = new JLabel("Articulos de local: " + l.getLocalId(), SwingConstants.CENTER);
+		panelTitulo.add(lblCabinasDeLocal);
+		lblCabinasDeLocal.setFont(new Font("Verdana", Font.BOLD, 18));
+		lblCabinasDeLocal.setBackground(Color.WHITE);
 
 	}
 
@@ -107,13 +142,14 @@ public class PanelArticulos extends JPanel {
 	 * @param List : articulos
 	 * @return List <String[]>
 	 */
-	private List<String[]> extraerArticulos(List<Articulo> articulos) {
+	private List<String[]> extraerArticulos(String texto) {
 		List <String[]> datos = new ArrayList<String[]>();
 		
 		for(Articulo a: articulos) {
-			datos.add(new String[]{a.getIdArticulo(),a.getNombre(),a.getStock() + "",a.getPrecio() + ""});
+			if(a.getNombre().toLowerCase().startsWith(texto.toLowerCase())) {
+				datos.add(new String[]{a.getIdArticulo(),a.getNombre(),a.getStock() + "",a.getPrecio() + ""});
+			}
 		}
 		return datos;
 	}
-
 }

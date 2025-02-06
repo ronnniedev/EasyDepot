@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -20,12 +21,15 @@ import modelo.Email;
 import javax.swing.JSpinner;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class PanelClientes extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private Sistema s;
 	private JTextField buscador;
+	private Map <Email,Cliente> clientes;
 
 	/**
 	 * Muestra los clientes guardados dentro del sistema en formato de tabla, en caso de seleccionar una fila abre un
@@ -39,6 +43,7 @@ public class PanelClientes extends JPanel {
 		comprobarOrigen(origen);
 		setBackground(new Color(255, 255, 255));
 		setLayout(null);
+		this.clientes = s.getClientes();
 		panel.add(this);
 		setLayout(null);
 
@@ -49,7 +54,7 @@ public class PanelClientes extends JPanel {
 		this.add(lblClientes);
 
 		String[] cabecera = { "Email", "Nombre", "Apellidos"};
-		List<String[]> datosLista = extraerClientes();
+		List<String[]> datosLista = extraerClientes("");
 		String[][] datos = datosLista.toArray(new String[0][0]);
 
 		// Creamos un modelo de tabla no editable modificando el metodo isCellEditable
@@ -94,13 +99,25 @@ public class PanelClientes extends JPanel {
 		this.add(scrollPane);
 
 		buscador = new JTextField();
+		buscador.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				List<String[]> datosLista = null;
+				modelo.setNumRows(0);
+				
+				datosLista = extraerClientes(buscador.getText());
+				
+				for(String [] fila: datosLista) {
+					modelo.addRow(fila);
+				}
+				
+				// Cargamos la tabla entera
+				Estilos.cargarTablaCompleta(modelo);
+			}
+		});
 		buscador.setBounds(383, 69, 118, 19);
 		add(buscador);
 		buscador.setColumns(10);
-
-		JSpinner selectorFiltro = new JSpinner();
-		selectorFiltro.setBounds(292, 68, 81, 20);
-		add(selectorFiltro);
 	}
 
 	/**
@@ -127,11 +144,11 @@ public class PanelClientes extends JPanel {
 	 * 
 	 * @return List <String[]>
 	 */
-	private List<String[]> extraerClientes() {
+	private List<String[]> extraerClientes(String texto) {
 		List<String[]> datos = new ArrayList<String[]>();
 
 		for (Cliente c : s.getClientes().values()) {
-			if (c.getEmail().compareTo("Eliminado") != 0) {
+			if (c.getEmail().compareTo("Eliminado") != 0 && c.getEmail().startsWith(texto)) {
 				datos.add(new String[] { c.getEmail(), c.getNombre(), c.getApellidos()});
 			}
 
@@ -139,4 +156,5 @@ public class PanelClientes extends JPanel {
 
 		return datos;
 	}
+	
 }
