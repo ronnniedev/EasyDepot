@@ -103,7 +103,24 @@ public class PanelArticulos extends JPanel {
 		btnVista.setBounds(205, 78, 100, 30);
 		add(btnVista);
 		
-		buscador = new JTextField();
+		buscador = new JTextField("buscar por nombre...");
+		buscador.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				buscador.setText("");
+				List<String[]> datosLista = null;
+				modelo.setNumRows(0);
+				
+				datosLista = extraerArticulos(buscador.getText());
+				
+				for(String [] fila: datosLista) {
+					modelo.addRow(fila);
+				}
+				
+				// Cargamos la tabla entera
+				Estilos.cargarTablaCompleta(modelo);
+			}
+		});
 		buscador.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
@@ -120,7 +137,7 @@ public class PanelArticulos extends JPanel {
 				Estilos.cargarTablaCompleta(modelo);
 			}
 		});
-		buscador.setBounds(360, 87, 115, 22);
+		Estilos.prepararBuscador(buscador);
 		add(buscador);
 		buscador.setColumns(10);
 		

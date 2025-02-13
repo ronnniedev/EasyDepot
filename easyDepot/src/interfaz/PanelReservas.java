@@ -110,13 +110,22 @@ public class PanelReservas extends JPanel {
 		add(cBSelector);
 		
 		buscador = new JTextField();
+		buscador.setText("buscar por cliente...");
+		buscador.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				buscador.setText("");
+				cargarTabla(buscador.getText());
+			}
+			
+		});
 		buscador.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
 				cargarTabla(buscador.getText());
 			}
 		});
-		buscador.setBounds(383, 69, 118, 19);
+		Estilos.prepararBuscador(buscador);
 		add(buscador);
 		buscador.setColumns(10);
 	}
@@ -151,7 +160,7 @@ public class PanelReservas extends JPanel {
 		List <String[]> datos = new ArrayList<String[]>();
 		
 		for(Reserva r: reservasSeleccionadas) {
-			if(r.getEmailCliente().startsWith(texto)) {
+			if(r.getEmailCliente().toLowerCase().startsWith(texto.toLowerCase())) {
 				datos.add(new String[]{r.getIdReserva() 
 						+ "",r.getEmailCliente(),r.getIdCabina(),r.getFechaInicio().toString()});
 			}

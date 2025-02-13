@@ -34,10 +34,14 @@ import javax.swing.JTabbedPane;
 import javax.swing.JLabel;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Desktop;
+import java.awt.Dimension;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.Toolkit;
 
 public class VentanaPrincipal extends JFrame {
 
@@ -56,8 +60,8 @@ public class VentanaPrincipal extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Apykeys.setBaseDatosFinal(1);
-					VentanaPrincipal frame = new VentanaPrincipal("EasyDepot 0.65");
+					Apykeys.setBaseDatosFinal(3);
+					VentanaPrincipal frame = new VentanaPrincipal("EasyDepot 0.7");
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -77,7 +81,10 @@ public class VentanaPrincipal extends JFrame {
 	public VentanaPrincipal(String titulo) throws PersistenciaException, SQLException, LogicaException {
 		// Establecemos el titulo de la ventana principal
 		super(titulo);
+		setPreferredSize(new Dimension(40, 40));
 		setResizable(false);
+		
+		setIconImage(Toolkit.getDefaultToolkit().getImage(VentanaPrincipal.class.getResource("/iconos/app.png")));
 
 		ventana = this;
 		this.s = Sistema.getInstance();
@@ -89,6 +96,7 @@ public class VentanaPrincipal extends JFrame {
 
 		setContentPane(panelPrincipal);
 		panelPrincipal.setLayout(null);
+		
 
 		// Abre el email asociado al correo que se muestra, para dar soporte
 		ButtonGris btnContacto = new ButtonGris("Contacto");

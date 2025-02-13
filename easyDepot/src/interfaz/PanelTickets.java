@@ -22,6 +22,8 @@ import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class PanelTickets extends JPanel {
 
@@ -30,6 +32,7 @@ public class PanelTickets extends JPanel {
 	private JTextField buscador;
 	private JTable tablaTickets;
 	private DefaultTableModel modelo;
+	private List <Reserva> reservasSeleccionadas;
 	
 	/**
 	 * Muestra una tabla con todas las incidencias asociadas al sistema, tiene un filtro donde se muestran las 
@@ -101,7 +104,41 @@ public class PanelTickets extends JPanel {
 		this.add(scrollPane);
 
 		buscador = new JTextField();
-		buscador.setBounds(383, 69, 118, 19);
+		buscador.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				List<String[]> datosLista = null;
+				modelo.setNumRows(0);
+				
+				datosLista = extraerTicketsSeleccionados(buscador.getText());
+				
+				for(String [] fila: datosLista) {
+					modelo.addRow(fila);
+				}
+				
+				// Cargamos la tabla entera
+				Estilos.cargarTablaCompleta(modelo);
+			}
+		});
+		buscador.setText("buscar por email...");
+		Estilos.prepararBuscador(buscador);
+		buscador.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				buscador.setText("");
+				List<String[]> datosLista = null;
+				modelo.setNumRows(0);
+				
+				datosLista = extraerTicketsSeleccionados(buscador.getText());
+				
+				for(String [] fila: datosLista) {
+					modelo.addRow(fila);
+				}
+				
+				// Cargamos la tabla entera
+				Estilos.cargarTablaCompleta(modelo);
+			}
+		});
 		add(buscador);
 		buscador.setColumns(10);
 		
@@ -122,6 +159,27 @@ public class PanelTickets extends JPanel {
 		add(cBSelector);
 
 	}
+	/**
+	 * Extrae en un arrayList un vector de String con los datos en crudo de todos
+	 * los tickets alojados en el sistema con , se puede seleccionar entre incidencias resueltas y no resueltas.
+	 * 
+	 * @return List <String[]>
+	 */
+	private List<String[]> extraerTicketsSeleccionados(String email) {
+		List<String[]> datos = new ArrayList<String[]>();
+		
+
+		for(Reserva r: reservasSeleccionadas) {
+				if(r.getEmailCliente().toLowerCase().startsWith(email)) {
+					String idCabina = r.getIdCabina();
+					datos.add(new String[] {r.getIdReserva() + "",idCabina.charAt(0) + "", r.getIdCabina()
+											, r.getEmailCliente(),});
+					
+				}
+			}
+		
+		return datos;
+	}
 	
 	/**
 	 * Extrae en un arrayList un vector de String con los datos en crudo de todos
@@ -131,12 +189,14 @@ public class PanelTickets extends JPanel {
 	 */
 	private List<String[]> extraerTicketsAbiertos() {
 		List<String[]> datos = new ArrayList<String[]>();
+		this.reservasSeleccionadas = new ArrayList<Reserva>();
 
 		for(Reserva r: s.getReservas()) {
 				if(r.isIncidencia()) {
 					String idCabina = r.getIdCabina();
 					datos.add(new String[] {r.getIdReserva() + "",idCabina.charAt(0) + "", r.getIdCabina()
 											, r.getEmailCliente(),});
+					reservasSeleccionadas.add(r);
 				}
 			}
 		
@@ -149,12 +209,14 @@ public class PanelTickets extends JPanel {
 	 */
 	private List<String[]> extraerTicketsCerrados() {
 		List<String[]> datos = new ArrayList<String[]>();
+		this.reservasSeleccionadas = new ArrayList<Reserva>();
 
 		for(Reserva r: s.getReservas()) {
 				if(!r.isIncidencia() && r.getDescripcionIncidencia().compareTo("Sin Incidencias") != 0) {
 					String idCabina = r.getIdCabina();
 					datos.add(new String[] {r.getIdReserva() + "",idCabina.charAt(0) + "", r.getIdCabina()
 											, r.getEmailCliente(),});
+					reservasSeleccionadas.add(r);
 				}
 			}
 		

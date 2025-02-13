@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.TextField;
 
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
@@ -11,6 +12,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
@@ -23,6 +25,13 @@ import interfaz.VentanaPrincipal;
 
 public class Estilos {
 	
+	public static void prepararBuscador(JTextField buscador) {
+		buscador.setBorder(BorderFactory.createLineBorder(Colores.getAZUL_OSCURO(), 2));
+		buscador.setBounds(383, 69, 118, 19);
+		
+		
+	}
+	
 	public static ImageIcon prepararImagenBotonera(String ruta) {
 		
 		ImageIcon icono = new ImageIcon(VentanaPrincipal.class.getResource(ruta));
@@ -32,6 +41,14 @@ public class Estilos {
 		return iconoEscalado;
 	}
 	
+	public static Image prepararImagenVentana(String ruta) {
+		
+		ImageIcon icono = new ImageIcon(VentanaPrincipal.class.getResource(ruta));
+		Image imagenEscalada = icono.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+		
+		
+		return imagenEscalada;
+	}
 	public static ImageIcon prepararImagenCandado(String ruta) {
 		
 		ImageIcon icono = new ImageIcon(VentanaPrincipal.class.getResource(ruta));

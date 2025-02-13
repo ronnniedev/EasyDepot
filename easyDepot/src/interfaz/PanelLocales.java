@@ -19,6 +19,8 @@ import javax.swing.table.DefaultTableModel;
 import componentes.Estilos;
 import logica.Sistema;
 import modelo.Local;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class PanelLocales extends JPanel {
 
@@ -48,7 +50,7 @@ public class PanelLocales extends JPanel {
 		
 		// Estbablece la cabecera y los datos de la tabla de los locales
 		String [] cabecera = {"Id","Coordenadas","Direccion","Reservas"};
-		List <String[]> datosLista = extraerLocales();
+		List <String[]> datosLista = extraerLocalesSeleccionados("");
 		String [][] datos = datosLista.toArray(new String[0][0]);
 		
 		// Creamos un modelo de tabla no editable modificando el metodo isCellEditable para que no lo sea mas
@@ -83,7 +85,41 @@ public class PanelLocales extends JPanel {
 		this.add(scrollPane);
 		
 		buscador = new JTextField();
-		buscador.setBounds(383, 69, 118, 19);
+		buscador.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				List<String[]> datosLista = null;
+				modelo.setNumRows(0);
+				
+				datosLista = extraerLocalesSeleccionados(buscador.getText());
+				
+				for(String [] fila: datosLista) {
+					modelo.addRow(fila);
+				}
+				
+				// Cargamos la tabla entera
+				Estilos.cargarTablaCompleta(modelo);
+			}
+		});
+		buscador.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				buscador.setText("");
+				List<String[]> datosLista = null;
+				modelo.setNumRows(0);
+				
+				datosLista = extraerLocalesSeleccionados(buscador.getText());
+				
+				for(String [] fila: datosLista) {
+					modelo.addRow(fila);
+				}
+				
+				// Cargamos la tabla entera
+				Estilos.cargarTablaCompleta(modelo);
+			}
+		});
+		Estilos.prepararBuscador(buscador);
+		buscador.setText("buscar direccion...");
 		this.add(buscador);
 		buscador.setColumns(10);
 	}
@@ -92,14 +128,17 @@ public class PanelLocales extends JPanel {
 	 * Extrae en un arrayList un vector de String con los datos en crudo de todos los locales alojados en el sistema
 	 * @return List <String[]>
 	 */
-	private List<String[]> extraerLocales() {
+	private List<String[]> extraerLocalesSeleccionados(String direccion) {
 		List <String[]> datos = new ArrayList<String[]>();
 		
 		for(Local l: s.getLocales()) {
-			datos.add(new String[]{l.getLocalId() +"",l.getCoordenadas(), l.getDireccion(), l.getNumeroReservas() + ""});
+			if(l.getDireccion().toLowerCase().startsWith(direccion.toLowerCase())) {
+				datos.add(new String[]{l.getLocalId() +"",l.getCoordenadas(), l.getDireccion(), l.getNumeroReservas() + ""});
+			}
 		}
 		
 		return datos;
 	}
+	
 
 }

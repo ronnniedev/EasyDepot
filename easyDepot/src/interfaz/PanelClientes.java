@@ -23,6 +23,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class PanelClientes extends JPanel {
 
@@ -99,6 +101,24 @@ public class PanelClientes extends JPanel {
 		this.add(scrollPane);
 
 		buscador = new JTextField();
+		buscador.setText("escribe email...");
+		buscador.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				buscador.setText("");
+				List<String[]> datosLista = null;
+				modelo.setNumRows(0);
+				
+				datosLista = extraerClientes(buscador.getText());
+				
+				for(String [] fila: datosLista) {
+					modelo.addRow(fila);
+				}
+				
+				// Cargamos la tabla entera
+				Estilos.cargarTablaCompleta(modelo);
+			}
+		});
 		buscador.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
@@ -115,7 +135,7 @@ public class PanelClientes extends JPanel {
 				Estilos.cargarTablaCompleta(modelo);
 			}
 		});
-		buscador.setBounds(383, 69, 118, 19);
+		Estilos.prepararBuscador(buscador);
 		add(buscador);
 		buscador.setColumns(10);
 	}

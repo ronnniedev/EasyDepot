@@ -10,11 +10,14 @@ import javax.swing.JTextField;
 
 import modelo.Cabina;
 import modelo.Local;
+
+import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
+import componentes.Colores;
 import componentes.Estilos;
 import logica.Sistema;
 
@@ -84,14 +87,9 @@ public class PanelCabinas extends JPanel {
 		this.add(scrollPane);
 		
 		buscador = new JTextField();
-		buscador.setBounds(383, 69, 118, 19);
+		Estilos.prepararBuscador(buscador);
 		this.add(buscador);
 		buscador.setColumns(10);
-		
-		// Permite escpger el filtro que determina el filtro de la tabla
-		JSpinner selectorFiltro = new JSpinner();
-		selectorFiltro.setBounds(292, 68, 81, 20);
-		add(selectorFiltro);
 		
 	}
 

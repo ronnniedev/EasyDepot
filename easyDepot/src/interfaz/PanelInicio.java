@@ -4,10 +4,13 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import componentes.Colores;
+import componentes.PanelDatosRedondeado;
 import logica.Sistema;
 
 import java.awt.Color;
 import java.awt.Font;
+import javax.swing.ImageIcon;
 
 public class PanelInicio extends JPanel {
 
@@ -24,30 +27,59 @@ public class PanelInicio extends JPanel {
 		this.setBounds(175, 0, 511, 503);
 		panel.add(this);
 		
-		JLabel lblRendimiento = new JLabel("Rendimiento Global",SwingConstants.CENTER);
-		lblRendimiento.setFont(new Font("Verdana", Font.BOLD, 24));
-		lblRendimiento.setBounds(0, 35, 511, 45);
-		this.add(lblRendimiento);
-		
 		JLabel lbReservas = new JLabel("Reservas: " + s.calcularReservas());
 		lbReservas.setFont(new Font("Verdana", Font.BOLD, 16));
-		lbReservas.setBounds(24, 103, 310, 45);
+		lbReservas.setBounds(84, 237, 167, 45);
 		this.add(lbReservas);
 		
 		JLabel lbIngresos = new JLabel("Ingresos: " + s.calcularIngresos());
 		lbIngresos.setFont(new Font("Verdana", Font.BOLD, 16));
-		lbIngresos.setBounds(24, 158, 310, 45);
+		lbIngresos.setBounds(289, 237, 190, 45);
 		this.add(lbIngresos);
 		
-		JLabel lbLocales = new JLabel("Consignas: " + s.calcularLocales());
+		JLabel lbLocales = new JLabel("Locales: " + s.getLocales().size());
 		lbLocales.setFont(new Font("Verdana", Font.BOLD, 16));
-		lbLocales.setBounds(24, 213, 310, 45);
+		lbLocales.setBounds(289, 401, 310, 45);
 		this.add(lbLocales);
 		
 		JLabel lbClientes = new JLabel("Clientes: " + s.calcularClientes());
 		lbClientes.setFont(new Font("Verdana", Font.BOLD, 16));
-		lbClientes.setBounds(24, 268, 310, 45);
+		lbClientes.setBounds(84, 406, 235, 35);
 		this.add(lbClientes);
+		
+		JLabel lblCliente = new JLabel("");
+		lblCliente.setIcon(new ImageIcon(PanelInicio.class.getResource("/iconos/cliente.png")));
+		lblCliente.setBounds(84, 292, 124, 124);
+		add(lblCliente);
+		
+		JLabel lblLocales = new JLabel("");
+		lblLocales.setIcon(new ImageIcon(PanelInicio.class.getResource("/iconos/localStat.png")));
+		lblLocales.setBounds(289, 280, 128, 128);
+		add(lblLocales);
+		
+		JLabel lblIngresos = new JLabel("");
+		lblIngresos.setIcon(new ImageIcon(PanelInicio.class.getResource("/iconos/ingresos.png")));
+		lblIngresos.setBounds(289, 115, 128, 128);
+		add(lblIngresos);
+		
+		JLabel lblReservas = new JLabel("");
+		lblReservas.setIcon(new ImageIcon(PanelInicio.class.getResource("/iconos/reservas.png")));
+		lblReservas.setBounds(84, 115, 128, 128);
+		add(lblReservas);
+		
+		JPanel panelDatos = new PanelDatosRedondeado(30);
+		panelDatos.setBounds(52, 94, 407, 364);
+		add(panelDatos);
+		
+		JPanel panelTitulo = new PanelDatosRedondeado(30);
+		panelTitulo.setBounds(71, 21, 369, 51);
+		panelTitulo.setBackground(Colores.getAZUL_CLARO());
+		add(panelTitulo);
+		panelTitulo.setLayout(null);
+		
+		JLabel lblRendimiento = new JLabel("Rendimiento Global",SwingConstants.CENTER);
+		lblRendimiento.setBounds(53, 10, 263, 30);
+		panelTitulo.add(lblRendimiento);
+		lblRendimiento.setFont(new Font("Verdana", Font.BOLD, 24));
 	}
-
 }
