@@ -17,6 +17,8 @@ import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
 
+import componentes.Button;
+import componentes.ButtonGris;
 import logica.Sistema;
 import modelo.Local;
 import modelo.Reserva;
@@ -34,6 +36,7 @@ public class VentanaInformeCierre extends JFrame {
 	 */
 	public VentanaInformeCierre(Reserva r ,Local l,PanelTicket panelTicket) {
 		// Establecemos las dimensiones de la ventana
+		super("Informe de cierre");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(550,300, 536, 417);
@@ -71,7 +74,7 @@ public class VentanaInformeCierre extends JFrame {
 		
 		// Guarda el informe de cierre y escribe una cabecera par amostarr dentro del informe general
 		// Actualiza la informacion de la incidencia asoaciado a la reserva pertinente
-		JButton btnSalir = new JButton("Cerrar Incidencia");
+		Button btnSalir = new Button("Cerrar Incidencia");
 		btnSalir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				VentanaPrincipal.getVentana().setEnabled(true);
@@ -89,7 +92,7 @@ public class VentanaInformeCierre extends JFrame {
 		contentPane.add(btnSalir);
 		
 		// Habilita la ventana anterior y cierra la actual sin guardar ningun dato
-		JButton btnCancelar = new JButton("Cancelar");
+		ButtonGris btnCancelar = new ButtonGris("Cancelar");
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				VentanaPrincipal.getVentana().setEnabled(true);

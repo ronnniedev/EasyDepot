@@ -498,7 +498,7 @@ public class Sistema {
 	 * @return
 	 */
 	public Local buscarLocal(int localId) {
-		
+	
 		for (Local l: locales) {
 			if(l.getLocalId() == localId) {
 				return l;

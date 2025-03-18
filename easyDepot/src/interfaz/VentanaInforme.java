@@ -4,6 +4,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import componentes.Button;
+import componentes.ButtonGris;
 import modelo.Reserva;
 
 import javax.swing.JScrollPane;
@@ -27,6 +29,7 @@ public class VentanaInforme extends JFrame {
 	 */
 	public VentanaInforme(Reserva r) {
 		// Establece las dimensiones de la ventana
+		super("Informe de reserva: " + r.getIdReserva());
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(550,300, 536, 417);
@@ -57,7 +60,7 @@ public class VentanaInforme extends JFrame {
 		contentPane.add(lblInformeTitulo);
 		
 		// Habilita la ventana anterior y cierra esta ventana 
-		JButton btnSalir = new JButton("Cerrar");
+		Button btnSalir = new Button("Cerrar");
 		btnSalir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				VentanaPrincipal.getVentana().setEnabled(true);

@@ -14,6 +14,7 @@ import javax.swing.JOptionPane;
 import java.awt.Font;
 import javax.swing.ImageIcon;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.Timer;
@@ -247,9 +248,12 @@ public class PanelCarruselArticulo extends JPanel {
 		}
 
 		JLabel lblImagen = new JLabel("");
-		lblImagen.setIcon(new ImageIcon(PanelCarruselArticulo.class.getResource("/iconos/logoLogin.png")));
-		lblImagen.setBackground(new Color(255, 255, 255));
 		lblImagen.setBounds(17, 29, 200, 147);
+		ImageIcon imageIcon = new ImageIcon(PanelCarruselArticulo.class.getResource("/iconos/localStat.png"));
+		Image image = imageIcon.getImage().getScaledInstance(lblImagen.getWidth(), lblImagen.getHeight(), 
+				Image.SCALE_SMOOTH);
+		lblImagen.setIcon(new ImageIcon(image));
+		lblImagen.setBackground(new Color(255, 255, 255));
 		panelArticulo.add(lblImagen);
 
 		// Guarda los datos de el articulo seleccionado, en caso de estar el modo

@@ -1,0 +1,16 @@
+----Para cargar el programa principa:
+
+Deberas ejecutar el main que esta en el paquete interfaz->VentanaPrincipal
+
+
+No es necesario nada mas ya que el proyecto se encuentra ya conectado al cloud
+----Para cargar el Junit:
+
+deberas crear una base de datos llamada pruebaseasydepot
+
+No es necesario cargar ningun esquema ya se encarga el Junit de hacerlo todo, la contraseña de la base de datos esta como "root" en la variable 
+password local dentro de la clase Apykeys
+
+la contraseña para logearte es 
+user: admin
+password: admin

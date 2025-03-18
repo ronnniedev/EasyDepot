@@ -32,7 +32,7 @@ public class PanelInicio extends JPanel {
 		lbReservas.setBounds(84, 237, 167, 45);
 		this.add(lbReservas);
 		
-		JLabel lbIngresos = new JLabel("Ingresos: " + s.calcularIngresos());
+		JLabel lbIngresos = new JLabel("Ingresos: " + String.format("%.2f", s.calcularIngresos()));
 		lbIngresos.setFont(new Font("Verdana", Font.BOLD, 16));
 		lbIngresos.setBounds(289, 237, 190, 45);
 		this.add(lbIngresos);

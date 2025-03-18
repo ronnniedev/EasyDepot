@@ -40,6 +40,7 @@ public class VentanaEditarLocal extends JFrame {
 	 */
 	public VentanaEditarLocal(Local l,PanelLocal panelLocal) {
 		// Establecemos las dimensiones de la ventana
+		super("Editar local: " + l.getLocalId());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(600, 300, 394, 290);
 		contentPane = new JPanel();

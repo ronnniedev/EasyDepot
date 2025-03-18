@@ -15,6 +15,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
+import componentes.ButtonGris;
 import componentes.Estilos;
 import logica.Sistema;
 import modelo.Reserva;
@@ -24,6 +25,9 @@ import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class PanelTickets extends JPanel {
 
@@ -42,7 +46,6 @@ public class PanelTickets extends JPanel {
 		// Establecen las dimensiones del sistema
 		setBackground(new Color(255, 255, 255));
 		setLayout(null);
-		
 		try {
 			s = Sistema.getInstance();
 		} catch (Exception e) {
@@ -244,6 +247,4 @@ public class PanelTickets extends JPanel {
 		// Cargamos la tabla entera
 		Estilos.cargarTablaCompleta(modelo);
 	}
-
-	
 }

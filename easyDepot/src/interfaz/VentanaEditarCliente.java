@@ -42,6 +42,7 @@ public class VentanaEditarCliente extends JFrame {
 	 */
 	public VentanaEditarCliente(Cliente c,PanelCliente panelCliente) {
 		// Establecemos las dimensiones de la ventana
+		super("Editar Cliente: " +  c.getEmail());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(550, 280, 394, 333);
 		contentPane = new JPanel();

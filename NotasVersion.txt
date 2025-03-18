@@ -1,8 +1,0 @@
-Version 0.7
-
-- Remodelación estética
-- Buscadores mejorados
-- Cloud en marcha
-- Implementación de servicio online
-
-

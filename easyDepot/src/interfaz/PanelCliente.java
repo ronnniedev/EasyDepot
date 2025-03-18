@@ -176,7 +176,7 @@ public class PanelCliente extends JPanel {
 		lblCliente = new JLabel("Cliente :", SwingConstants.LEFT);
 		panelTitulo.add(lblCliente);
 		lblCliente.setBackground(new Color(255, 255, 255));
-		lblCliente.setFont(new Font("Verdana", Font.BOLD, 18));
+		lblCliente.setFont(new Font("Verdana", Font.BOLD, 14));
 		mostrarCliente(c);
 	}
 
@@ -185,7 +185,7 @@ public class PanelCliente extends JPanel {
 	 * @param c : Cliente
 	 */
 	public void mostrarCliente(Cliente c) {
-		lblCliente.setText("Cliente: " + c.getEmail());
+		lblCliente.setText(c.getEmail());
 		txtNombre.setText(c.getNombre());
 		txtApellidos.setText(c.getApellidos());
 		txtPassword.setText(c.getPassword());

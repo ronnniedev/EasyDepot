@@ -57,10 +57,11 @@ public class PanelLocal extends JPanel {
 		add(panelDatos);
 
 		txtDireccion = new JTextField();
+		txtDireccion.setHorizontalAlignment(SwingConstants.LEFT);
 		txtDireccion.setBounds(234, 29, 168, 40);
 		txtDireccion.setBackground(new Color(255, 255, 255));
 		txtDireccion.setEditable(false);
-		txtDireccion.setFont(new Font("Verdana", Font.BOLD, 16));
+		txtDireccion.setFont(new Font("Verdana", Font.BOLD, 14));
 		panelDatos.add(txtDireccion);
 		txtDireccion.setColumns(10);
 
@@ -70,10 +71,11 @@ public class PanelLocal extends JPanel {
 		panelDatos.add(lblCoordenadas);
 
 		txtCoordenadas = new JTextField();
+		txtCoordenadas.setHorizontalAlignment(SwingConstants.LEFT);
 		txtCoordenadas.setBounds(234, 92, 168, 40);
 		txtCoordenadas.setBackground(new Color(255, 255, 255));
 		txtCoordenadas.setEditable(false);
-		txtCoordenadas.setFont(new Font("Verdana", Font.BOLD, 16));
+		txtCoordenadas.setFont(new Font("Verdana", Font.BOLD, 14));
 		txtCoordenadas.setColumns(10);
 		panelDatos.add(txtCoordenadas);
 
@@ -96,8 +98,9 @@ public class PanelLocal extends JPanel {
 		lblDireccion.setFont(new Font("Verdana", Font.BOLD, 16));
 		
 		txtIngresos = new JTextField();
+		txtIngresos.setHorizontalAlignment(SwingConstants.LEFT);
 		txtIngresos.setText((String) null);
-		txtIngresos.setFont(new Font("Verdana", Font.BOLD, 16));
+		txtIngresos.setFont(new Font("Verdana", Font.BOLD, 14));
 		txtIngresos.setEditable(false);
 		txtIngresos.setColumns(10);
 		txtIngresos.setBackground(Color.WHITE);
@@ -105,8 +108,9 @@ public class PanelLocal extends JPanel {
 		panelDatos.add(txtIngresos);
 		
 		txtReservas = new JTextField();
+		txtReservas.setHorizontalAlignment(SwingConstants.LEFT);
 		txtReservas.setText((String) null);
-		txtReservas.setFont(new Font("Verdana", Font.BOLD, 16));
+		txtReservas.setFont(new Font("Verdana", Font.BOLD, 14));
 		txtReservas.setEditable(false);
 		txtReservas.setColumns(10);
 		txtReservas.setBackground(Color.WHITE);

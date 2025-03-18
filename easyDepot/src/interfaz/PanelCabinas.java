@@ -31,7 +31,6 @@ public class PanelCabinas extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private Sistema s;
-	private JTextField buscador;
 
 	/**
 	 * Create the panel.
@@ -85,11 +84,6 @@ public class PanelCabinas extends JPanel {
 		JScrollPane scrollPane = new JScrollPane(tablaCabinas);
 		scrollPane.setBounds(10, 98, 491, 311);
 		this.add(scrollPane);
-		
-		buscador = new JTextField();
-		Estilos.prepararBuscador(buscador);
-		this.add(buscador);
-		buscador.setColumns(10);
 		
 	}
 

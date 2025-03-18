@@ -56,7 +56,7 @@ public class PanelReservas extends JPanel {
 		//Muestra el titulo de la tabla
 		JLabel lblReservas = new JLabel(titulo,SwingConstants.CENTER);
 		lblReservas.setFont(new Font("Verdana", Font.BOLD, 24));
-		lblReservas.setBounds(0, 33, 511, 45);
+		lblReservas.setBounds(0, 22, 511, 45);
 		this.add(lblReservas);
 		
 		// Establecemos la cabecera y lso datos
@@ -106,7 +106,7 @@ public class PanelReservas extends JPanel {
 		});
 		cBSelector.setModel(new DefaultComboBoxModel<String>(new String[] {"Todas","Abiertas", "Cerradas"}));
 		cBSelector.setFont(new Font("Verdana", Font.PLAIN, 12));
-		cBSelector.setBounds(277, 67, 96, 21);
+		cBSelector.setBounds(278, 67, 96, 21);
 		add(cBSelector);
 		
 		buscador = new JTextField();
