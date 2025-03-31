@@ -131,8 +131,7 @@ public class Sistema {
 		}
 		throw new LogicaException("ERROR usuario o contraseña incorrectos");
 	}
-	
-	
+
 
 	/**
 	 * Lee todas las cabinas alojadas en la base de datos y las asigna a sus locales pertinentes
@@ -276,7 +275,7 @@ public class Sistema {
 	 * @return boolean
 	 * @throws LogicaException
 	 */
-	public Boolean addArticulo(int idLocal,String nombre,int stock,double precio,String imagen) throws LogicaException {
+	public Boolean addArticulo(int idLocal,String nombre,int stock,int precio,String imagen) throws LogicaException {
 		Local l = buscarLocal(idLocal);
 		
 		if(l == null) {
@@ -746,6 +745,10 @@ public class Sistema {
 		r.setIncidencia(false);
 		r.setDescripcionIncidencia(mensaje);
 		gestor.actualizarReserva(r);
+	}
+	
+	public Cabina buscarCabinaBaseDatos(String idCabina) throws PersistenciaException {
+		return gestor.buscarCabina(idCabina);
 	}
 
 	

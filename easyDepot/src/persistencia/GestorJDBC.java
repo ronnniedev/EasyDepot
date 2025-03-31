@@ -79,7 +79,7 @@ public class GestorJDBC {
 				+ "    idLocal INT NOT NULL,"
 				+ "    nombre VARCHAR(100) NOT NULL,"
 				+ "    stock INT NOT NULL,"
-				+ "    precio NUMERIC(10,2) NOT NULL,"
+				+ "    precio INT NOT NULL,"
 				+ "    imagen VARCHAR(100),"
 				+ "    FOREIGN KEY (idLocal) REFERENCES locales(idLocal)"
 				+ ");";
@@ -641,6 +641,40 @@ public class GestorJDBC {
 	}
 	
 	/**
+	 * Lee todas las cabinas del sistema y las devuelve en forma de lista de cabinas
+	 * @return List : cabinas
+	 * @throws PersistenciaException
+	 */
+	public Cabina buscarCabina(String idCabina) throws PersistenciaException {
+		Statement st = null;
+		ResultSet rs = null;
+		Cabina c = null;
+		
+		try {
+			st = StatemedSingelton.getInstance();
+			String consulta = "SELECT * FROM cabinas where idCabina ='"+idCabina+"'";
+			rs = st.executeQuery(consulta);
+			while(rs.next()) {
+				c = prepararCabina(rs);
+			}
+		} catch (PersistenciaException e) {
+			System.out.println(e.getMessage());
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}finally {
+			try {
+				rs.close();
+				StatemedSingelton.close();
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
+			
+		}
+		return c;
+		
+	}
+	
+	/**
 	 * Prepara el resultset asociado a un Cliente
 	 * @param rs : ResultSet
 	 * @return new Cliente
@@ -720,7 +754,7 @@ public class GestorJDBC {
 		int idLocal = rs.getInt(2);
 		String nombre = rs.getString(3);
 		int stock = rs.getInt(4);
-		double precio = rs.getDouble(5);
+		int precio = rs.getInt(5);
 		String imagen = rs.getString(6);
 		
 		return new Articulo(idArticulo,idLocal,nombre,stock,precio,imagen);

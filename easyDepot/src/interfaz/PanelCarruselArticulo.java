@@ -287,7 +287,7 @@ public class PanelCarruselArticulo extends JPanel {
 						precio = resul;
 					}
 
-					Double precioDouble = Double.parseDouble(precio);
+					int precioDouble = Integer.parseInt(precio);
 					int stockInt = Integer.parseInt(stock);
 
 					// Comprobamos si los valores son positivos
@@ -321,7 +321,7 @@ public class PanelCarruselArticulo extends JPanel {
 						}
 					}
 				} catch (NumberFormatException e1) {
-					lblError.setText("ERROR stock y precio deben estar escritos en formato numerico");
+					lblError.setText("ERROR stock y precio deben estar escritos en formato numerico entero");
 					lblError.setVisible(true);
 				} catch (LogicaException e1) {
 					lblError.setText(e1.getMessage());

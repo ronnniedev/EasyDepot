@@ -165,9 +165,9 @@ public class PruebasIniciales {
 		}
 		
 		try {
-			s.addArticulo(1, "Coca cola", 60, 115.2, "botecoca");
-			s.addArticulo(1, "Moca cola", 50, 100.2, "botecoca2");
-			s.addArticulo(3, "Foca cola", 50, 100.2, "botecoca2");
+			s.addArticulo(1, "Coca cola", 60, 115, "botecoca");
+			s.addArticulo(1, "Moca cola", 50, 100, "botecoca2");
+			s.addArticulo(3, "Foca cola", 50, 100, "botecoca2");
 			// s.eliminarArticulo("3-1");
 			s.actualizarArticulo(new Articulo("1-2",1,"Moca cola",67,8989,"monthyPithon"));
 		} catch (LogicaException e) {

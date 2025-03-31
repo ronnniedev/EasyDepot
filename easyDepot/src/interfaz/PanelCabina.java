@@ -14,6 +14,7 @@ import componentes.Button;
 import componentes.Colores;
 import componentes.Estilos;
 import componentes.PanelDatosRedondeado;
+import excepciones.PersistenciaException;
 
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -167,7 +168,30 @@ public class PanelCabina extends JPanel {
 		panelTitulo.add(lblCabina);
 		lblCabina.setFont(new Font("Verdana", Font.BOLD, 18));
 		lblCabina.setBackground(Color.WHITE);
+		this.setVisible(true);
 		
+		new Thread(new Runnable() {
+            @Override
+            public void run() {
+            	while(true) {
+            		try {
+            			btnAbrir.setEnabled(false);
+                    	Cabina ejemplo = s.buscarCabinaBaseDatos(c.getIdCabina());
+                    	if(ejemplo.getAbierto() != c.getAbierto()) {
+                    		c.setAbierto(ejemplo.getAbierto());
+                    		btnAbrir.setText(escribirBotonAbrir(c));
+            				lblAbierto.setIcon(Estilos.prepararImagenCandado(mostrarEstado(c.getAbierto())));
+                    	}
+                    	btnAbrir.setEnabled(true);
+                        Thread.sleep(9000);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    } catch (PersistenciaException e) {
+    					e.printStackTrace();
+    				}
+            	}
+            }
+        }).start();
 	}
 
 	/**
