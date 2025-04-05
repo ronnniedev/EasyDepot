@@ -1,4 +1,4 @@
-Version 0.8
-- Se cambia el modo de manejar las rutas dentro del codigo
-- Se migra el proyecto a Maven
-- Se prepara migración de JUnit
+Version 0.9
+- Se añade la funcion de subir imagenes en el carrusel de articulos
+- Manejo de imagenes añadido
+- Ya se pueden ver imagenes en Android

@@ -178,6 +178,19 @@ public class Estilos {
         return new ImageIcon(image);
     }
 
+    public static Icon crearImagenEscaladaSinRuta(JLabel lblImagen, String ruta) {
+        ImageIcon imageIcon = new ImageIcon(ruta);
+	Image image = imageIcon.getImage().getScaledInstance(lblImagen.getWidth(), lblImagen.getHeight(), 
+				Image.SCALE_SMOOTH);
+        return new ImageIcon(image);
+    }
+
+    public static Icon crearImagenEscaladaSinRuta(JLabel lblImagen, ImageIcon icono) {
+	Image image = icono.getImage().getScaledInstance(lblImagen.getWidth(), lblImagen.getHeight(), 
+				Image.SCALE_SMOOTH);
+        return new ImageIcon(image);
+    }
+
 	
 	
 	

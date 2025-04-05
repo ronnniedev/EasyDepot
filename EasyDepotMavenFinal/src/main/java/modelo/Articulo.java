@@ -12,6 +12,23 @@ public class Articulo {
 	private String imagen;
 	
 	/**
+	 * Constructor por defecto
+	 * @param idArticulo : int
+	 * @param idLocal : int
+	 * @param nombre : String
+	 * @param precio : double
+	 */
+	public Articulo(String idArticulo, int idLocal, String nombre, int stock, int precio) {
+		super();
+		this.idArticulo = idArticulo;
+		this.idLocal = idLocal;
+		this.nombre = nombre;
+		this.stock = stock;
+		this.precio = precio;
+		this.imagen = "sin imagen";
+	}
+        
+        /**
 	 * Constructor de seis parametros para la clase Articulo, usado por defecto en la carga de la base de datos
 	 * y creacion base
 	 * @param idArticulo : int
@@ -20,7 +37,7 @@ public class Articulo {
 	 * @param precio : double
 	 * @param imagen : String
 	 */
-	public Articulo(String idArticulo, int idLocal, String nombre, int stock, int precio, String imagen) {
+	public Articulo(String idArticulo, int idLocal, String nombre, int stock, int precio,String imagen) {
 		super();
 		this.idArticulo = idArticulo;
 		this.idLocal = idLocal;
@@ -100,7 +117,7 @@ public class Articulo {
 	/**
 	 * @return the precio
 	 */
-	public double getPrecio() {
+	public int getPrecio() {
 		return precio;
 	}
 

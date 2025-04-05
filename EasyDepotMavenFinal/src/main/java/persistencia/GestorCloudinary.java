@@ -16,6 +16,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import apykeys.Apykeys;
+import java.net.URL;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -40,38 +43,36 @@ public class GestorCloudinary {
 
         // Del objeto Cloudinary se coge el objeto Api y se llama al método que
         // devolverá ApiResponse
-        
         Object next_cursor = "";
         try {
-            do{
-            ApiResponse ar = this.cloudinary.api().resources(options);
+            do {
+                ApiResponse ar = this.cloudinary.api().resources(options);
 
-            // Al hacer el syso salen errores que no importan mucho pero se pueden quitar
-            // System.out.println(ar);
-            // Básicamente nos está enseñando a leer JSON con Java
-            // Devuelve una lista de Maps para cada imagen
-            ArrayList<Map<String, Object>> resources = (ArrayList<Map<String, Object>>) ar.get("resources");
-            // Se recorre el diccionario y se van sacando cada public_id y añadiéndolos a
-            // las listas
-            for (Map<String, Object> elemento : resources) {
-                String publicId = elemento.get("public_id").toString();
-                lista.add(publicId);
-            }
-            
-            lista.add("--------------Display name--------------");
-            
-            for (Map<String, Object> elemento : resources) {
-                String publicId = elemento.get("display_name").toString();
-                lista.add(publicId);
-            }
-            // saco el next_cursor
-            next_cursor = ar.get("next_cursor");
-            if(next_cursor != null){
-                options.put("next_cursor", next_cursor.toString());
-            }
-            
-            }
-            while(next_cursor != null);
+                // Al hacer el syso salen errores que no importan mucho pero se pueden quitar
+                // System.out.println(ar);
+                // Básicamente nos está enseñando a leer JSON con Java
+                // Devuelve una lista de Maps para cada imagen
+                ArrayList<Map<String, Object>> resources = (ArrayList<Map<String, Object>>) ar.get("resources");
+                // Se recorre el diccionario y se van sacando cada public_id y añadiéndolos a
+                // las listas
+                for (Map<String, Object> elemento : resources) {
+                    String publicId = elemento.get("public_id").toString();
+                    lista.add(publicId);
+                }
+
+                lista.add("--------------Display name--------------");
+
+                for (Map<String, Object> elemento : resources) {
+                    String publicId = elemento.get("display_name").toString();
+                    lista.add(publicId);
+                }
+                // saco el next_cursor
+                next_cursor = ar.get("next_cursor");
+                if (next_cursor != null) {
+                    options.put("next_cursor", next_cursor.toString());
+                }
+
+            } while (next_cursor != null);
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -79,25 +80,29 @@ public class GestorCloudinary {
 
         return lista;
     }
-    
+
     /**
      * Devuelve el url asociado a un public id
+     *
      * @param public_id
      */
-    public String getUrl(String public_id){
+    public String getUrl(String public_id) {
         String url = null;
-        Map <String,Object> options = new HashMap();
-        List <Map<String,Object>> l = null;
-        try{
-            ApiResponse ar= cloudinary.api().resourcesByIds(ObjectUtils.asArray(public_id),options);
-            l = (List <Map<String,Object>>) ar.get("resources");
-        }catch(Exception e){
+        Map<String, Object> options = new HashMap();
+        List<Map<String, Object>> l = null;
+        try {
+            ApiResponse ar = cloudinary.api().resourcesByIds(ObjectUtils.asArray(public_id), options);
+            l = (List<Map<String, Object>>) ar.get("resources");
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        
-        if(l == null) return "ERROR no devuelve nada";
-        return  l.get(0).get("secure_url").toString();
+
+        if (l == null) {
+            return "ERROR no devuelve nada";
+        }
+        return l.get(0).get("secure_url").toString();
     }
+
     public void crearFolder(String nombre) {
         List<String> lista = new ArrayList<String>();
         Map<String, String> options = new HashMap<String, String>();
@@ -112,79 +117,76 @@ public class GestorCloudinary {
         }
 
     }
-    
+
     /**
      * Dado un public_id, lo borra (si puede)
+     *
      * @param public_id : String
-     * @return 
+     * @return
      */
-    public boolean  borrar(String public_id){
+    public boolean borrar(String public_id) {
         boolean exito = false;
-        List <String> ids = new <String>ArrayList();
+        List<String> ids = new <String>ArrayList();
         Map<String, String> options = new HashMap<String, String>();
         ids.add(public_id);
-        try{
-            Map <String,Object> respuesta = cloudinary.uploader().destroy(public_id, options);
-            
-            if(!respuesta.get("result").toString().contains("ok")){
-                exito = true;
-                System.out.println("No se ha podido borrar");
-            }else{
-                System.out.println("Se ha podido borrar");
+        try {
+            Map<String, Object> respuesta = cloudinary.uploader().destroy(public_id, options);
+
+            if (!respuesta.get("result").toString().contains("ok")) {
+                exito = false;
+            } else {
                 exito = true;
             }
         } catch (Exception ex) {
             Logger.getLogger(GestorCloudinary.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         return exito;
     }
 
-    public void subirImagen(String ruta,String nombre) {
+    public String subirImagen(String ruta) {
         Map<String, String> options = new HashMap<String, String>();
         Map<String, String> pepo = new HashMap<String, String>();
 
         // Del objeto Cloudinary se coge el objeto Api y se llama al método que
         // devolverá ApiResponse
         try {
-           Map <String,Object> respuesta = this.cloudinary.uploader().upload(ruta, options);
-           System.out.println(respuesta.get("public_id").toString());
-           cloudinary.uploader().rename(respuesta.get("public_id").toString(), nombre,pepo);
+            Map<String, Object> respuesta = this.cloudinary.uploader().upload(ruta, options);
+            return respuesta.get("public_id").toString();
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-
-    }
-    
-    public String get(String public_id){
-        Map<String, String> options = new HashMap<String, String>();
-        options.put("folder", "Pepito");
-    
-        try {
-            // necesita una lista de public_ids
-            ApiResponse ar = this.cloudinary.api().resourcesByIds(ObjectUtils.asArray(public_id), options);
-            
-        } catch (Exception ex) {
-            Logger.getLogger(GestorCloudinary.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
         return null;
     }
 
-    public void descargarImagen(String ruta) {
-        Map<String, String> options = new HashMap<String, String>();
-        options.put("asset_folder", "Pepito");
-
-        // Del objeto Cloudinary se coge el objeto Api y se llama al método que
-        // devolverá ApiResponse
+    public ImageIcon get(String public_id) {
+        String url = null;
+        Map<String, Object> options = new HashMap<>();
         try {
-            this.cloudinary.uploader().upload(ruta, options);
+            // necesita una LISTA de public_ids
+            //List.of(public_id);
+
+            ApiResponse ar = cloudinary.
+                    api().
+                    resourcesByIds(ObjectUtils.asArray(public_id),
+                            options);
+            /* dentro de la respuesta, resources tiene una LISTA
+			 * de Map<String, Object>*/
+            //System.out.println(ar);
+            List<Map<String, Object>> l
+                    = (List<Map<String, Object>>) ar.get("resources");
+            // saco el primer (y único) elemento
+            Map<String, Object> elemento = l.get(0);
+            // este elemento tiene un secure_url como clave
+            url = elemento.get("secure_url").toString();
+            
+            return new ImageIcon(new URL(url));
+            
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
-
+        return null;
     }
 
     public void borrarImagen() {
@@ -192,7 +194,7 @@ public class GestorCloudinary {
         Map<String, String> options = new HashMap<String, String>();
         options.put("asset_folder", "Pepito");
 
-        ApiResponse ar =  null;
+        ApiResponse ar = null;
         try {
             ar = this.cloudinary.api().deleteAllResources(options);
         } catch (Exception ex) {
@@ -200,43 +202,43 @@ public class GestorCloudinary {
         }
     }
 
-    /**Devuelve la lista de los public_id de los assets de un
-     * fichero concreto
+    /**
+     * Devuelve la lista de los public_id de los assets de un fichero concreto
+     *
      * @param nameFolder el nombre del fichero con sus assets
-     * @return {@link List} la lista de public ids (vacía si no hay)*/
+     * @return {@link List} la lista de public ids (vacía si no hay)
+     */
     @SuppressWarnings("unchecked")
     public List<String> listAssets(String nameFolder) {
         System.out.println(nameFolder);
         Map<String, String> options = new HashMap<>();
         options.put("max_results", "500");
 
-
         List<String> lista = new ArrayList<>();
         Object next_cursor = ""; // luego será null
         try {
-            while(next_cursor!=null) {
+            while (next_cursor != null) {
                 // llamada a la API
                 ApiResponse ar = this.cloudinary.
                         api().
                         resourcesByAssetFolder(nameFolder, options);
                 // Devuelve un ArrayList de HashMaps
                 //System.out.println(ar);
-                ArrayList<HashMap<String, String>> l =
-                        (ArrayList<HashMap<String, String>>) ar.get("resources");
+                ArrayList<HashMap<String, String>> l
+                        = (ArrayList<HashMap<String, String>>) ar.get("resources");
                 System.out.println("Devuelve: " + l.size());
-                for(HashMap<String, String> e: l) {
+                for (HashMap<String, String> e : l) {
                     lista.add(e.get("public_id"));
                 }
 
                 // sacamos el next_cursor
                 next_cursor = ar.get("next_cursor");
-                if (next_cursor!=null) {
+                if (next_cursor != null) {
                     //System.out.println("Sacando más...");
                     options.put("next_cursor", next_cursor.toString());
                 }
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

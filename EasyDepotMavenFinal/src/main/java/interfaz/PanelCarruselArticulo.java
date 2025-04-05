@@ -34,6 +34,8 @@ import java.awt.image.BufferedImage;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.Icon;
+import persistencia.GestorCloudinary;
 
 public class PanelCarruselArticulo extends JPanel {
 
@@ -46,7 +48,7 @@ public class PanelCarruselArticulo extends JPanel {
 	private List<Articulo> articulos;
 	private Articulo articuloSeleccionado;
 	private int indexSeleccionado;
-	private JLabel lblArticulo, lblInfoNombre, lblInfoStock, lblInfoPrecio;
+	private JLabel lblArticulo, lblInfoNombre, lblInfoStock, lblInfoPrecio,lblImagen;
 	private boolean modoCreacion;
 	private JPanel panel;
 	private Button btnAnterior;
@@ -56,6 +58,8 @@ public class PanelCarruselArticulo extends JPanel {
 	private JPanel panelArticulo, panelPrincipal;
 	private int aceleracion;
 	private JLabel lblError;
+        private GestorCloudinary cloudinary;
+        private String imagenNueva;
 
 	/**
 	 * Muestra la informacion de los articulos en formato de carrusel, muestra los
@@ -69,6 +73,7 @@ public class PanelCarruselArticulo extends JPanel {
 		panel.add(this);
 		setLayout(null);
 
+                this.cloudinary = new GestorCloudinary();
 		this.panelPrincipal = this;
 
 		// Instanciamos las diferentes variables
@@ -239,7 +244,7 @@ public class PanelCarruselArticulo extends JPanel {
 		// se activa , en caso contrario no
 		if (articulos.size() == 0) {
 			activarModoCreacion();
-			this.articuloSeleccionado = new Articulo("Nuevo Articulo", l.getLocalId(), "", 0, 0, "");
+			this.articuloSeleccionado = new Articulo("Nuevo Articulo", l.getLocalId(), "", 0, 0);
 			this.indexSeleccionado = 0;
 		} else {
 			desactivarModoCreacion();
@@ -247,7 +252,7 @@ public class PanelCarruselArticulo extends JPanel {
 			this.indexSeleccionado = obtenerIndexInicial(a);
 		}
 
-		JLabel lblImagen = new JLabel("");
+		lblImagen = new JLabel("");
 		lblImagen.setBounds(17, 29, 200, 147);
 		lblImagen.setIcon(Estilos.crearImagenEscalada(lblImagen,"localStat.png"));
 		lblImagen.setBackground(new Color(255, 255, 255));
@@ -295,14 +300,26 @@ public class PanelCarruselArticulo extends JPanel {
 						articuloSeleccionado.setNombre(nombre);
 						articuloSeleccionado.setPrecio(precioDouble);
 						articuloSeleccionado.setStock(stockInt);
+                                                if(imagenNueva.equals("sin imagen")){
+                                                    articuloSeleccionado.setImagen(cloudinary.subirImagen(imagenNueva));
+                                                }else{
+                                                    
+                                                    cloudinary.borrar(articuloSeleccionado.getImagen());
+                                                    articuloSeleccionado.setImagen(cloudinary.subirImagen(imagenNueva));
+                                                }
 						s.actualizarArticulo(articuloSeleccionado);
 						JOptionPane.showMessageDialog(null, "Exito al guardar", "Guardado con exito",
 								JOptionPane.INFORMATION_MESSAGE);
 						lblError.setVisible(false);
 					} else {
 						try {
-							s.addArticulo(l.getLocalId(), txtNombre.getText(), stockInt,
-									precioDouble, "Texto ejemplo");
+                                                    if(imagenNueva.equals("sin imagen")){
+                                                        s.addArticulo(l.getLocalId(), txtNombre.getText(), stockInt,
+									precioDouble,imagenNueva );
+                                                    }else{
+                                                        s.addArticulo(l.getLocalId(), txtNombre.getText(), stockInt,
+									precioDouble,cloudinary.subirImagen(imagenNueva));
+                                                    }
 							indexSeleccionado = articulos.size() - 1;
 							articuloSeleccionado = articulos.get(indexSeleccionado);
 							actualizarDatos(articuloSeleccionado);
@@ -334,7 +351,9 @@ public class PanelCarruselArticulo extends JPanel {
 		Button btnSeleccionarImagen = new Button("Subir Imagen");
 		btnSeleccionarImagen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				BufferedImage imagen = CargadorImagenes.selectAndLoadImage();
+				String ruta = CargadorImagenes.selectAndLoadImage();
+                                lblImagen.setIcon(Estilos.crearImagenEscaladaSinRuta(lblImagen, ruta));
+                                imagenNueva = ruta;
 			}
 		});
 		btnSeleccionarImagen.setFont(new Font("Verdana", Font.BOLD, 16));
@@ -438,7 +457,7 @@ public class PanelCarruselArticulo extends JPanel {
 		btnInsertar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				activarModoCreacion();
-				Articulo a = new Articulo("Nuevo Articulo", l.getLocalId(), "", 0, 0, "");
+				Articulo a = new Articulo("Nuevo Articulo", l.getLocalId(), "", 0, 0);
 				actualizarDatos(a);
 				lblError.setVisible(false);
 			}
@@ -456,7 +475,7 @@ public class PanelCarruselArticulo extends JPanel {
 		panelTitulo.add(lblArticulo);
 		lblArticulo.setHorizontalAlignment(SwingConstants.CENTER);
 		lblArticulo.setFont(new Font("Verdana", Font.BOLD, 16));
-
+                actualizarDatos(a);
 	}
 
 	/**
@@ -512,6 +531,13 @@ public class PanelCarruselArticulo extends JPanel {
 		txtNombre.setText(articuloSeleccionado.getNombre());
 		txtPrecio.setText(articuloSeleccionado.getPrecio() + "");
 		txtStock.setText(articuloSeleccionado.getStock() + "");
+                if(articuloSeleccionado.getImagen().equals("sin imagen")){
+                    imagenNueva = "sin imagen";
+                    lblImagen.setIcon(Estilos.crearImagenEscalada(lblImagen,"localStat.png"));
+                }else{
+                    ImageIcon icono = cloudinary.get(articuloSeleccionado.getImagen());
+                    lblImagen.setIcon(Estilos.crearImagenEscaladaSinRuta(lblImagen,icono));
+                }
 	}
 
 	/**
@@ -524,6 +550,7 @@ public class PanelCarruselArticulo extends JPanel {
 	private void eliminarArticulo(int respuesta) {
 		if (respuesta == JOptionPane.YES_OPTION) {
 			try {
+                                cloudinary.borrar(articuloSeleccionado.getImagen());
 				s.eliminarArticulo(articuloSeleccionado.getIdArticulo());
 				JOptionPane.showMessageDialog(null, "Eliminado con exito", "Eliminado con exito",
 						JOptionPane.ERROR_MESSAGE);

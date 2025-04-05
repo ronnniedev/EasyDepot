@@ -161,7 +161,7 @@ public class PruebasIniciales {
 			s.addArticulo(1, "Moca cola", 50, 100, "botecoca2");
 			s.addArticulo(3, "Foca cola", 50, 100, "botecoca2");
 			// s.eliminarArticulo("3-1");
-			s.actualizarArticulo(new Articulo("1-2",1,"Moca cola",67,8989,"monthyPithon"));
+			s.actualizarArticulo(new Articulo("1-2",1,"Moca cola",67,8989));
 		} catch (LogicaException e) {
 			System.out.println(e.getMessage());
 		}
