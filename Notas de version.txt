@@ -1,1 +1,4 @@
-Se corrijen pequeños defector visuales.
+Version 0.8
+- Se cambia el modo de manejar las rutas dentro del codigo
+- Se migra el proyecto a Maven
+- Se prepara migración de JUnit
