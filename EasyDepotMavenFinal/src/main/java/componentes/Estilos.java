@@ -20,6 +20,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
+import java.net.URL;
 
 import interfaz.VentanaPrincipal;
 import java.nio.file.Path;
@@ -28,10 +29,8 @@ import javax.swing.JLabel;
 
 public class Estilos {
     
-                    public static  Path calcularRuta(String png){
-                                            Path rutaProyecto = Paths.get(System.getProperty("user.dir"));
-                                         Path rutaIcono = rutaProyecto.resolve("src/main/java/iconos/" + png);
-                                         return rutaIcono;
+                    public static  URL calcularRuta(String png){
+                                         return Estilos.class.getClassLoader().getResource("iconos/" + png);
                     }
 	
 	public static void prepararBuscador(JTextField buscador) {
@@ -41,7 +40,7 @@ public class Estilos {
 		
 	}
 	
-	public static ImageIcon prepararImagenBotonera(String ruta) {
+	public static ImageIcon prepararImagenBotonera(URL ruta) {
 		ImageIcon icono = new ImageIcon(ruta);
 		Image imagenEscalada = icono.getImage().getScaledInstance(27, 27, Image.SCALE_SMOOTH);
 		ImageIcon iconoEscalado = new ImageIcon(imagenEscalada);
@@ -57,8 +56,8 @@ public class Estilos {
 		
 		return imagenEscalada;
 	}
-	public static ImageIcon prepararImagenCandado(String ruta) {
-		
+	public static ImageIcon prepararImagenCandado(URL ruta) {
+	
 		ImageIcon icono = new ImageIcon(ruta);
 		Image imagenEscalada = icono.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
 		ImageIcon iconoEscalado = new ImageIcon(imagenEscalada);
@@ -66,14 +65,14 @@ public class Estilos {
 		return iconoEscalado;
 	}
 	
-	public static Icon prepararImagenFlecha(String ruta) {
+	public static Icon prepararImagenFlecha(URL ruta) {
 		ImageIcon icono = new ImageIcon(ruta);
 		Image imagenEscalada = icono.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
 		ImageIcon iconoEscalado = new ImageIcon(imagenEscalada);
 		return iconoEscalado;
 	}
 	
-	public static JButton prepararBotonBotonera(JButton boton,String icono) {
+	public static JButton prepararBotonBotonera(JButton boton,URL icono) {
 		
 		// Creamos el borde 
 		Border borde = BorderFactory.createMatteBorder(0, 0, 1, 0, Colores.getNEGRO());
@@ -172,7 +171,7 @@ public class Estilos {
 	}
 
     public static Icon crearImagenEscalada(JLabel lblImagen,String nombreArchivo) {
-        ImageIcon imageIcon = new ImageIcon(Estilos.calcularRuta(nombreArchivo).toString());
+        ImageIcon imageIcon = new ImageIcon(Estilos.calcularRuta(nombreArchivo));
 	Image image = imageIcon.getImage().getScaledInstance(lblImagen.getWidth(), lblImagen.getHeight(), 
 				Image.SCALE_SMOOTH);
         return new ImageIcon(image);

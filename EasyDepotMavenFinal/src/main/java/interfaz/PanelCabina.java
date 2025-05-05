@@ -22,6 +22,7 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.net.URL;
 import javax.swing.ImageIcon;
 
 public class PanelCabina extends JPanel {
@@ -225,10 +226,10 @@ public class PanelCabina extends JPanel {
 	 * @param abierto : Boolean
 	 * @return String
 	 */
-	private String mostrarEstado(Boolean abierto) {
+	private URL mostrarEstado(Boolean abierto) {
 		if(abierto) {
-			return Estilos.calcularRuta("candadoAbierto.png").toString();
+			return Estilos.calcularRuta("candadoAbierto.png");
 		}
-		return Estilos.calcularRuta("candadoCerrado.png").toString();
+		return Estilos.calcularRuta("candadoCerrado.png");
 	}
 }

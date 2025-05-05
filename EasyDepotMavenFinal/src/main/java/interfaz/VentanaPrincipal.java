@@ -86,10 +86,7 @@ public class VentanaPrincipal extends JFrame {
 		setResizable(false);
                                          
 		
-                                         setIconImage(Toolkit.getDefaultToolkit().getImage(Estilos.calcularRuta("app.png").toString()));
-                                         
-                                         
-                                         System.out.println("Pasa");
+                                         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/iconos/app.png")));
 		ventana = this;
 		this.s = Sistema.getInstance();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -156,7 +153,7 @@ public class VentanaPrincipal extends JFrame {
 
 		// Instanciamos el logo
 		JLabel lbLogo = new JLabel();
-		lbLogo.setIcon(new ImageIcon(Estilos.calcularRuta("logoLogin.png").toString()));
+		lbLogo.setIcon(new ImageIcon(Estilos.calcularRuta("logoLogin.png")));
 		lbLogo.setBounds(124, 32, 451, 122);
 		panelPrincipal.add(lbLogo);
 
@@ -207,7 +204,7 @@ public class VentanaPrincipal extends JFrame {
 
 		// Instanciamos el icono de administrador
 		JLabel lblAvatarAdmin = new JLabel();
-		lblAvatarAdmin.setIcon(new ImageIcon(Estilos.calcularRuta("adminmod.png").toString()));
+		lblAvatarAdmin.setIcon(new ImageIcon(Estilos.calcularRuta("adminmod.png")));
 		lblAvatarAdmin.setBounds(10, 23, 60, 54);
 		panelAvatar.add(lblAvatarAdmin);
 
@@ -274,16 +271,16 @@ public class VentanaPrincipal extends JFrame {
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				cambiarFuenteEntrada(btnLocales);
-				btnLocales.setIcon(Estilos.prepararImagenBotonera(Estilos.calcularRuta("localBlanco.png").toString()));
+				btnLocales.setIcon(Estilos.prepararImagenBotonera(Estilos.calcularRuta("localBlanco.png")));
 			}
 
 			@Override
 			public void mouseExited(MouseEvent e) {
 				cambiarFuenteSalida(btnLocales);
-				btnLocales.setIcon(Estilos.prepararImagenBotonera(Estilos.calcularRuta("local.png").toString()));
+				btnLocales.setIcon(Estilos.prepararImagenBotonera(Estilos.calcularRuta("local.png")));
 			}
 		});
-		panelBotonera.add(Estilos.prepararBotonBotonera(btnLocales, Estilos.calcularRuta("local.png").toString()));
+		panelBotonera.add(Estilos.prepararBotonBotonera(btnLocales, Estilos.calcularRuta("local.png")));
 
 		// Boton que deriva al usuario a la seccion de Reservas
 		JButton btnReservas = new JButton("Reservas");
@@ -299,16 +296,16 @@ public class VentanaPrincipal extends JFrame {
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				cambiarFuenteEntrada(btnReservas);
-				btnReservas.setIcon(Estilos.prepararImagenBotonera(Estilos.calcularRuta("calendarioBlanco.png").toString()));
+				btnReservas.setIcon(Estilos.prepararImagenBotonera(Estilos.calcularRuta("calendarioBlanco.png")));
 			}
 
 			@Override
 			public void mouseExited(MouseEvent e) {
 				cambiarFuenteSalida(btnReservas);
-				btnReservas.setIcon(Estilos.prepararImagenBotonera(Estilos.calcularRuta("calendario.png").toString()));
+				btnReservas.setIcon(Estilos.prepararImagenBotonera(Estilos.calcularRuta("calendario.png")));
 			}
 		});
-		panelBotonera.add(Estilos.prepararBotonBotonera(btnReservas, Estilos.calcularRuta("calendario.png").toString()));
+		panelBotonera.add(Estilos.prepararBotonBotonera(btnReservas, Estilos.calcularRuta("calendario.png")));
 
 		// Boton que deriva al usuario a la seccion de Clientes
 		JButton btnClientes = new JButton("Clientes");
@@ -324,16 +321,16 @@ public class VentanaPrincipal extends JFrame {
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				cambiarFuenteEntrada(btnClientes);
-				btnClientes.setIcon(Estilos.prepararImagenBotonera(Estilos.calcularRuta("personaBlanco.png").toString()));
+				btnClientes.setIcon(Estilos.prepararImagenBotonera(Estilos.calcularRuta("personaBlanco.png")));
 			}
 
 			@Override
 			public void mouseExited(MouseEvent e) {
 				cambiarFuenteSalida(btnClientes);
-				btnClientes.setIcon(Estilos.prepararImagenBotonera(Estilos.calcularRuta("persona.png").toString()));
+				btnClientes.setIcon(Estilos.prepararImagenBotonera(Estilos.calcularRuta("persona.png")));
 			}
 		});
-		panelBotonera.add(Estilos.prepararBotonBotonera(btnClientes,Estilos.calcularRuta("persona.png").toString()));
+		panelBotonera.add(Estilos.prepararBotonBotonera(btnClientes,Estilos.calcularRuta("persona.png")));
 
 		// Boton que deriva al usuario a la seccion de Tickets
 		JButton btnTickets = new JButton("Tickets");
@@ -349,16 +346,16 @@ public class VentanaPrincipal extends JFrame {
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				cambiarFuenteEntrada(btnTickets);
-				btnTickets.setIcon(Estilos.prepararImagenBotonera(Estilos.calcularRuta("ticketBlanco.png").toString()));
+				btnTickets.setIcon(Estilos.prepararImagenBotonera(Estilos.calcularRuta("ticketBlanco.png")));
 			}
 
 			@Override
 			public void mouseExited(MouseEvent e) {
 				cambiarFuenteSalida(btnTickets);
-				btnTickets.setIcon(Estilos.prepararImagenBotonera(Estilos.calcularRuta("ticket.png").toString()));
+				btnTickets.setIcon(Estilos.prepararImagenBotonera(Estilos.calcularRuta("ticket.png")));
 			}
 		});
-		panelBotonera.add(Estilos.prepararBotonBotonera(btnTickets,Estilos.calcularRuta("ticket.png").toString()));
+		panelBotonera.add(Estilos.prepararBotonBotonera(btnTickets,Estilos.calcularRuta("ticket.png")));
 		// Creamos el borde 
 		Border bordeInferior = BorderFactory.createMatteBorder(0, 0, 1, 0, Color.BLACK);
 		btnTickets.setBorder(emptyBorder);

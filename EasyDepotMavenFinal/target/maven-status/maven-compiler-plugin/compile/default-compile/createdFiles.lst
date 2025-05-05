@@ -69,7 +69,6 @@ modelo\Cabina.class
 pruebas\VentanaLocales$5.class
 interfaz\VentanaPrincipal$7.class
 componentes\CargadorImagenes.class
-org\eclipse\wb\swing\FocusTraversalOnArray.class
 pruebas\VentanaReservasAntigua$1.class
 pruebas\VentanaReservasAntigua.class
 interfaz\PanelCliente$1.class

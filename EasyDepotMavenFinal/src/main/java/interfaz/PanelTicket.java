@@ -18,6 +18,7 @@ import componentes.Estilos;
 import componentes.PanelDatosRedondeado;
 import excepciones.LogicaException;
 import excepciones.PersistenciaException;
+import java.net.URL;
 import logica.Sistema;
 import modelo.Cabina;
 import modelo.Email;
@@ -274,11 +275,11 @@ public class PanelTicket extends JPanel {
 	 * @param abierto : Boolean
 	 * @return String
 	 */
-	private String mostrarEstado(Boolean abierto) {
+	private URL mostrarEstado(Boolean abierto) {
 		if(abierto) {
-			return "/iconos/candadoAbierto.png";
+			return Estilos.calcularRuta("candadoAbierto.png");
 		}
-		return "/iconos/candadoCerrado.png";
+		return Estilos.calcularRuta("candadoCerrado.png");
 	}
 	
 	/**

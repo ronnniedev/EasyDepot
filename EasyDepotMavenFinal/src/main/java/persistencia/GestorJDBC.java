@@ -38,8 +38,6 @@ public class GestorJDBC {
 	public static void crearTablas() throws PersistenciaException, SQLException {
 		Statement st = null;
 		st = StatemedSingelton.getInstance();
-
-		
 		String consultaClientes = "CREATE TABLE IF NOT EXISTS clientes ("
 				+ "    emailCliente VARCHAR(100) PRIMARY KEY,"
 				+ "    nombre VARCHAR(100) NOT NULL,"

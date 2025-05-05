@@ -31,7 +31,7 @@ public class StatemedSingelton {
 			con = DriverManager.getConnection(direccion, "root", password);
 			st = con.createStatement();
 		} catch (ClassNotFoundException e) {
-			throw new PersistenciaException("ERROR en la conexion");
+			throw new PersistenciaException(e.toString());
 		} catch (SQLException e) {
 			throw new PersistenciaException(e.getMessage());
 		}

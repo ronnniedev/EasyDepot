@@ -123,7 +123,7 @@ public class PanelCarruselArticulo extends JPanel {
 		// Va al articulo anterior en la lista, en caso de no haber mas retorna al
 		// ultimo articulo de la lista
 		btnAnterior = new Button("");
-		btnAnterior.setIcon(Estilos.prepararImagenFlecha(Estilos.calcularRuta("flechaIzquierda.png").toString()));
+		btnAnterior.setIcon(Estilos.prepararImagenFlecha(Estilos.calcularRuta("flechaIzquierda.png")));
 		btnAnterior.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if ((indexSeleccionado - 1) < 0) {
@@ -183,7 +183,7 @@ public class PanelCarruselArticulo extends JPanel {
 		// no haber mas retorna al primer
 		// articulo de la lista
 		btnPosterior = new Button("");
-		btnPosterior.setIcon(Estilos.prepararImagenFlecha(Estilos.calcularRuta("flechaDerecha.png").toString()));
+		btnPosterior.setIcon(Estilos.prepararImagenFlecha(Estilos.calcularRuta("flechaDerecha.png")));
 		btnPosterior.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if ((indexSeleccionado + 1) == articulos.size()) {
@@ -300,10 +300,7 @@ public class PanelCarruselArticulo extends JPanel {
 						articuloSeleccionado.setNombre(nombre);
 						articuloSeleccionado.setPrecio(precioDouble);
 						articuloSeleccionado.setStock(stockInt);
-                                                if(imagenNueva.equals("sin imagen")){
-                                                    articuloSeleccionado.setImagen(cloudinary.subirImagen(imagenNueva));
-                                                }else{
-                                                    
+                                                 if(!articuloSeleccionado.getImagen().equals(imagenNueva)){
                                                     cloudinary.borrar(articuloSeleccionado.getImagen());
                                                     articuloSeleccionado.setImagen(cloudinary.subirImagen(imagenNueva));
                                                 }
@@ -531,12 +528,14 @@ public class PanelCarruselArticulo extends JPanel {
 		txtNombre.setText(articuloSeleccionado.getNombre());
 		txtPrecio.setText(articuloSeleccionado.getPrecio() + "");
 		txtStock.setText(articuloSeleccionado.getStock() + "");
-                if(articuloSeleccionado.getImagen().equals("sin imagen")){
+                if(articuloSeleccionado.getImagen() == null || articuloSeleccionado.getImagen().equals("sin imagen")){
                     imagenNueva = "sin imagen";
+                   
                     lblImagen.setIcon(Estilos.crearImagenEscalada(lblImagen,"localStat.png"));
                 }else{
                     ImageIcon icono = cloudinary.get(articuloSeleccionado.getImagen());
                     lblImagen.setIcon(Estilos.crearImagenEscaladaSinRuta(lblImagen,icono));
+                    imagenNueva = articuloSeleccionado.getImagen();
                 }
 	}
 

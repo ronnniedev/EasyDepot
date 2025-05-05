@@ -49,17 +49,17 @@ public class PanelInicio extends JPanel {
 		this.add(lbClientes);
 		
 		JLabel lblCliente = new JLabel("");
-		lblCliente.setIcon(new ImageIcon(Estilos.calcularRuta("cliente.png").toString()));
+		lblCliente.setIcon(new ImageIcon(Estilos.calcularRuta("cliente.png")));
 		lblCliente.setBounds(84, 292, 124, 124);
 		add(lblCliente);
 		
 		JLabel lblLocales = new JLabel("");
-		lblLocales.setIcon(new ImageIcon(Estilos.calcularRuta("localStat.png").toString()));
+		lblLocales.setIcon(new ImageIcon(Estilos.calcularRuta("localStat.png")));
 		lblLocales.setBounds(289, 280, 128, 128);
 		add(lblLocales);
 		
 		JLabel lblIngresos = new JLabel("");
-		lblIngresos.setIcon(new ImageIcon(Estilos.calcularRuta("ingresos.png").toString()));
+		lblIngresos.setIcon(new ImageIcon(Estilos.calcularRuta("ingresos.png")));
 		lblIngresos.setBounds(289, 115, 128, 128);
 		add(lblIngresos);
 		
